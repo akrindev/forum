@@ -54,7 +54,8 @@ $this->load->view('forum/header',$header);
       redirect(base_url());
     }
     $user = $this->session->userdata('user');
-
+	$uid = $this->session->userdata('iduser');
+	
     $header['judul'] = "Dashboard";
     $header["isi"] = "Dashboard user";
     
@@ -62,12 +63,15 @@ $this->load->view('forum/header',$header);
     $ava = $hh->row_array();
     $email = $ava['email'];
     $data['nyun'] = $hh->row_array();
-    //$data['nyun'] .= array('avatar' => $this->gravatar->get($email));
+    //$data['nyun'] .= array('avatar' => $this->gravatar->get($email))
+   
 
     $this->load->view('forum/header',$header);
     $this->load->view('forum/dashboard',$data);
     
   }
+  
+  
 	public function login()
 	{
 		    $header['judul'] = "Login";

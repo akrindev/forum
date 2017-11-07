@@ -58,6 +58,12 @@ class User_model extends CI_Model {
 											'quotes'		=> $bio);
 		return $this->db->insert('users',$tambahuser);
 		
-	}
+	}   
+function get_user_post($tabel,$id){
+   	$data = [
+   		'id_user' => $id,
+   	];
+   	return $this->db->get_where($tabel,$data);
+  }
 	
 	}
