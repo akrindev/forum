@@ -42,7 +42,8 @@
 				<textarea class="form-log" name="quotes"><?=$se['quotes'];?></textarea>
 				<?=form_error('quotes');?>
 				<button type="submit" class="btn btn-dark bll" id="submit">kirim</button>
-				<?=form_close();?>
+				<?=form_close();?><br/>
+				<a href="#pww" rel="modal:open" class="btn btn-dark bll"> Ubah password </a>
 			  </div>
 			
 			</div>
@@ -73,6 +74,43 @@
 	<footer>
 	  <div class="footer-forum">Copyright 2017 - All Right Reserved</div>
 	</footer>
+<div class="modal mdl" id="pww">
+	<?=form_open('user/ch_pw',array('id'=>'pw-form'));?>
+	  <h6 class="mdl-head">Ubah Password</h6>
+	  <label for="oldpw" class="badge badge-dark badge-pill">Password lama</label>
+	  <input type="password" name="oldpw" class="form-log"/>
 
+	  <label for="newpw" class="badge badge-dark badge-pill">Password baru</label>
+	  <input type="password" name="newpw" class="form-log"/>
+
+
+	  <button type="submit" id="submit" class="btn tt btn-dark bll">Ubah</button>
+	  <?=form_close();?>
+	</div>
+	<script>
+		 	var dat = {
+ 	url: "<?= base_url('/user/ch_pw');?>",
+ 	type: 'post',
+ 	dataType:'json',
+ 	beforeSend: function(){
+$(".tt").text("Sending...");
+},
+ 	
+success: function(response) {
+	$(".modal.mdl").text(response.success);
+	if(response.success == true)
+	{
+		$(".modal.mdl").text("Password berhasil di ubah!!");
+ 	} 
+ 	if(response.success== false)
+ 		{
+		$(".modal.mdl").html("Gagal mengubah password!!<br\/><a class=\"text-danger\" href=\"\/user\">ulangi<\/a>");
+ 		}
+ 
+	}
+	}
+	$('#pw-form').ajaxForm(dat);
+
+	</script>
   </body>
 </html>

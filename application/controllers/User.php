@@ -229,4 +229,32 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
 		return false;
 	}
 	
+	function ch_pw()
+	{
+		$rea =['success' =>false];
+		$user = $this->session->userdata('user');
+		$get = $this->user->tampiluser($user);
+		
+		foreach($get->result() as $b)
+		{
+			$oldpw = $b->password;
+		}
+		$old = $this->input->post('oldpw');
+		$new = $this->input->post('newpw');
+		
+		if(password_verify($old,$oldpw))
+		{
+			if(strlen($new) <= 6)
+			{
+				$rea['success'] = false;
+			}else{
+			$this->user->change_password($user,$new);
+			$rea['success'] = true;
+			}
+		}else{
+			$rea['success'] = false;
+		}
+		echo json_encode($rea);
+	}
+	
 }

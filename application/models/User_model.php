@@ -86,4 +86,15 @@ function get_user_post($tabel,$id){
   	return $this->db->update('users',$data);
   }
   
+  function change_password($user,$new)
+  {
+  	$options = [
+    'cost' => 12,
+];
+  	$newl = password_hash($new, PASSWORD_BCRYPT, $options);
+  	$opt = [ 'password' => $newl ];
+  	$this->db->where("username",$user);
+  	$this->db->update("users",$opt);
+  }
+  
 }
