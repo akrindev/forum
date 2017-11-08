@@ -74,6 +74,10 @@ $this->load->view('forum/header',$header);
   
 	public function login()
 	{
+		if($this->session->userdata('user'))
+		{
+			redirect(base_url('user'));
+		}
 		    $header['judul'] = "Login";
     $header["isi"] = "Form login";
          $this->form_validation->set_rules('username','Username','required|alpha_numeric|trim');
@@ -171,6 +175,58 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
 		}
       
 	}
-	//echo json_encode($data);
 	}
+	
+	//setting
+	function setting()
+	{
+		    $header['judul'] = "Setting";
+    $header["isi"] = "Setting";
+    
+		if(!$this->session->userdata('user'))
+		{
+			redirect(base_url('login'));
+		}
+		else
+		{
+			$user = $this->session->userdata('user');
+			$datq['se'] = $this->user->tampiluser($user)->row_array();
+		
+			$this->load->view('forum/header',$header);
+			$this->load->view('forum/setting',$datq);
+		}
+	}
+	function setting_p()
+	{
+		if(!$this->session->userdata('user'))
+		{
+			redirect(base_url('login'));
+		}
+		
+		
+		
+		    $header['judul'] = "Setting";
+    $header["isi"] = "Setting";
+    
+		
+		$options = [
+    'cost' => 12,
+];
+		$id = $this->session->userdata('iduser');
+		$ign = $this->input->post('ign');
+		$fullname = $this->input->post('fullname');
+		$email = $this->input->post('email');
+		$kota = $this->input->post('kota');
+		$bio = $this->input->post('quotes');
+		$fb = $this->input->post('fb');
+		
+		if($this->user->sett_update($id,$fullname,$ign,$email,$kota,$bio,$fb))
+		{
+			redirect(base_url('user'));
+		return true;
+		}
+		
+		return false;
+	}
+	
 }

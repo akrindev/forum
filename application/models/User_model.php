@@ -48,7 +48,7 @@ class User_model extends CI_Model {
 		
 		$tambahuser = array( 'id' => '',
 											'username' => $username,
-                            				  'fullname' => $fullname,
+                            			    'fullname' => $fullname,
 											'ign' 		=> $ign,
 											'email'		=> $email,
 											'password'	=> $password,
@@ -65,5 +65,25 @@ function get_user_post($tabel,$id){
    	];
    	return $this->db->get_where($tabel,$data);
   }
-	
-	}
+  
+  function sett_update($id,$fullname,$ign,$email,$kota,$bio,$fb)
+  {
+  	if($fb == '')
+  	{
+  		$fb= "#";
+  	}
+  	
+  	$data =[
+  		'fullname' => $fullname,
+  		'ign'			=> $ign,
+  		'email'		=> $email ,
+  		'kota'			=> $kota,
+  		'quotes' 		=> $bio,
+  		'fb'				=> $fb
+
+		];
+  	$this->db->where('id',$id);
+  	return $this->db->update('users',$data);
+  }
+  
+}

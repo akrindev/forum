@@ -22,7 +22,7 @@
 			  <div class="propil-u"><span class="fn"><?=$nyun['fullname'];?></span><br/>
 			  <span class="gnr"><?=$nyun['gender'];?></span><br/>
 			  <span class="kt"><?=$nyun['kota'];?></span><br/>
-				<a href="/sunting">[sunting profil]</a>
+				<a class="text-primary" href="/user/setting" id="sunting">[sunting profil]</a>
 				</div>
 			  <div class="propil-info">
 				<div class="quote"><?=$nyun['quotes'];?></div>
