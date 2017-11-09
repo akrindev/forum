@@ -1,3 +1,6 @@
+
+
+
 <main>
 
 	  <div class="container-fluid">
@@ -74,7 +77,7 @@
 	<footer>
 	  <div class="footer-forum">Copyright 2017 - All Right Reserved</div>
 	</footer>
-<div class="modal mdl" id="pww">
+<div class="modaljs mdl" id="pww">
 	<?=form_open('user/ch_pw',array('id'=>'pw-form'));?>
 	  <h6 class="mdl-head">Ubah Password</h6>
 	  <label for="oldpw" class="badge badge-dark badge-pill">Password lama</label>
@@ -87,6 +90,7 @@
 	  <button type="submit" id="submit" class="btn tt btn-dark bll">Ubah</button>
 	  <?=form_close();?>
 	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 	<script>
 		 	var dat = {
  	url: "<?= base_url('/user/ch_pw');?>",
@@ -112,5 +116,6 @@ success: function(response) {
 	$('#pw-form').ajaxForm(dat);
 
 	</script>
+	
   </body>
 </html>
