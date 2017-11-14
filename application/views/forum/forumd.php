@@ -16,8 +16,26 @@
 		</nav>
 	  
 	  
-	
+	<div class="row">
+		<div class="col-12">
+				<div class="dropdrop">
+		<div class="drop-head">Arsip <span>+</span></div>
+		<div class="drop-body">
+		  <div class="liest">
+			<?php
+			foreach($this->forum->get_kategori()->result() as $kate)
+			{
+				
+			  echo "<a href=\"/arsip/$kate->id_kat\"> $kate->kat</a>";
+			}
+			?>
+		  </div><!--liest-->
+</div><!--drop body-->
+			</div><!--drop drop-->
+				</div>
+	</div>
 		<div class="row">
+			
          <div class="col-12">
            <div class="zone">Timeline</div>
           </div>
@@ -68,11 +86,28 @@ foreach($coco as $coc)
 	  <div class="footer-forum">Copyright 2017 - All Right Reserved</div>
 	</footer>
 <script type="text/javascript">
-$(function(){
-		$('.post').yarp();
-		$('ol.breadcrumb li a).yarp();
-		$('.img-fluid').yarp();
-});
+		$(".drop-body").not('.drop-bodyzz').hide();
+
+  $(".drop-head").click( function(){
+      var current = $(this).next(".drop-body");
+      current.slideToggle(400);
+
+      //---------------------- change plus to -----------------------
+      if( $(this).find("span").html() == '+' ){
+        $(this).find("span").html('-');
+        $(this).addClass('box_head_active');
+
+        //-------------------- close other active box -----------------
+        $(".drop-body").not(current).slideUp(400);
+        $(".drop-head").not($(this)).find("span").html('+');
+      }
+
+      else{
+        $(this).find("span").html('+');
+      }
+  })
+  
+
 </script>
   </body>
 </html>		

@@ -607,29 +607,42 @@ a.list-group-i:hover
   color:#fff;
 }
 
-.news{
-  margin-top:-10px;
-  background-color:#bcaa68;
+.dropdrop
+{
+  margin:10px -7px;
+  border-top:2px solid #111;
+  border-bottom:2px solid #111;
 }
-.news li{
-  font-size:12px;
-  list-style:none;
-  border-bottom:1px solid #2f1c0e;
-}
-.news li a{
-  display:block;
+.drop-head
+{
   padding:8px 15px;
-  text-decoration:none;
-  color:#000;
+  
 }
-.news li a:hover{
-  background-color:#2a3854;
-  color:#eee;
+.drop-head:hover
+{
+  background-color:#333;
+  color:#fff
 }
-
-#form1{
-  height:0px;
-  opacity:0;
+.drop-head span
+{
+  float:right
+}
+.drop-body
+{
+  background-color:#fff;
+}
+.liest a
+{
+  display:block;
+  padding:8px 10px;
+  border-bottom:1px solid #aaa;
+  color:#222;
+}
+.liest a:hover
+{
+  padding-left:19px;
+  color:#fff;
+  background-color:#333;
 }
 
 .list-group, .list-group-item
