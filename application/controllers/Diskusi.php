@@ -46,6 +46,7 @@ redirect(base_url());
     		$data['id'] = $d->tlid;
     		$idtl = $d->tlid;
     		$data['judul'] = $d->judul;
+    		$katego =  $d->slug;
     		$data['slug'] = $d->slug;
     		$data['isi'] = $this->bbcode->bbcode_to_html($d->isi);
     		$data['username'] = $d->username;
@@ -58,8 +59,12 @@ redirect(base_url());
     
       }
       
-	
-      
+	foreach($this->forum->get_nama_kat($katego)->result() as $kat)
+	{
+		$data['kategori'] = $kat->kat;
+     }
+     
+     
       $data['dilihat'] = $dil;
       $coco = $this->forum->get_comment_count($idtl)->result();
       foreach($coco as $coc)
@@ -134,6 +139,7 @@ redirect(base_url());
     $header["isi"] = "tulis post timeline sesuai dengan standar";
     
     $this->form_validation->set_rules('judul','Judul','required|min_length[5]|is_unique[timeline.judul]',array('is_unique' => 'Thread ini sudah ada'));
+        $this->form_validation->set_rules('kategori','Arsip','required');
     $this->form_validation->set_rules('isi','isi post','required|min_length[15]');
     
     if($this->form_validation->run() != FALSE)
@@ -144,6 +150,7 @@ redirect(base_url());
         'id_user' => $u,
         'judul' => $this->input->post('judul'),
         'slug' => $t, 
+        'kat_id' => $this->input->post('kategori'),
         'tags' => $this->input->post('tags'),
         'isi' => $this->input->post('isi'),
         'date' => date('Y-m-d H:i:s')

@@ -101,4 +101,9 @@ class Forum_model extends CI_Model
 			return $this->db->get('kategori');
 		}
 		
+		function get_nama_kat($slug)
+		{
+			return $this->db->query("select f.slug,f.kat_id,ka.id_kat,ka.kat from timeline as f join kategori as ka where f.slug='$slug' and f.kat_id = ka.id_kat");
+		}
+		
 }

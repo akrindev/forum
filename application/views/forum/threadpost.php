@@ -36,7 +36,7 @@
 			   
 		      <div class="post-header">
 		        
-				<div class="post-info"><div class=""><img style="height:40px;width:40px" class="u-img" src="<?=$this->gravatar->get($email);?>"/></div> <b>Posted by:</b><span data-author="<?=$username?>"> <a href="<?=base_url('profile/'.$username);?>">@<?=$username?></a></span> <b>On:</b><span class="post-date"> <?=$date;?></span> <br/><b>Comments:</b> <?=$coco;?> <b>Views:</b> <?=$dilihat;?></div>
+				<div class="post-info"><div class=""><img style="height:40px;width:40px" class="u-img" src="<?=$this->gravatar->get($email);?>"/></div> <b>Oleh:</b><span data-author="<?=$username?>"> <a href="<?=base_url('profile/'.$username);?>">@<?=$username?></a></span> <b>Pada:</b><span class="post-date"> <?=$date;?></span> <br/><b>Komen:</b> <?=$coco;?> <b>Dibaca:</b> <?=$dilihat;?> <b>Arsip:</b> <?= $kategori;?></div>
 	    	  </div><!--post header-->
 			  <div class="post-isi">
 				<p><?=$isi?></p>
