@@ -22,7 +22,7 @@
 			  <div class="propil-u"><span class="fn"><?=$nyun['fullname'];?></span><br/>
 			  <span class="gnr"><?=$nyun['gender'];?></span><br/>
 			  <span class="kt"><?=$nyun['kota'];?></span><br/>
-				<a class="text-primary" href="/user/setting" id="sunting">[sunting profil]</a>
+				
 				</div>
 			  <div class="propil-info">
 				<div class="quote"><?=$nyun['quotes'];?></div>
@@ -40,11 +40,7 @@
 					  <td>:</td>
 					  <td><?=$nyun['ign'];?></td>
 				  </tr>
-				  <tr>
-					<th scope="row">Email</th>
-					  <td>:</td>
-					  <td><?=$nyun['email'];?></td>
-				  </tr>
+				  
 				  <tr>
 					<th scope="row">dibuat</th>
 					  <td>:</td>
@@ -93,7 +89,7 @@
 				foreach($this->user->get_user_post("timeline",$nyun['id'])->result() as $put)
 				{
 					?><li class="list-group-i">
-				<a href="/forum/tl/<?=$put->slug;?>"><?=$put->judul;?></a><br/><span class="waktu"><?=$put->date;?></span> . <a class="text-danger" onclick="return confirm('yakin ingin menghapus? \n Data tidak bisa di kembalikan ketika terhapus!')" href="/diskusi/erase/<?=$put->id;?>">hapus</a> . <a class="text-primary" href="/diskusi/edit_post/<?=$put->id;?>">edit</a></li>
+				<a href="/forum/tl/<?=$put->slug;?>"><?=$put->judul;?></a><br/><span class="waktu"><?=$put->date;?></span> </li>
 				<?php } ?>
 					</ul>
 			  </div>

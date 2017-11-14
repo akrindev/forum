@@ -1,17 +1,16 @@
- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-      <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+ <!DOCTYPE html>
+      <html lang="en">
         <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
 	<title><?=$judul;?> - Iruna online forum</title>
 	<meta name="description" content="<?=character_limiter($isi,140);?> ">
-	<meta name='language' content='id_ID">
+	<meta name='language' content='id_ID'>
 		<meta name='robots' content='index,follow'>
 			<meta name='HandheldFriendly' content='True'>
 <meta name='apple-mobile-web-app-status-bar-style' content='black'> 
 <meta name='format-detection' content='telephone=no'> 
-<link href='/startup.png' rel='apple-touch-startup-image'> <link href='http://github.com/images/touch-icon-iphone4.png' sizes='114x114' rel='apple-touch-icon-precomposed'> 
+ <link href='http://github.com/images/touch-icon-iphone4.png' sizes='114x114' rel='apple-touch-icon-precomposed'> 
 <link href='http://github.com/images/touch-icon-ipad.png' sizes='72x72' rel='apple-touch-icon-precomposed'>
  <link href='http://github.com/images/apple-touch-icon-57x57.png' sizes='57x57' rel='apple-touch-icon-precomposed'>
  <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
@@ -20,7 +19,7 @@
  <meta property="og:url"                content="<?=base_url($this->uri->uri_string());?>" />
 <meta property="og:type"               content="article" />
 <meta property="og:title"              content="<?=$judul;?>" />
-<meta property="og:description"        content="<?=character_limiter($isi,140);?> " />
+<meta property="og:description"        content="<?=character_limiter($isi,160);?> " />
 <meta property="og:image"              content="http://i.cubeupload.com/a6W64O.jpeg" />
 <meta property="fb:app_id" content="2008283499456981"/>
 <meta name="generator" content="WordPress 4.8.3" />
@@ -38,7 +37,6 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
     <link href="/assets/css/styles.css" rel="stylesheet" type ="text/css" media="screen"/>
     <link rel="stylesheet" href="/assets/css/iao-alert.css" type="text/css"/>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
@@ -64,8 +62,9 @@
   </head>
   <body>
 	<header>
-	  <img alt="iruna-indonesia" src="/assets/img/iruna-indonesia-logo.png" class="img" style="width:270px;height:70px;max-height:100%"/>
-	   <div class="atas">
+	 	<div class="brand"><a href="/" alt="Mobile iruna forum indonesia">Mobile Iruna Notes</a></div>
+	   <div class="atas position-sticky">
+		<div style="max-width:720px;text-align:left;margin:0 auto;">
 		<div class="kpl-forum">
 			
 		  <a class="list-item" href="<?=base_url('forum');?>">Forum</a>
@@ -81,6 +80,6 @@
 		  <a class="list-item" href="<?=base_url('logout');?>">Logout</a>
 <?php }?>
 	</div>
-		
+		</div>
 	</div>
 	</header>

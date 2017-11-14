@@ -43,22 +43,13 @@ class User_model extends CI_Model {
   
   
   // fungsi mendaftar
-	function daftar($username,$fullname,$ign,$email,$gender,$password,$kota,$bio)
+	function daftar($data)
 	{
-		
-		$tambahuser = array( 'id' => '',
-											'username' => $username,
-                            			    'fullname' => $fullname,
-											'ign' 		=> $ign,
-											'email'		=> $email,
-											'password'	=> $password,
-											'kota'		 => $kota,
-											'gender' => $gender,
-											'date' => date('Y-m-d H:i:s'),
-											'quotes'		=> $bio);
 		return $this->db->insert('users',$tambahuser);
 		
 	}   
+  
+  // mendapatkan user post
 function get_user_post($tabel,$id){
    	$data = [
    		'id_user' => $id,

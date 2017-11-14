@@ -21,7 +21,7 @@ class Forum_model extends CI_Model
   
   function getone($tabel,$slug)
   {
-    return $this->db->query("Select f.id as tlid,f.id_user,f.judul,f.slug,f.isi,f.tags,f.date,f.dilihat,u.id,u.email,u.username from $tabel as f inner join users as u where f.id_user = u.id and f.slug ='$slug'");
+    return $this->db->query("Select f.id as tlid,f.id_user,f.judul,f.slug,f.isi,f.tags,f.kijimu,f.date,f.dilihat,u.id,u.email,u.username from $tabel as f inner join users as u where f.id_user = u.id and f.slug ='$slug'");
   }
   
   
@@ -32,7 +32,7 @@ class Forum_model extends CI_Model
   
   public function get_comment($id)
   {
-  	return $this->db->query('select tl.id,tl.slug,k.id_user,u.username,u.email,k.id_timeline,k.isi,k.date from komentar as k inner join timeline as tl inner join users as u where k.id_user = u.id and k.id_timeline= '.$id.' and k.id_timeline = tl.id limit 10');
+  	return $this->db->query('select tl.id,tl.slug,k.id_user,u.username,u.email,k.id_timeline,k.isi,k.date from komentar as k inner join timeline as tl inner join users as u where k.id_user = u.id and k.id_timeline= '.$id.' and k.id_timeline = tl.id limit 100');
   }
   public function get_comment_count($id)
   {
@@ -76,6 +76,29 @@ class Forum_model extends CI_Model
         }
         return false;
    }
-   
-  
+
+		function delpost($id)
+		{
+			return $this->db->where("id",$id)->delete("timeline");
+		}
+		
+		function cocok($user,$id)
+		{
+			$opt =[ 'id_user' => $user, 'id' => $id ];
+			return $this->db->get_where("timeline",$opt);
+			
+		}
+		
+		
+		function update_post($id,$data)
+		{
+			$this->db->where("id",$id);
+			return $this->db->update("timeline",$data);
+		}
+		
+		function get_kategori()
+		{
+			return $this->db->get('kategori');
+		}
+		
 }

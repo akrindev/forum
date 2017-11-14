@@ -31,12 +31,12 @@
 		<?php
 	
 }?>
-      
+        <div class="post-titlee"><h3><?=$judul?></h3></div>
 	      	<div class="post-single">
-			  
+			   
 		      <div class="post-header">
-		        <div class="post-title"><h3><?=$judul?></h3></div>
-				<div class="post-info"><i class="glyphicon glyphicon-user"></i> <b>Posted by:</b><span class="badge badge-pill badge-dark small"> <?=$username?></span> <b>On:</b><span class="post-date"> <?=$date;?></span> <br/><b>Comments:</b> <?=$coco;?> <b>Views:</b> <?=$dilihat;?></div>
+		        
+				<div class="post-info"><div class=""><img style="height:40px;width:40px" class="u-img" src="<?=$this->gravatar->get($email);?>"/></div> <b>Posted by:</b><span data-author="<?=$username?>"> <a href="<?=base_url('profile/'.$username);?>">@<?=$username?></a></span> <b>On:</b><span class="post-date"> <?=$date;?></span> <br/><b>Comments:</b> <?=$coco;?> <b>Views:</b> <?=$dilihat;?></div>
 	    	  </div><!--post header-->
 			  <div class="post-isi">
 				<p><?=$isi?></p>
@@ -71,7 +71,7 @@
 						  <div class="c-head">
 							
 							<div class=""><img style="height:40px;width:40px" class="u-img" src="<?=$this->gravatar->get($r->email);?>"/></div><div class="u-c">
-						  <span class="c-user">@<?=$r->username;?></span> 
+						  <span class="c-user"><a href="<?=base_url('profile/'.$r->username);?>">@<?=$r->username?></a></span> 
 						  
 						  <span class="c-time"><?=$r->date;?></span>
 							  </div>
@@ -145,45 +145,16 @@ $(document).ready(function(){
 			zIndex: "999" 
 		});
  		
-	};
+	}
 	
-	function validate(formData, jqForm, options) { 
-    // fieldValue is a Form Plugin method that can be invoked to find the 
-    // current value of a field 
-    // 
-    // To validate, we can capture the values of both the username and password 
-    // fields and return true only if both evaluate to true 
- 
-    var isi = $('.form-isi').fieldValue(); 
- 
-    // usernameValue and passwordValue are arrays but we can do simple 
-    // "not" tests to see if the arrays are empty 
-    if (!isi[5]) { 
-        $('.req').text('minimal 5 karakter');
-        return false; 
-    } else { return true;}
-}
-var a = $("#comment_text");
-	var u = a.val();
+	$('#comment_form').submit(function(e){
+	e.preventDefault();
+	var aku = $(this);
 	
-function validate(formData, jqForm, options) { 
-    var usernameValue = $('textarea').fieldValue(); 
-    
- 
-    // usernameValue and passwordValue are arrays but we can do simple 
-    // "not" tests to see if the arrays are empty 
-    if (!usernameValue[0]) { 
-        alert('Please enter a value for both Username and Password'); 
-        return false; 
-        } 
-    
-  	$("#submit").text("Sending...");
-}
- 		$('form').validate();
-	
- 	var data = {
- 	url: "<?= base_url('/diskusi/komentar/'.$slug);?>",
+ $.ajax({
+ 	url: aku.attr("action"),
  	dataType: 'json',
+ 	data: aku.serialize(),
  	type: 'post',
  	beforeSend: function(){
 $("#submit").text("Sending...");
@@ -192,8 +163,8 @@ $("#submit").text("Sending...");
 success: function(response) {
 		$("#submit").text("kirim");
 				if (response.success == true) {
-						$('.nothing').load("<?=base_url('diskusi/c/'.$id);?>");
-					$.iaoAlert({ 
+				$('.nothing').load("<?=base_url('diskusi/c/'.$id);?>");
+			$.iaoAlert({ 
 			msg: "Komentar berhasil ditambahkan!!", 
 			type: "success", 
 			mode: "light",
@@ -206,7 +177,7 @@ success: function(response) {
 			position: "top-right", 
 			zIndex: "999" 
 		});
- 		
+ 		aku[0].reset();
 				}
 				else {
 							$("#submit").text("kirim");
@@ -216,13 +187,12 @@ success: function(response) {
 						element.after(value);
 					});
 				}
-			},
+			}
 		
 		
-	  resetForm: true,
-	 };
-	
-	$('#comment_form').ajaxForm(data);
+	 
+	 })
+	})
         
         
 /*

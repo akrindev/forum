@@ -10,18 +10,7 @@ class Diskusi extends CI_Controller
 		$this->load->library('pagination');
 	}
   
-  public function ya()
-  {
-  	$gam = $this->forum->get_allpost('timeline')->result();
-    
-
- $this->output
-      ->set_status_header(200)
-      ->set_content_type('application/json', 'utf-8')
-      ->set_output(json_encode($gam, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
-      ->_display();
-      exit;
-      }
+  
   public function index()
   {
     
@@ -60,7 +49,7 @@ redirect(base_url());
     		$data['slug'] = $d->slug;
     		$data['isi'] = $this->bbcode->bbcode_to_html($d->isi);
     		$data['username'] = $d->username;
-    	
+    		$data['email']      = $d->email;
     		$data['date'] = $d->date;
     		$dil =  $d->dilihat+1;
     		$data['tags'] = explode(",",$d->tags);
@@ -245,7 +234,12 @@ redirect(base_url());
 			}
 		}
 
-		echo json_encode($respon);
+		 $this->output
+      ->set_status_header(200)
+      ->set_content_type('application/json', 'utf-8')
+      ->set_output(json_encode($respon, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))
+      ->_display();
+      exit;
 }
 	
  
@@ -256,40 +250,12 @@ redirect(base_url());
   //pagination image
   
      public function image(){
-        $config = array();
-        $config["base_url"] = base_url() . "diskusi/image";
-        $total_row = $this->forum->record_count();
-        
-        $config["total_rows"] = $total_row;
-        $config["per_page"] = 10;
-        $config['use_page_numbers'] = false;
-        $config['num_links'] =1;
-        
-        $config['next_link'] = 'Next';
-        $config['prev_link'] = 'Previous';
-         $config["first_tag_open"] = '<li class="pagination-list">';
-  $config["first_tag_close"] = '</li>';
-  $config["last_tag_open"] = '<li class="pagination-list">';
-  $config["last_tag_close"] = '</li>';
-  $config['next_link'] = '&gt;';
-  $config["next_tag_open"] = '<li class="pagination-list">';
-  $config["next_tag_close"] = '</li>';
-  $config["prev_link"] = "&lt;";
-  $config["prev_tag_open"] = '<li class="pagination-list">';
-  $config["prev_tag_close"] = "</li>";
-  $config["cur_tag_open"] = "<li class='pagination-list active'><a href='#'>";
-  $config["cur_tag_close"] = "</a></li>";
-  $config["num_tag_open"] = "<li class='pagination-list'>";
-  $config["num_tag_close"] = "</li>";
-        
-        $this->pagination->initialize($config);
-        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+  
         $data['judul'] = 'ID';
         $data['isi'] = 'Fansart iruna, Meme iruna, Iruna online forum, tutorial iruna, Production iruna';
         
-        $data["image"] = $this->forum->fetch_data_image($config["per_page"], $page);
-        $str_links = $this->pagination->create_links();
-        $data["links"] = explode('&nbsp;',$str_links );
+        $data["image"] = $this->forum->fetch_data_image(999, 0);
+
         
         // View data according to array.
      $this->load->view('forum/header', $data);
@@ -339,6 +305,118 @@ redirect(base_url());
     $this->load->view('forum/forumd',$data);
         //$this->load->view("pagination_view", $data);
         }
+  
+  
+  
+  //hapus
+  function erase($id)
+  {
+  	if(!$this->session->userdata('user'))
+  	{
+  		redirect(base_url());
+  	}else{
+  	$user = $this->session->userdata('iduser');
+
+  	if($this->forum->cocok($user,$id)->num_rows() > 0){
+  
+  		if($this->forum->delpost($id))
+  		{
+  			redirect(base_url('user'));
+  		}else{
+  			redirect(base_url());
+  		}
+  	}else{
+  		echo "<script>alert('tidak punya akses')</script>";
+  	}
+  }
+  }
+  
+    function edit_post($id)
+  {
+  		$header['judul'] = "edit";
+  		$header['isi'] = "edit data";
+  
+  
+  	if(!$this->session->userdata('user'))
+  	{
+  		redirect(base_url());
+  	}else{
+  	$user = $this->session->userdata('iduser');
+	  $cocok = $this->forum->cocok($user,$id);
+  	if($cocok->num_rows() > 0){
+  			foreach($cocok->result() as $ya)
+  			{
+  					$data = [ 'id' 		=> $ya->id,
+									 'judul' => $ya->judul,
+  									'slug' 	=> $ya->slug,
+  									'isi'		=> $ya->isi,
+  									'tag'		=> $ya->tags ];
+  			}
+  			
+  			$this->load->view('forum/header',$header);
+  			$this->load->view('forum/edpost',$data);
+  
+  	}else{
+  		echo "<script>alert('tidak punya akses')</script>";
+  	}
+  }
+  }
+  
+  function retulis($id)
+  {
+  		$header['judul'] = "edit";
+  		$header['isi'] = "edit data";
+  
+  
+  	if(!$this->session->userdata('user'))
+  	{
+  		redirect(base_url());
+  	}else{
+  	$user = $this->session->userdata('iduser');
+	  $cocok = $this->forum->cocok($user,$id);
+	  $dan = $cocok->row_array();
+  	if($cocok->num_rows() > 0){
+    
+ 	   $this->form_validation->set_rules('edjudul','Judul','required|min_length[5]');
+    $this->form_validation->set_rules('edisi','isi post','required|min_length[15]');
+    
+    if($this->form_validation->run() != FALSE)
+    {
+      
+      $data = array(
+        'judul' => $this->input->post('edjudul'),
+        'tags' => $this->input->post('tags'),
+        'isi' => $this->input->post('edisi'),
+      );
+     
+      $this->session->set_flashdata('post_ubah','Thread berhasil diubah!! :)');
+      
+      if($this->forum->update_post($dan['id'],$data)){ 
+        redirect(base_url().'forum/tl/'.$dan['slug']);
+      }
+    }
+    else
+    {
+
+		foreach($cocok->result() as $ya)
+  			{
+  					$data = [ 'id' 		=> $ya->id,
+									 'judul' => $ya->judul,
+  									'slug' 	=> $ya->slug,
+  									'isi'		=> $ya->isi,
+  									'tag'		=> $ya->tags ];
+  			}
+  			
+  			$this->load->view('forum/header',$header);
+  			$this->load->view('forum/edpost',$data);
+    }
+    
+  
+  	}else{
+  		echo "<script>alert('tidak punya akses')</script>";
+  	}
+  }
+  }
   
   
 }

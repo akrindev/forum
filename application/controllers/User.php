@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class User extends CI_Controller
  {
@@ -31,9 +31,27 @@ $this->load->view('forum/header',$header);
 		}
 	}
   
-  
+  function profile($nama)
+	{
+		    $header['judul'] = "$nama - Profile";
+  		  $header["isi"] = "Dinding user";
+
+
+		 $hh = $this->user->tampiluser($nama);
+	    $data['nyun'] = $hh->row_array();
+    
+
+		$this->load->view('forum/header',$header);
+	    $this->load->view('forum/profile',$data);
+    
+		
+	}
 	function register()
 	{
+      if($this->session->userdata('user'))
+      {
+        redirect('user');
+      }
     $header['judul'] = "Register";
     $header["isi"] = "Form registreasi";
     
@@ -123,6 +141,10 @@ $this->load->view('forum/header',$header);
 	//action daftat
 	function ndaftar()
 	{
+      if($this->session->userdata('user'))
+      {
+        redirect('user');
+      }
 		    $header['judul'] = "Register";
     $header["isi"] = "Form registreasi";
     
@@ -154,18 +176,19 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
 		$options = [
     'cost' => 12,
 ];
-		
-		$username = strtolower($this->input->post('username'));
-		$ign = $this->input->post('ign');
-		$fullname = $this->input->post('fullname');
-		$email = $this->input->post('email');
-		$password = password_hash($this->input->post('password'), PASSWORD_BCRYPT, $options);
-		$kota = $this->input->post('kota');
-		$bio = $this->input->post('quotes');
-		$gender = $this->input->post('gender');
-		//$tgal = date(Y-m-d h:i:s);
-        //masukkan ke db
-		if($this->user->daftar($username,$fullname,$ign,$email,$gender,$password,$kota,$bio))
+		$data = [
+		'username' => strtolower($this->input->post('username')),
+		'ign' => $this->input->post('ign'),
+		'fullname' => $this->input->post('fullname'),
+		'email' => $this->input->post('email'),
+		'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT, $options),
+		'kota' => $this->input->post('kota'),
+		'quotes' => $this->input->post('quotes'),
+		'gender' => $this->input->post('gender'),
+        'date' => date('Y-m-d H:i:s')
+		];
+        
+		if($this->user->daftar($data))
 		{
           
              $this->session->set_flashdata('cukses','Berhasil mendaftar! silahkan login <br/> Username: <b>'.$username.'</b>');
@@ -196,6 +219,8 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
 			$this->load->view('forum/setting',$datq);
 		}
 	}
+  
+  //post input setting
 	function setting_p()
 	{
 		if(!$this->session->userdata('user'))
@@ -203,7 +228,13 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
 			redirect(base_url('login'));
 		}
 		
+		$this->form_validation->set_rules('sign','IGN','required|max_length[8]|trim');
+
+		$this->form_validation->set_rules('semail','Email','required|valid_email');
 		
+      	$this->form_validation->set_rules('skota','Kota','required|min_length[5]');
+      	$this->form_validation->set_rules('sfullname','Fullname','required|min_length[5]');
+  $this->form_validation->set_error_delimiters('<div class="error-msg">', '</div>');
 		
 		    $header['judul'] = "Setting";
     $header["isi"] = "Setting";
@@ -213,21 +244,29 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
     'cost' => 12,
 ];
 		$id = $this->session->userdata('iduser');
-		$ign = $this->input->post('ign');
-		$fullname = $this->input->post('fullname');
-		$email = $this->input->post('email');
-		$kota = $this->input->post('kota');
+		$ign = $this->input->post('sign');
+		$fullname = $this->input->post('sfullname');
+		$email = $this->input->post('semail');
+		$kota = $this->input->post('skota');
 		$bio = $this->input->post('quotes');
 		$fb = $this->input->post('fb');
-		
-		if($this->user->sett_update($id,$fullname,$ign,$email,$kota,$bio,$fb))
+      
+		if($this->form_validation->run() != FALSE)
 		{
-			redirect(base_url('user'));
-		return true;
-		}
+			
+      		if($this->user->sett_update($id,$fullname,$ign,$email,$kota,$bio,$fb)){
+      		redirect(base_url('user'));
+    				  }
+     	 }else{
+     		$user = $this->session->userdata('user');
+			$datq['se'] = $this->user->tampiluser($user)->row_array();
 		
-		return false;
-	}
+			$this->load->view('forum/header',$header);
+			$this->load->view('forum/setting',$datq);
+     	}
+			
+      }
+	
 	
 	function ch_pw()
 	{
