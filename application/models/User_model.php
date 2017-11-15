@@ -45,7 +45,7 @@ class User_model extends CI_Model {
   // fungsi mendaftar
 	function daftar($data)
 	{
-		return $this->db->insert('users',$tambahuser);
+		return $this->db->insert('users',$data);
 		
 	}   
   
