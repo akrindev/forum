@@ -250,7 +250,24 @@ redirect(base_url());
 }
 	
  
+ //Fungsi menampilkan arsip
+ function arsip($kat = 'Curhat')
+ {
+ 	if($this->forum->get_kategoriname($kat)->num_rows() == '')
+ 	{
+ 		echo "<script>alert('tidak ditemukan arsip atau arsip mungkin kosong')</scrip>";
+	}
+ 	$header['judul'] = "Arsip $kat Iruna";
+ 	$header['isi']      = "Arsip $kat Mobile iruna notes";
  
+ 	$data['arsip'] = $this->forum->get_arsip($kat);
+          
+ 	$data['nmarsip'] = $kat;
+ 
+ 	$this->load->view("forum/header",$header);
+ 	$this->load->view("forum/arsip",$data);
+ 
+	}
   
   
   
