@@ -18,7 +18,6 @@
 		<div class="row">
 		  <div class="col-12">
 			<div class="propil">
-				<?= $id;?>
 			<?= form_open('diskusi/retulis/'.$id);?>
 			  <label for="judul" class="float-left badge badge-dark">Judul</label>
 			  <input type="text" class="form-log" name="edjudul" value="<?=$judul;?>"/>

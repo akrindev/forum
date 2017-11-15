@@ -26,7 +26,7 @@
 			foreach($this->forum->get_kategori()->result() as $kate)
 			{
 				
-			  echo "<a href=\"/arsip/$kate->id_kat\"> $kate->kat</a>";
+			  echo "<a href=\"/arsip/$kate->kat\"> $kate->kat</a>";
 			}
 			?>
 		  </div><!--liest-->
