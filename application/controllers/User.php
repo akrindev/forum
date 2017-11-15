@@ -191,7 +191,7 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
 		if($this->user->daftar($data))
 		{
           
-             $this->session->set_flashdata('cukses','Berhasil mendaftar! silahkan login <br/> Username: <b>'.$username.'</b>');
+             $this->session->set_flashdata('cukses','Berhasil mendaftar! silahkan login <br/> Username: <b>'.$data['username'].'</b>');
           
        
 			redirect('login');
