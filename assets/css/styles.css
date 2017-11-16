@@ -5,10 +5,20 @@
   margin:0;
   padding:0;
 }
+html
+{
+	height:100%;
+	}
+body
+{
+
+	min-height:100%;
+	position:relative;
+	padding-bottom:1px;
+}
 html, body{
   background-color:#f0f1f7;
   margin:0 auto;
-  height:100%;
 }
 .mdl
 {
@@ -40,12 +50,12 @@ header{
   
   clear:both;
   margin-bottom:10px;
-  background: #000 linear-gradient(200deg, #000000,#555555,#162036,#163241 ,#111111);
-background-size: 1120% 1120%;
--webkit-animation: AnimationName 70s ease infinite;
--moz-animation: AnimationName 70s ease infinite;
--o-animation: AnimationName 70s ease infinite;
-animation: AnimationName 70s ease infinite;
+  background: #000 linear-gradient(210deg, #111,#222,#163241 ,#111111);
+background-size: 220% 220%;
+-webkit-animation: AnimationName 50s linear infinite;
+-moz-animation: AnimationName 50s linear infinite;
+-o-animation: AnimationName 50s linear infinite;
+animation: AnimationName 50s linear infinite;
 }
 
 @-webkit-keyframes AnimationName {
@@ -104,11 +114,18 @@ a.list-item:hover,a.list-item:active
 
 main
 {
-  background-color:#E7EAED;
+
   margin:0px auto;
   max-width:720px;
   overflow:auto;
-  padding-bottom:10px;
+  padding-bottom:60px;
+  clear:both;
+}
+main:after
+{
+	display:block;
+	clear:both;
+	content:' ';
 }
 
 /* breadcrumb */
@@ -655,8 +672,10 @@ background-color:transparent;
 /*footer*/
 
 footer{
-  position:relative;
+  position:absolute;
   clear:both;
+  bottom:0;
+  width:100%;
   background-color:#2f2f2f;
   font-size:12px;
   color:#fff;
@@ -664,8 +683,9 @@ footer{
 
 .footer-forum
 {
-  margin-top:10px;
-  padding:15px;
+	margin:0 auto;
+	padding:10px;
+   max-width:720px;
 }
 
 
