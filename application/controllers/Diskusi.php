@@ -91,7 +91,7 @@ redirect(base_url());
 	$this->session->set_flashdata('nokomen','jadilah komentator pertama!!');
 
       	}
-
+	$this->output->cache(15);
 	$this->load->view('forum/header' ,$data);
     $this->load->view('forum/threadpost',$data);
     }
@@ -320,14 +320,26 @@ redirect(base_url());
         $data["timeline"] = $this->forum->fetch_data($config["per_page"], $page);
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;',$str_links );
-        
+        $this->output->cache(2);
         // View data according to array.
      $this->load->view('forum/header', $data);
     $this->load->view('forum/forumd',$data);
         //$this->load->view("pagination_view", $data);
         }
   
+  function cari()
+  {
+  	$kata = $this->input->post('cari');
+  	$data['cari'] = $this->forum->cari($kata);
   
+  	$head['judul'] = "Cari $kata ";
+  	$head['isi']   	= "Cari $kata";
+  	$data['carikata'] = $kata;
+  
+  	$this->load->view('forum/header',$head);
+  	$this->load->view('forum/cari',$data);
+  	
+  }
   
   //hapus
   function erase($id)

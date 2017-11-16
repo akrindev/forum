@@ -111,7 +111,27 @@ a.list-item:hover,a.list-item:active
 }
 
 /* main */
-
+.cari-form
+{
+  background-color:#fff;
+  padding:5px;
+  position:relative;
+  border:1px double #aaa
+}
+.in-cari
+{
+  border:none;
+  padding:5px 10px;
+  width:75%
+}
+.b-cari
+{
+  float:right;
+  border:none;
+  background-color:#444;
+  padding:5px 15px;
+  color:#fff;
+  }
 main
 {
 
@@ -689,7 +709,54 @@ footer{
 }
 
 
-
+.mow
+{
+  margin-top:13px;
+  padding:10px;
+  background-color:#fff;
+}
+.mow-head
+{
+  padding:8px 10px;
+  border-left:3px solid #aaa;
+  margin:5px 1px;
+  font-family:sans-serif;
+}
+.mow-user
+{
+  padding:10px;
+  overflow:hidden;
+  margin:2px 0;
+  border-bottom:1px double transparent !important;
+  display:block;
+  clear:both;
+}
+.mow-user-img
+{
+  padding:0;
+  margin-right:5px;
+  float:left;
+  clear:both
+}
+.lili
+{
+  display:block;
+}
+.list-inline-b
+{
+  display:block;
+  padding:5px;
+}
+.miw
+{
+   width:300px;
+  height:240px;
+  position:absolute;
+  left:50%;
+  top:50%;
+  margin-left:-150px; /* (300/2) */
+  margin-top:-120px;  /* (240/2) */
+}
 
 .col-md-12 a{
    color:#2f1c0e

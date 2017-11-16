@@ -24,8 +24,9 @@ class User extends CI_Controller
  $hh = $this->user->tampiluser($user);
     $data['nyun'] = $hh->row_array();
     
-
-$this->load->view('forum/header',$header);
+	$this->output->cache(15);
+	
+	$this->load->view('forum/header',$header);
     $this->load->view('forum/dashboard',$data);
     
 		}
@@ -40,7 +41,7 @@ $this->load->view('forum/header',$header);
 		 $hh = $this->user->tampiluser($nama);
 	    $data['nyun'] = $hh->row_array();
     
-
+		
 		$this->load->view('forum/header',$header);
 	    $this->load->view('forum/profile',$data);
     
@@ -55,7 +56,7 @@ $this->load->view('forum/header',$header);
     $header['judul'] = "Register";
     $header["isi"] = "Form registreasi";
     
-$this->load->view('forum/header',$header);
+		$this->load->view('forum/header',$header);
 		$this->load->view('forum/register');
 	}
 	

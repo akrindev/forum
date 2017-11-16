@@ -15,6 +15,16 @@
 		  </ol>
 		</nav>
 	  
+	    <div class="row">
+		  <div class="col-12">
+			<div class="cari-form">
+				<?=form_open('diskusi/cari');?>
+			  <input type="text" name="cari" class="in-cari" placeholder="Cari sesuatu . . ."/>
+			  <button type="submit" class="b-cari">cari</button>
+			</form>
+			</div>
+		  </div>
+		</div>
 	  
 	<div class="row">
 		<div class="col-12">
