@@ -44,7 +44,7 @@
 				  <tr>
 					<th scope="row">dibuat</th>
 					  <td>:</td>
-					  <td><?=$nyun['date'];?></td>
+					  <td><?=pisah_waktu($nyun['date']);?></td>
 				  </tr>
 				  <!-- <tr>
 				  <td>Facebook</td>
@@ -89,7 +89,7 @@
 				foreach($this->user->get_user_post("timeline",$nyun['id'])->result() as $put)
 				{
 					?><li class="list-group-i">
-				<a href="/forum/tl/<?=$put->slug;?>"><?=$put->judul;?></a><br/><span class="waktu"><?=$put->date;?></span> </li>
+				<a href="/forum/tl/<?=$put->slug;?>"><?=$put->judul;?></a><br/><span class="waktu"><?=pisah_waktu($put->date);?></span> </li>
 				<?php } ?>
 					</ul>
 			  </div>

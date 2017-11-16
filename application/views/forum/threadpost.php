@@ -36,7 +36,7 @@
 			   
 		      <div class="post-header">
 		        
-				<div class="post-info"><div class=""><img style="height:40px;width:40px" class="u-img" src="<?=$this->gravatar->get($email);?>"/></div> <b>Oleh:</b><span data-author="<?=$username?>"> <a href="<?=base_url('profile/'.$username);?>">@<?=$username?></a></span> <b>Pada:</b><span class="post-date"> <?=$date;?></span> <br/><b>Komen:</b> <?=$coco;?> <b>Dibaca:</b> <?=$dilihat;?> <b>Arsip:</b> <?= $kategori;?></div>
+				<div class="post-info"><div class=""><img style="height:40px;width:40px" class="u-img" src="<?=$this->gravatar->get($email);?>"/></div> <b>Oleh:</b><span data-author="<?=$username?>"> <a href="<?=base_url('profile/'.$username);?>">@<?=$username?></a></span> <b>Pada:</b><span class="post-date"> <?=pisah_waktu($date);?></span> <br/><b>Komen:</b> <?=$coco;?> <b>Dibaca:</b> <?=$dilihat;?> <b>Arsip:</b> <?= $kategori;?></div>
 	    	  </div><!--post header-->
 			  <div class="post-isi">
 				<p><?=$isi?></p>
@@ -73,7 +73,7 @@
 							<div class=""><img style="height:40px;width:40px" class="u-img" src="<?=$this->gravatar->get($r->email);?>"/></div><div class="u-c">
 						  <span class="c-user"><a href="<?=base_url('profile/'.$r->username);?>">@<?=$r->username?></a></span> 
 						  
-						  <span class="c-time"><?=$r->date;?></span>
+						  <span class="c-time"><?=pisah_waktu($r->date);?></span>
 							  </div>
 						  </div>
 						  <span class="c-isi"><?=$r->isi;?></span>
@@ -122,6 +122,30 @@
 	<footer>
 	  <div class="footer-forum">Copyright 2017 - All Right Reserved</div>
 	</footer>
+	
+	<script type="application/ld+json">
+	{
+  "@context": "http://schema.org", 
+ "@type": "Article",
+ "headline": "<?=$judul;?>",
+ "image": "http://i.cubeupload.com/a6W64O.jpeg",
+ "author": "<?=$username;?>", 
+ "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "<?=current_url();?>"
+      },
+ "genre": "<?=$kategori;?>", 
+ "keywords": "<?=$value;?>",
+ "publisher": "Iruna Notes Publisher Inc",
+ "url": "<?=current_url();?>",
+ "datePublished": "<?=$date;?>",
+ "dateCreated": "<?=$date;?>",
+ "dateModified": "<?=$date;?>",
+ "description": "<?=character_limiter($isi,160);?>",
+ "articleBody": "<?=$isi;?>"
+ }
+</script>
+    
 	
 	
 	    <script type="text/javascript">

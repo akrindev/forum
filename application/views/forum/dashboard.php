@@ -48,7 +48,7 @@
 				  <tr>
 					<th scope="row">dibuat</th>
 					  <td>:</td>
-					  <td><?=$nyun['date'];?></td>
+					  <td><?=pisah_waktu($nyun['date']);?></td>
 				  </tr>
 				  <!-- <tr>
 				  <td>Facebook</td>
@@ -93,7 +93,7 @@
 				foreach($this->user->get_user_post("timeline",$nyun['id'])->result() as $put)
 				{
 					?><li class="list-group-i">
-				<a href="/forum/tl/<?=$put->slug;?>"><?=$put->judul;?></a><br/><span class="waktu"><?=$put->date;?></span> . <a class="text-danger" onclick="return confirm('yakin ingin menghapus? \n Data tidak bisa di kembalikan ketika terhapus!')" href="/diskusi/erase/<?=$put->id;?>">hapus</a> . <a class="text-primary" href="/diskusi/edit_post/<?=$put->id;?>">edit</a></li>
+				<a href="/forum/tl/<?=$put->slug;?>"><?=$put->judul;?></a><br/><span class="waktu"><?=pisah_waktu($put->date);?></span> . <a class="text-danger" onclick="return confirm('yakin ingin menghapus? \n Data tidak bisa di kembalikan ketika terhapus!')" href="/diskusi/erase/<?=$put->id;?>">hapus</a> . <a class="text-primary" href="/diskusi/edit_post/<?=$put->id;?>">edit</a></li>
 				<?php } ?>
 					</ul>
 			  </div>

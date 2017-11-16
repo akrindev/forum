@@ -13,7 +13,6 @@
 <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
 <meta name="google-site-verification" content="KepqXCIws9XJoRrMQkQQZqYnQOPDnFUuH5iIeXT9DNs" />
 <meta name="title" content="<?=$judul;?> - Iruna online forum">
-<meta name="description" content="<?=character_limiter($isi,160);?>"/>
  <meta property="og:url"                content="<?=base_url($this->uri->uri_string());?>" />
 <meta property="og:type"               content="article" />
 <meta property="og:title"              content="<?=$judul;?>" />
@@ -53,7 +52,7 @@
   </head>
   <body>
 	<header>
-	 	<div class="brand"><a href="/" alt="Mobile iruna forum indonesia">Mobile Iruna Notes</a></div>
+	 	<div class="brand"><a href="/">Mobile Iruna Notes</a></div>
 	   <div class="atas position-sticky">
 		<div style="max-width:720px;text-align:left;margin:0 auto;">
 		<div class="kpl-forum">

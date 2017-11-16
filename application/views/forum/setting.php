@@ -60,7 +60,7 @@
 				foreach($this->user->get_user_post("timeline",$se['id'])->result() as $put)
 				{
 					?>
-				<a class="list-group-i" href="/forum/tl/<?=$put->slug;?>"><?=$put->judul;?><br/><span class="waktu"><?=$put->date;?></span></a>
+				<a class="list-group-i" href="/forum/tl/<?=$put->slug;?>"><?=$put->judul;?><br/><span class="waktu"><?=pisah_waktu($put->date);?></span></a>
 				<?php } ?>
 			  </div>
 			</div>
