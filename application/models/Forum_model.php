@@ -32,7 +32,7 @@ class Forum_model extends CI_Model
   
   public function get_comment($id)
   {
-  	return $this->db->query('select tl.id,tl.slug,k.id_user,u.username,u.email,k.id_timeline,k.isi,k.date from komentar as k inner join timeline as tl inner join users as u where k.id_user = u.id and k.id_timeline= '.$id.' and k.id_timeline = tl.id limit 100');
+  	return $this->db->query('select tl.id,tl.slug,k.id as koid,k.id_user,u.username,u.email,k.id_timeline,k.isi,k.date from komentar as k inner join timeline as tl inner join users as u where k.id_user = u.id and k.id_timeline= '.$id.' and k.id_timeline = tl.id limit 100');
   }
   public function get_comment_count($id)
   {
@@ -59,6 +59,20 @@ class Forum_model extends CI_Model
             return $data;
         }
         return false;
+   }
+   
+   function cari($kata)
+   {
+   	$car = $this->db->like('judul',$kata)->get('timeline');
+   	if($car->num_rows() > 0)
+   	{
+   			foreach($car->result() as $kena)
+   			{
+   					$data[] = $kena;
+   			}
+   		return $data;
+   	}
+   	return false;
    }
    
        public function fetch_data_image($limit, $start) {
