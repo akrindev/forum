@@ -12,7 +12,7 @@
 		</ol>
 </nav>
 	  
-
+      <div class="post-titlee"><h3>Tulis Catatan</h3></div>
    		<!--<?php echo validation_errors(); ?>-->
 
 		<div class="row">

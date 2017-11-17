@@ -297,4 +297,55 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
 		echo json_encode($rea);
 	}
 	
+	
+	function kontakadm()
+	{
+		$head['judul'] = "Kontak Admin";
+		$head['isi']  = "Kontak admin form";
+		
+		
+		$this->load->view('forum/header',$head);
+		$this->load->view('forum/admtulis');
+		
+	}
+	function kontak_admin()
+	{
+		if(!$this->session->userdata('user'))
+		{
+			redirect(base_url('login'));
+		}
+		
+		   $this->form_validation->set_rules('tentang','Tentang','required|min_length[5]');
+    $this->form_validation->set_rules('pesan','isi pesan','required|min_length[5]');
+    
+    
+    if($this->form_validation->run() != FALSE)
+    {
+      $u = $this->session->userdata('user');
+
+      $data = [
+        'username' => $u,
+        'tentang' => $this->input->post('tentang'),
+        'pesan' => $this->input->post('pesan'),
+        'date' => date('Y-m-d H:i:s')
+      ];
+    
+      
+      if($this->forum->post_data('kontak_admin',$data)){ 
+        redirect(base_url().'pesan');
+      }
+    }
+    else
+    {
+     $head['judul'] = "Kontak Admin";
+		$head['isi']  = "Kontak admin form";
+		
+		
+		$this->load->view('forum/header',$head);
+		$this->load->view('forum/admtulis');
+    }
+    
+	}
+	
+	
 }
