@@ -36,7 +36,7 @@
 			   
 		      <div class="post-header">
 		        
-				<div class="post-info"><div class=""><img style="height:40px;width:40px" class="u-img" src="<?=$this->gravatar->get($email);?>"/></div> <b>Oleh:</b><span data-author="<?=$username?>"> <a href="<?=base_url('profile/'.$username);?>">@<?=$username?></a></span> <b>Pada:</b><span class="post-date"> <?=pisah_waktu($date);?></span> <br/><b>Komen:</b> <?=$coco;?> <b>Dibaca:</b> <?=$dilihat;?> <b>Arsip:</b> <?= $kategori;?></div>
+				<div class="post-info"><div class=""><img style="height:40px;width:40px" class="u-img" src="<?=$this->gravatar->get($email);?>"/></div> <b>Oleh:</b><span data-author="<?=$username?>"> <a href="<?=base_url('profile/'.$username);?>">@<?=$username?></a></span> <b>Pada:</b><span class="post-date"> <?=pisah_waktu($date);?></span> <br/><b>Komen:</b> <?=$coco;?> <b>Dibaca:</b> <?=$dilihat;?> <b>Arsip:</b> <a href="<?= base_url('arsip/'.$kategori);?>"><?=$kategori?></a></div>
 	    	  </div><!--post header-->
 			  <div class="post-isi">
 				<p><?=$isi?></p>
@@ -67,16 +67,17 @@
 			<?php
 			foreach($k as $r)
 			{?>
-			<li>
+			<li id="<?=$r->koid;?>">
 						  <div class="c-head">
 							
 							<div class=""><img style="height:40px;width:40px" class="u-img" src="<?=$this->gravatar->get($r->email);?>"/></div><div class="u-c">
 						  <span class="c-user"><a href="<?=base_url('profile/'.$r->username);?>">@<?=$r->username?></a></span> 
 						  
 						  <span class="c-time"><?=pisah_waktu($r->date);?></span>
+						<div class="reply">#<?=$r->koid;?></div>
 							  </div>
 						  </div>
-						  <span class="c-isi"><?=$r->isi;?></span>
+						  <p class="c-isi"><?= $this->bbcode->bbcode_to_html($r->isi);?></p>
 						</li>
 		<?php }?>
 </ul>
@@ -146,11 +147,21 @@
  }
 </script>
     
-	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 	
 	    <script type="text/javascript">
 $(document).ready(function(){
 
+$(".tangkap").click(function(e){
+	e.preventDefault();
+	
+		var m = $(this);
+				var y = m.attr("href");
+				var f = $("li"+y);
+				var a = f.clone();
+				m.after(a).slideDown("slow");
+				m.hide();
+})
 
  	var terbit = $('#terbit').val();
  if(terbit == "ok")
@@ -275,5 +286,7 @@ success: function(response) {
         
 		
 </script>
+
+
   </body>
 </html>
