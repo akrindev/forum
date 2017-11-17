@@ -38,7 +38,7 @@
 			</div>
 <?php } ?>
 
-			<div class="wrapper">
+			
 			  
 
                 <div class="row">
@@ -68,13 +68,9 @@
 				  </div><!-- Col-12 -->
 				  <?php } ?>
 				</div><!-- Row -->
-				
+				</div>
 				<!--post-->
-			  </div><!--col-->
-				
-
-
-		  </div><!--comtainer-->
+			
 
 		</main><!--maiinnn-->
 
@@ -117,7 +113,8 @@ $( "img" )
 	<img style="width:200px;height:150px;" src='https://i.imgur.com/2dst9Qk.png' />
 	<br/>
 	
-	another image hosting <a href="https://ctrlq.org/images/" alt="img hosting"/>CTRLQ.org</a> <a href="https://cubeupload.com/">cubeupload.com</a>
+	Sangat disarankan menggunakan <a href="https://imgur.com" class="btn btn-link">imgur.com</a> <br/>
+alternatif lain <a href="https://ctrlq.org/images/" alt="img hosting">CTRLQ.org</a> <a href="https://cubeupload.com/">cubeupload.com</a>
 	</div>
 	</div>
 	<script type="text/javascript">
@@ -129,7 +126,7 @@ tinypic_search = 'false';
 tinypic_autoload = false;
 </script>
 			<script src="http://plugin.tinypic.com/j/plugin.js" type="text/javascript"></script>
-			<input type="button" class="btn btn-dark" value="Click here!!" onclick="javascript:showTinypicPlugin();"/><br/>
+			<input type="button" class="btn btn-dark" value="Click here!!" onclick="javascript:showTinypicPlugin();"/><br/><br/>
 			<script src="http://plugin.tinypic.com/j/plugin.js" type="text/javascript"></script>
 		  </div>
 		  <div class="modal-footer">
