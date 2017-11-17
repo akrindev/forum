@@ -8,10 +8,7 @@
 		<nav aria-label="breadcrumb" role="navigation">
 		  <ol class="breadcrumb" itemscope="" itemtype="http://schema.org/
 			BreadcrumbList">
-			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">Timeline</li>
-			
-			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem" class="divider"><span itemprop="item">/</span></li>
-			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem" class="active"><a itemprop="item" href="/"><span itemprop="name">Beranda</span></a></li>
+			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem"><span itemprop="item" itemprop="item">Home</span></li>
 		  </ol>
 		</nav>
 	  

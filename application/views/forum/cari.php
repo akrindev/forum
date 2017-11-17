@@ -8,12 +8,17 @@
 		<nav aria-label="breadcrumb" role="navigation">
 		  <ol class="breadcrumb" itemscope="" itemtype="http://schema.org/
 			BreadcrumbList">
-			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem">Timeline</li>
+			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem"><span itemprop="item"><a href="/" itemprop="name">Home</a></span></li>
+			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem" class="divider">/</li>
 			
-			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem" class="divider"><span itemprop="item">/</span></li>
-			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem" class="active"><a itemprop="item" href="/"><span itemprop="name">Beranda</span></a></li>
+			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem"><span itemprop="item" itemprop="name">Cari</span></li>
+			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem" class="divider">/</li>
+			
+			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem" class="active"><span itemprop="item" itemprop="name"><?=$carikata;?></span></a></li>
 		  </ol>
 		</nav>
+		
+		
 	  <div class="row">
 		  <div class="col-12">
 			<div class="cari-form">

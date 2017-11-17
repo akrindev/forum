@@ -6,12 +6,17 @@
 		<!--breadcrumb-->
 		<div style="margin-top:10px"></div>
 		<nav aria-label="breadcrumb" role="navigation">
-
-		<ol class="breadcrumb">
-		  <li class="breadcrumb-item"><a href="/forum">Forum</a></li>
-		  <li class="breadcrumb-item active" aria-current="page"><?=$judul?></li>
-		</ol>
-</nav>
+		  <ol class="breadcrumb" itemscope="" itemtype="http://schema.org/
+			BreadcrumbList">
+			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem"><span itemprop="item"><a href="/" itemprop="name">Home</a></span></li>
+			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem" class="divider">/</li>
+			
+			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem"><a itemprop="item" href="<?= base_url('arsip/'.$kategori);?>"><span itemprop="name"><?=$kategori?></span></a></li>
+			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem" class="divider">/</li>
+			
+			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem" class="active"><span itemprop="item" itemprop="name"><?=$judul;?></span></a></li>
+		  </ol>
+		</nav>
 
 
 		<div class="row">

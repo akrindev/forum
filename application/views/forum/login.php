@@ -6,11 +6,16 @@
 		<!--breadcrumb-->
 		<div style="margin-top:10px"></div>
 		<nav aria-label="breadcrumb" role="navigation">
-		<ol class="breadcrumb">
-		  <li class="breadcrumb-item"><a href="/forum">Forum</a></li>
-		  <li class="breadcrumb-item active" aria-current="page">Login</li>
-		</ol>
-</nav>
+		  <ol class="breadcrumb" itemscope="" itemtype="http://schema.org/
+			BreadcrumbList">
+			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem"><span itemprop="item"><a href="/" itemprop="name">Home</a></span></li>
+			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem" class="divider">/</li>
+			
+			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem" itemprop="item" class="active"><span itemprop="name">Login</span></li>
+			
+		  </ol>
+		</nav>
+		
 
 
 		<div class="row">
