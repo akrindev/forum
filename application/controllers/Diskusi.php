@@ -75,23 +75,14 @@ redirect(base_url());
          $k = $this->forum->get_comment($idtl);
 	$t = $k->num_rows();
 	$data['k'] = $v = $k->result();
-      if($t > 0)
-      {
-      	foreach($v as $r)
-      	{
-      	
-      		$data['kusername'] = $r->username;
-      		$data['kisi'] = $r->isi;
-      		$data['kdate'] = $r->date;
-      	}
-      }
+
 		if($t == 0){
 			
       	
 	$this->session->set_flashdata('nokomen','jadilah komentator pertama!!');
 
       	}
-	$this->output->cache(15);
+	
 	$this->load->view('forum/header' ,$data);
     $this->load->view('forum/threadpost',$data);
     }
@@ -109,24 +100,7 @@ redirect(base_url());
   	$this->load->view('forum/kom',$v);
   }
   
-  public function kom($id){
-    $comment = $this->forum->get_comment($id);
-    $ce = $comment->num_rows();
-    $cmn = $comment->result();
-    
-    if($ce > 0)
-    {
- $this->output
-      ->set_status_header(200)
-      ->set_content_type('application/json', 'utf-8')
-      ->set_output(json_encode($cmn, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))
-      ->_display();
-      exit;
-    }
-   }
-    
-   
-    
+  
   public function tulis()
   {
     
