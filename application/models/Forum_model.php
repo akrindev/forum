@@ -32,7 +32,7 @@ class Forum_model extends CI_Model
   
   public function get_comment($id)
   {
-  	return $this->db->query('select tl.id,tl.slug,k.id as koid,k.id_user,u.username,u.email,k.id_timeline,k.isi,k.date from komentar as k inner join timeline as tl inner join users as u where k.id_user = u.id and k.id_timeline= '.$id.' and k.id_timeline = tl.id limit 100');
+  	return $this->db->query('select tl.id,tl.slug,k.id as koid,k.id_user,u.username,u.email,k.id_timeline,k.isi,k.date from komentar as k inner join timeline as tl inner join users as u where k.id_user = u.id and k.id_timeline= '.$id.' and k.id_timeline = tl.id limit 1000');
   }
   public function get_comment_count($id)
   {

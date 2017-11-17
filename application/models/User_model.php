@@ -29,7 +29,9 @@ class User_model extends CI_Model {
 			}else{
 				return "fail";
 			}
+			
 		}
+		return "fail";
 	}
 	
   
@@ -54,7 +56,34 @@ function get_user_post($tabel,$id){
    	$data = [
    		'id_user' => $id,
    	];
+   	$this->db->order_by('date','DESC');
    	return $this->db->get_where($tabel,$data);
+  }
+  
+    // mendapatkan user total views
+function get_user_total_views($tabel,$id){
+   	$da = $this->db->query("select sum(dilihat) as d from $tabel where id_user=$id");
+   	foreach($da->result() as $k)
+   	{
+   			$data= $k->d;
+   	}
+   if(!$data) {
+		echo 0;
+		}
+		else
+		{
+		echo  $data;
+		}
+  }
+  
+      // mendapatkan user total dikomentati
+function get_user_total_comments($id){
+   	$da = $this->db->query("select count(*) as d from timeline as t join komentar as k where t.id_user=$id and t.id=k.id_timeline");
+   	foreach($da->result() as $k)
+   	{
+   			$data= $k->d;
+   	}
+   	echo $data;
   }
   
   function sett_update($id,$fullname,$ign,$email,$kota,$bio,$fb)
