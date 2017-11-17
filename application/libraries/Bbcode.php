@@ -26,7 +26,8 @@ function bbcode_to_html($text)
 			'#\[left\](.*)\[/left\]#Usi',
 			'#\[center\](.*)\[/center\]#Usi',
 			'#\[right\](.*)\[/right\]#Usi',
-			'#\[code\](.*)\[/code\]#Usi'
+			'#\[code\](.*)\[/code\]#Usi',
+			'#\[reply=(.*)\]#Usi'
 		);
 	$out = array(
 			'<strong>$1</strong>',
@@ -39,7 +40,8 @@ function bbcode_to_html($text)
 			'<div style="text-align:left;">$1</div>',
 			'<div style="text-align:center;">$1</div>',
 			'<div style="text-align:right;">$1</div>',
-			'<div style="line-height:15px;padding:10px;background:#FCEFD9;color:#A56901;border-radius:5px;font-family:courier new;font-size:12px;text-align:left;margin:0;">$1</div>'
+			'<div style="line-height:15px;padding:10px;background:#FCEFD9;color:#A56901;border-radius:5px;font-family:courier new;font-size:12px;text-align:left;margin:0;">$1</div>',
+			'<a class="tangkap" href="#$1">#$1</a>'
 		);
     $count = count($in)-1;
     for($i=0;$i<=$count;$i++)
