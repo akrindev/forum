@@ -364,7 +364,17 @@ margin:10px -7px 0 -7px;
 .c-head
 {
   padding:3px 5px;
+  position:relative;
   border-bottom:1px solid #cfd2e2;
+}
+
+.reply
+{
+  position:absolute;
+  top:3px;
+  right:3px;
+  color:#0012cf
+  
 }
 .c-user
 {
@@ -380,6 +390,10 @@ margin:10px -7px 0 -7px;
   font-family: 'Karla', sans-serif;
   padding:3px 5px;
   word-wrap:break-word;
+}
+.c-isi li
+{
+	z-index:1;-webkit-box-shadow:0 0 10px #000;-moz-box-shadow:0 0 10px #000;-o-box-shadow:0 0 10px #000;-ms-box-shadow:0 0 10px #000;box-shadow:0 0 10px #000
 }
 .c-time
 {
@@ -749,13 +763,8 @@ footer{
 }
 .miw
 {
-   width:300px;
-  height:240px;
-  position:absolute;
-  left:50%;
-  top:50%;
-  margin-left:-150px; /* (300/2) */
-  margin-top:-120px;  /* (240/2) */
+		margin:auto;
+		padding:15px;
 }
 
 .col-md-12 a{
