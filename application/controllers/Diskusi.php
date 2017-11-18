@@ -231,9 +231,44 @@ redirect(base_url());
  	$header['judul'] = "Arsip $kat Iruna";
  	$header['isi']      = "Arsip $kat Mobile iruna notes";
  
- 	$data['arsip'] = $this->forum->get_arsip($kat);
+ 	//$data['arsip'] = $this->forum->get_arsip($kat);
           
  	$data['nmarsip'] = $kat;
+ 
+ 
+ 	$config = array();
+        $config["base_url"] = base_url() . "diskusi/arsip/$kat";
+        $total_row = $this->forum->count_arsip($kat);
+        
+        $config["total_rows"] = $total_row;
+        $config["per_page"] = 10;
+        $config['use_page_numbers'] = false;
+        $config['num_links'] =1;
+        
+        $config['next_link'] = 'Next';
+        $config['prev_link'] = 'Previous';
+         $config["first_tag_open"] = '<li class="pagination-list">';
+  $config["first_tag_close"] = '</li>';
+  $config["last_tag_open"] = '<li class="pagination-list">';
+  $config["last_tag_close"] = '</li>';
+  $config['next_link'] = '&gt;';
+  $config["next_tag_open"] = '<li class="pagination-list">';
+  $config["next_tag_close"] = '</li>';
+  $config["prev_link"] = "&lt;";
+  $config["prev_tag_open"] = '<li class="pagination-list">';
+  $config["prev_tag_close"] = "</li>";
+  $config["cur_tag_open"] = "<li class='pagination-list active'><a href='#'>";
+  $config["cur_tag_close"] = "</a></li>";
+  $config["num_tag_open"] = "<li class='pagination-list'>";
+  $config["num_tag_close"] = "</li>";
+        
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+        $data['judul'] = 'ID';
+        $data['isi'] = 'Iruna online forum, tutorial iruna, Production iruna';
+                $data["arsip"] = $this->forum->fetch_data_arsip($kat,$config["per_page"], $page);
+        $str_links = $this->pagination->create_links();
+        $data["links"] = explode('&nbsp;',$str_links );
  
  	$this->load->view("forum/header",$header);
  	$this->load->view("forum/arsip",$data);
@@ -294,7 +329,7 @@ redirect(base_url());
         $data["timeline"] = $this->forum->fetch_data($config["per_page"], $page);
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;',$str_links );
-        $this->output->cache(2);
+        
         // View data according to array.
      $this->load->view('forum/header', $data);
     $this->load->view('forum/forumd',$data);

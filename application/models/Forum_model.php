@@ -44,6 +44,26 @@ class Forum_model extends CI_Model
         return $this->db->count_all("timeline");
     }
     
+    public function count_arsip($kat)
+    {
+    	return $this->db->query("select f.id as iid,f.judul,f.slug,f.kat_id,f.dilihat,f.date,ka.id_kat,ka.kat,u.id,u.username from timeline as f join kategori as ka join users as u where f.id_user=u.id and ka.kat = '$kat' and f.kat_id = ka.id_kat order by date desc")->num_rows();
+    }
+        public function fetch_data_arsip($kat,$limit, $start) {
+        
+        $datanya = $this->db->query("select f.id as iid,f.judul,f.slug,f.kat_id,f.dilihat,f.date,ka.id_kat,ka.kat,u.id,u.username from timeline as f join kategori as ka join users as u where f.id_user=u.id and ka.kat = '$kat' and f.kat_id = ka.id_kat order by date desc limit $start, $limit");
+      
+        if ($datanya->num_rows() > 0) {
+            foreach ($datanya->result() as $row) {
+                $data[] = $row;
+
+            }
+         
+            return $data;
+        }
+        return false;
+   }
+    //endof pagination
+    
     // Fetch data according to per_page limit.
     public function fetch_data($limit, $start) {
         

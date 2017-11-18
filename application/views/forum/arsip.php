@@ -11,7 +11,7 @@
 			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem"><span itemprop="item"><a href="/" itemprop="name">Home</a></span></li>
 			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem" class="divider">/</li>
 			
-			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem" itemprop="item"><span itemprop="name"><?=$kategori?></span></li>
+			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem" itemprop="item"><span itemprop="name"><?=$nmarsip?></span></li>
 			
 		  </ol>
 		</nav>
@@ -85,7 +85,16 @@ foreach($coco as $coc)
 		
 		</div><!--row-->
 		
-		
+		<div class="pagination">
+<ul>
+	<?php
+	foreach($links as $link)
+	{ 
+		echo $link;
+	}
+	?>
+</ul>
+</div>
 	  </div><!--container-->
 	  
 	</main><!--maiinnn-->
