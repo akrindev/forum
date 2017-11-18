@@ -23,8 +23,6 @@ class User extends CI_Controller
 
  $hh = $this->user->tampiluser($user);
     $data['nyun'] = $hh->row_array();
-    
-	$this->output->cache(15);
 	
 	$this->load->view('forum/header',$header);
     $this->load->view('forum/dashboard',$data);

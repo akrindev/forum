@@ -142,19 +142,6 @@ class Forum_model extends CI_Model
 			return $this->db->query("select f.slug,f.kat_id,ka.id_kat,ka.kat from timeline as f join kategori as ka where f.slug='$slug' and f.kat_id = ka.id_kat");
 		}
 		
-		function get_arsip($kat)
-		{
-			$datanya = $this->db->query("select f.id as iid,f.judul,f.slug,f.kat_id,f.dilihat,f.date,ka.id_kat,ka.kat,u.id,u.username from timeline as f join kategori as ka join users as u where f.id_user=u.id and ka.kat = '$kat' and f.kat_id = ka.id_kat order by date desc");
-			if($datanya->num_rows() > 0)
-			{
-			       foreach ($datanya->result() as $row) {
-                $data[] = $row;
-
-            }
-         
-            return $data;
-            }
-            return false;
-		}
+		
 		
 }
