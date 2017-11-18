@@ -23,6 +23,7 @@ if(!$this->session->userdata('user'))
 		  <div class="col-12">
 			<div class="propil">
 			<?= form_open('user/kontak_admin');?>
+			
 			  <label for="tentang" class="float-left badge badge-pill badge-dark">Tentang</label>
 			  <input type="text" class="form-log" name="tentang" placeholder="Tentang apa?"/>
               <?php if(form_error('tentang')) 
@@ -53,12 +54,5 @@ if(!$this->session->userdata('user'))
 	<footer>
 	  <div class="footer-forum">Copyright 2017 - All Right Reserved</div>
 	</footer>
-<script>
-	$("#tags").tagsInput({
-		 'height':'50px', 
-   'defaultText':'add a tag'
-
-});
-	</script>
   </body>
 </html>

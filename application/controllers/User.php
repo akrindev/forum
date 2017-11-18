@@ -314,8 +314,7 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
 		{
 			redirect(base_url('login'));
 		}
-		
-		   $this->form_validation->set_rules('tentang','Tentang','required|min_length[5]');
+		$this->form_validation->set_rules('tentang','Tentang','required|min_length[5]|max_length[100]');
     $this->form_validation->set_rules('pesan','isi pesan','required|min_length[5]');
     
     
@@ -324,14 +323,15 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
       $u = $this->session->userdata('user');
 
       $data = [
-        'username' => $u,
+        'dari' => $u,
         'tentang' => $this->input->post('tentang'),
         'pesan' => $this->input->post('pesan'),
+        'keamanan' => md5($this->input->post('tentang').$u.date('Y-m-d H:i:s')),
         'date' => date('Y-m-d H:i:s')
       ];
     
       
-      if($this->forum->post_data('kontak_admin',$data)){ 
+      if($this->forum->post_data('pesan',$data)){ 
         redirect(base_url().'pesan');
       }
     }
@@ -347,5 +347,67 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
     
 	}
 	
+	function cek_user($user)
+	{
+		if($this->user->tampiluser($user)->num_rows() > 0)
+		{
+			return TRUE;
+		}else{
+			$this->form_validation->set_message('cek_user', 'Tidak ditemukan user!! periksa kembali username');
+			return FALSE;
+		}
+		
+	}
+	
+	function pesan_baca($x)
+	{
+		if(!$this->session->userdata('user'))
+		{
+			redirect(base_url());
+		}
+		
+		$head['judul'] = "Pesan";
+		$head['isi']  = "Pesan";
+		
+		$user = $this->session->userdata('user');
+		
+		$dat = $this->user->get_pesan_p($x);
+			if($dat)
+		{
+			foreach($dat->result() as $tu)
+			{
+				$data['tentang'] = $tu->tentang;
+				$data['dari'] = $tu->dari;
+				$data['pesan'] = $tu->pesan;
+				$data['date'] = $tu->date;
+				$data['jawaban'] = $tu->jawaban;
+				$data['terjawab'] = $tu->terjawab;
+			}
+		}
+			else
+		{
+				echo "<script>alert('tidak ditemukan')</script>";
+		}
+		$this->load->view('forum/header',$head);
+		$this->load->view('forum/pesanbaca',$data);
+	}
+	
+	function pesan()
+	{
+		if(!$this->session->userdata('user'))
+		{
+			redirect(base_url());
+		}
+		
+	    $head['judul'] = "Pesan";
+		$head['isi']  = "Pesan";
+		
+		$user = $this->session->userdata('user');
+		
+		$data['pesan'] = $this->user->get_pesan($user);
+		
+		$this->load->view('forum/header',$head);
+		$this->load->view('forum/pesan',$data);
+	}
 	
 }

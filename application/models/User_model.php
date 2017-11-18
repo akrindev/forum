@@ -117,4 +117,19 @@ function get_user_total_comments($id){
   	$this->db->update("users",$opt);
   }
   
+  
+  function get_pesan($username)
+  {
+  	
+  	$data = [ 'dari' => $username ];
+  	return $this->db->get_where("pesan",$data);
+  }
+  
+    function get_pesan_p($k)
+  {
+  	
+  	$data = [ 'keamanan' => $k ];
+  	return $this->db->get_where("pesan",$data);
+  }
+  
 }
