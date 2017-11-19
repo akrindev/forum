@@ -236,37 +236,18 @@ redirect(base_url());
  	$data['nmarsip'] = $kat;
  
  
- 	$config = array();
-        $config["base_url"] = base_url() . "diskusi/arsip/$kat";
+ 	   $this->config->load('pagination',TRUE);
+ 		$configg = $this->config->item('pagination');
+        $configg["base_url"] = base_url() . "diskusi/arsip/$kat";
         $total_row = $this->forum->count_arsip($kat);
+        $configg["total_rows"] = $total_row;
+
         
-        $config["total_rows"] = $total_row;
-        $config["per_page"] = 10;
-        $config['use_page_numbers'] = false;
-        $config['num_links'] =1;
-        
-        $config['next_link'] = 'Next';
-        $config['prev_link'] = 'Previous';
-         $config["first_tag_open"] = '<li class="pagination-list">';
-  $config["first_tag_close"] = '</li>';
-  $config["last_tag_open"] = '<li class="pagination-list">';
-  $config["last_tag_close"] = '</li>';
-  $config['next_link'] = '&gt;';
-  $config["next_tag_open"] = '<li class="pagination-list">';
-  $config["next_tag_close"] = '</li>';
-  $config["prev_link"] = "&lt;";
-  $config["prev_tag_open"] = '<li class="pagination-list">';
-  $config["prev_tag_close"] = "</li>";
-  $config["cur_tag_open"] = "<li class='pagination-list active'><a href='#'>";
-  $config["cur_tag_close"] = "</a></li>";
-  $config["num_tag_open"] = "<li class='pagination-list'>";
-  $config["num_tag_close"] = "</li>";
-        
-        $this->pagination->initialize($config);
+        $this->pagination->initialize($configg);
         $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
         $data['judul'] = 'ID';
         $data['isi'] = 'Iruna online forum, tutorial iruna, Production iruna';
-                $data["arsip"] = $this->forum->fetch_data_arsip($kat,$config["per_page"], $page);
+                $data["arsip"] = $this->forum->fetch_data_arsip($kat,$configg["per_page"], $page);
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;',$str_links );
  
@@ -295,38 +276,19 @@ redirect(base_url());
   
     
      public function page(){
-        $config = array();
-        $config["base_url"] = base_url() . "diskusi/page";
+        $this->config->load('pagination',TRUE);
+ 	   $configg = $this->config->item('pagination');
+        $configg["base_url"] = base_url() . "diskusi/page";
         $total_row = $this->forum->record_count();
         
-        $config["total_rows"] = $total_row;
-        $config["per_page"] = 10;
-        $config['use_page_numbers'] = false;
-        $config['num_links'] =1;
-        
-        $config['next_link'] = 'Next';
-        $config['prev_link'] = 'Previous';
-         $config["first_tag_open"] = '<li class="pagination-list">';
-  $config["first_tag_close"] = '</li>';
-  $config["last_tag_open"] = '<li class="pagination-list">';
-  $config["last_tag_close"] = '</li>';
-  $config['next_link'] = '&gt;';
-  $config["next_tag_open"] = '<li class="pagination-list">';
-  $config["next_tag_close"] = '</li>';
-  $config["prev_link"] = "&lt;";
-  $config["prev_tag_open"] = '<li class="pagination-list">';
-  $config["prev_tag_close"] = "</li>";
-  $config["cur_tag_open"] = "<li class='pagination-list active'><a href='#'>";
-  $config["cur_tag_close"] = "</a></li>";
-  $config["num_tag_open"] = "<li class='pagination-list'>";
-  $config["num_tag_close"] = "</li>";
-        
-        $this->pagination->initialize($config);
+        $configg["total_rows"] = $total_row;
+ 
+        $this->pagination->initialize($configg);
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         $data['judul'] = 'ID';
         $data['isi'] = 'Iruna online forum, tutorial iruna, Production iruna';
         
-        $data["timeline"] = $this->forum->fetch_data($config["per_page"], $page);
+        $data["timeline"] = $this->forum->fetch_data($configg["per_page"], $page);
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;',$str_links );
         

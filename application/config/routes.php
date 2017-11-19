@@ -8,15 +8,13 @@ $route['forum/tl'] = 'diskusi/timeline';
 $route['forum/tl/(:any)'] = 'diskusi/timeline/$1';
 $route['forum/tulis'] = 'diskusi/tulis';
 
+
+$route['kontak-admin'] = 'user/kontakadm';
+$route['pesan'] 	= 'user/pesan';
+$route['pesan/x/(:any)'] = 'user/pesan_baca/$1';
+
+
 $route['image'] = 'diskusi/image';
-/*
-$route['page'] = 'diskusi/page';
-$route['image/(:any)'] = 'diskusi/image/$1';
-$route['page/(:any)'] = 'diskusi/page/$1';
-*/
-//zona elban
-//$route['forum/elban'] = 'diskusi/elban';
-//$route['forum/elban/(:any)'] = 'diskusi/elban/$1';
 
 
 //aktivitas user 
@@ -30,11 +28,8 @@ $route['logout'] = 'user/logout';
 
 
 
-$route['stats'] = 'welcome/stats';
-$route['quests'] = 'welcome/quests';
-$route['raids'] = 'welcome/raids';
-$route['abilities'] = 'welcome/abilities';
-$route['lottery'] = 'welcome/lottery';
+$route['arsip'] = 'diskusi/page';
+$route['arsip/(:any)'] = 'diskusi/arsip/$1';
 //$route['(:any)/(:any)'] = 'welcome/items/$1/$2';
 
 
