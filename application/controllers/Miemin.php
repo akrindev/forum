@@ -4,12 +4,62 @@
 class Miemin extends CI_Controller
  {
 
-	function index($p = "dash")
+	public function __construct()
 	{
-		$head['judul'] = "tes";
-		$head['isi'] = "tes juga";
+		parent::__construct();
 		
-		$this->load->view('forum/header',$head);
-		$this->load->view('forum/admin/'.$p);
+		$this->_init();
+	}
+	
+	
+	private function _init()
+	{
+		if($this->session->userdata('level') == 'user')
+		{
+			redirect(base_url('dashboard'));
 		}
+		$this->load->model('miemin_model');
+		
+		$this->output->set_template('default');
+
+		$this->load->js('https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js');
+		$this->load->js('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js');
+		$this->load->js('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js');
+		$this->load->css('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css');
+		$this->load->css('assets/css/styles.css');
+	}
+	
+	function index()
+	{
+		$data["users"] = $this->miemin_model->get_last_users();
+		$data["posts"] = $this->miemin_model->get_allpost("timeline");
+		$this->load->view('forum/admin/dash',$data);
+	}
+	
+	function banned($param,$id)
+	{
+		$data = [
+			'banned' => $param
+			];
+			
+			if($this->miemin_model->banned_user($id,$data))
+			{
+				redirect(base_url('miemin'));
+				echo "<script>alert('sukses')</script>";
+			}
+		
+	}
+	
+	
+	function delpost($id)
+	{
+		if($this->miemin_model->delpost($id))
+			{
+				redirect(base_url('miemin'));
+				echo "<script>alert('sukses')</script>";
+			}else{
+				echo "<script>alert('gagal, mungkin tidak ada')</script>";
+			}
+	}
+		
 }
