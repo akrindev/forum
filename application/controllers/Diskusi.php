@@ -191,13 +191,60 @@ redirect(base_url());
   
   public function komentar($slug)
   {
-  	$respon = array('success' => false, 'msg' => array());
+  	if(!$this->input->post())
+  	{
+  		redirect('forum/tl/'.$slug);
+  	}
+  	if(!$this->session->userdata('user'))
+  	{
+  		echo "nyari apa gan?";
+  	}
+      $o = $this->forum->getone('timeline',$slug);
+    $c = $o->num_rows();
+    $x = $o->result();
  
+  
+
+    if($c > 0)
+    {
+      foreach($x as $d){
+      	
+    		$data['id'] = $d->tlid;
+    		$idtl = $d->tlid;
+    		$data['judul'] = $d->judul;
+    		$katego =  $d->slug;
+    		$data['slug'] = $d->slug;
+    		$data['isi'] = $this->bbcode->bbcode_to_html($d->isi);
+    		$data['username'] = $d->username;
+    		$data['email']      = $d->email;
+    		$data['date'] = $d->date;
+    		$dil =  $d->dilihat+1;
+    		$data['tags'] = explode(",",$d->tags);
+          $this->db->where('slug',$data['slug']);
+          $this->db->update('timeline',array(	'dilihat' => $dil));
+    
+      }
+      }
+	foreach($this->forum->get_nama_kat($katego)->result() as $kat)
+	{
+		$data['kategori'] = $kat->kat;
+     }
+     
+     
+      $data['dilihat'] = $dil;
+      $coco = $this->forum->get_comment_count($idtl)->result();
+      foreach($coco as $coc)
+      {
+      $data['coco'] = $coc->c;
+      }
+      $k = $this->forum->get_comment($idtl);
+	$t = $k->num_rows();
+	$data['k'] = $v = $k->result();
      $this->form_validation->set_rules('isi','isi komentar','min_length[5]|required');
      $this->form_validation->set_error_delimiters('<div class="error-msg">', '</div>');
     $iduser = $this->session->userdata('iduser');
     $url = $slug;
-    $data = array(
+    $datta = array(
       
       'id_user' 	=> $iduser,
       'id_timeline' => $this->input->post('idtl'),
@@ -206,21 +253,14 @@ redirect(base_url());
     );
     
     if($this->form_validation->run() != FALSE){
-		$respon['success'] = true;
-    	$this->forum->post_komentar($data);
+    	$this->forum->post_komentar($datta);
+    	redirect(base_url("forum/tl/$slug"));
 	}
-	else {
-			foreach ($_POST as $key => $value) {
-				$respon['msg'][$key] = form_error($key);
-			}
+	else
+	{
+		$this->load->view("forum/header",$data);
+		$this->load->view("forum/threadpost",$data);
 		}
-
-		 $this->output
-      ->set_status_header(200)
-      ->set_content_type('application/json', 'utf-8')
-      ->set_output(json_encode($respon, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))
-      ->_display();
-      exit;
 }
 	
  
