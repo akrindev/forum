@@ -59,20 +59,25 @@
 				  </tr>
 				
 				  <tr>
-					<th scope="row">Topics</th>
+					<th scope="row">Posting</th>
 					  <td>:</td>
-					  <td><?=$this->user->get_user_post("timeline",$nyun['id'])->num_rows();?></td>
+					  <td><?=$this->user->get_user_posted("timeline",$nyun['id'])->num_rows();?><span class="text-muted">x</span></td>
 				  </tr>
 				
 				  <tr>
-					<th scope="row">Replies</th>
+					<th scope="row">Membalas</th>
 					<td>:</td>
-					<td><?=$this->user->get_user_post("komentar",$nyun['id'])->num_rows();?></td>
+					<td><?=$this->user->get_user_posted("komentar",$nyun['id'])->num_rows();?><span class="text-muted">x</span></td>
 				  </tr>
 				  <tr>
-					<th scope="row">Images</th>
+					<th scope="row">Total dibaca</th>
 					<td>:</td>
-					<td><?=$this->user->get_user_post("image",$nyun['id'])->num_rows();?></td>
+					<td><?=$this->user->get_user_total_views("timeline",$nyun['id'])?><span class="text-muted">x</span></td>
+				  </tr> 
+				<tr>
+					<th scope="row">Total balasan</th>
+					<td>:</td>
+					<td><?=$this->user->get_user_total_comments($nyun['id'])?><span class="text-muted">x</span></td>
 				  </tr> 
 				</table>
 
@@ -86,7 +91,7 @@
 			  <div class="list-propil-p">
 				<ul>
 				<?php
-				foreach($this->user->get_user_post("timeline",$nyun['id'])->result() as $put)
+				foreach($posts as $put)
 				{
 					?><li class="list-group-i">
 				<a href="/forum/tl/<?=$put->slug;?>"><?=$put->judul;?></a><br/><span class="waktu"><?=pisah_waktu($put->date);?></span> </li>

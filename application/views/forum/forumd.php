@@ -28,12 +28,12 @@
 				<div class="dropdrop">
 		<div class="drop-head">Arsip <span>+</span></div>
 		<div class="drop-body">
-		  <div class="liest">
+		  <div id="arsip menu" class="liest">
 			<?php
 			foreach($this->forum->get_kategori()->result() as $kate)
 			{
 				
-			  echo "<a href=\"/arsip/$kate->kat\"> $kate->kat</a>";
+			  echo "<a title=\"$kate->kat\" href=\"/arsip/$kate->kat\"> $kate->kat</a>";
 			}
 			?>
 		  </div><!--liest-->
@@ -52,10 +52,10 @@
        <?php    $coco = $this->forum->get_comment_count($post->tlid)->result();
 ?>
      
-		<a class="post" href="<?php echo base_url()?>forum/tl/<?=$post->slug?>">
+		<a class="post" title="<?=$post->judul?>" href="<?php echo base_url()?>forum/tl/<?=$post->slug?>">
 	      
 		        <div class="post-title"><h4><?php echo $post->judul ?></h4></div>
-				<div class="post-info"><b>By:</b> <span class="author small"> <?php echo $post->username ?></span> <b>.</b> <span class="timeago"><?php 
+				<div class="post-info"><b>By:</b> <span class="author small" data-author="<?=$post->username?>"> <?php echo $post->username ?></span> <b>.</b> <span class="timeago"><?php 
 echo time_ago($post->date); 
 ?></span> . <b>dilihat:</b> <?=$post->dilihat;?>      <?php
 foreach($coco as $coc)
