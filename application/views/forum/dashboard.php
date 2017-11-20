@@ -65,13 +65,13 @@
 				  <tr>
 					<th scope="row">Posting</th>
 					  <td>:</td>
-					  <td><?=$this->user->get_user_post("timeline",$nyun['id'])->num_rows();?><span class="text-muted">x</span></td>
+					  <td><?=$this->user->get_user_posted("timeline",$nyun['id'])->num_rows();?><span class="text-muted">x</span></td>
 				  </tr>
 				
 				  <tr>
 					<th scope="row">Membalas</th>
 					<td>:</td>
-					<td><?=$this->user->get_user_post("komentar",$nyun['id'])->num_rows();?><span class="text-muted">x</span></td>
+					<td><?=$this->user->get_user_posted("komentar",$nyun['id'])->num_rows();?><span class="text-muted">x</span></td>
 				  </tr>
 				  <tr>
 					<th scope="row">Total dibaca</th>
@@ -95,14 +95,30 @@
 			  <div class="list-propil-p">
 				<ul>
 				<?php
-				foreach($this->user->get_user_post("timeline",$nyun['id'])->result() as $put)
+				if($posts)
+				{
+				foreach($posts as $put)
 				{
 					?><li class="list-group-i">
 				<a href="/forum/tl/<?=$put->slug;?>"><?=$put->judul;?></a><br/><span class="waktu"><?=pisah_waktu($put->date);?></span> . <a class="text-danger" onclick="return confirm('yakin ingin menghapus? \n Data tidak bisa di kembalikan ketika terhapus!')" href="/diskusi/erase/<?=$put->id;?>">hapus</a> . <a class="text-primary" href="/diskusi/edit_post/<?=$put->id;?>">edit</a></li>
-				<?php } ?>
+				<?php } 
+					} else {
+					echo "belum ada post";
+					}
+?>
 					</ul>
 			  </div>
 			</div>
+			<div class="pagination">
+<ul>
+	<?php
+	foreach($links as $link)
+	{ 
+		echo $link;
+	}
+	?>
+</ul>
+</div>
 		  </div>
 
 

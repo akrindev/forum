@@ -91,11 +91,17 @@
 			  <div class="list-propil-p">
 				<ul>
 				<?php
+				if($posts)
+				{
 				foreach($posts as $put)
 				{
 					?><li class="list-group-i">
 				<a href="/forum/tl/<?=$put->slug;?>"><?=$put->judul;?></a><br/><span class="waktu"><?=pisah_waktu($put->date);?></span> </li>
-				<?php } ?>
+				<?php } 
+					} else {
+					echo "belum ada post";
+					}
+?>
 					</ul>
 			  </div>
 			</div>
