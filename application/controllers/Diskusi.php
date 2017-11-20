@@ -7,7 +7,7 @@ class Diskusi extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->library('pagination');
+		
 	}
   
   
@@ -253,7 +253,9 @@ redirect(base_url());
     );
     
     if($this->form_validation->run() != FALSE){
+    	$d = [ 'updated' => date('Y-m-d H:i:s') ];
     	$this->forum->post_komentar($datta);
+    	$this->forum->update_post($this->input->post('idtl'),$d);
     	redirect(base_url("forum/tl/$slug"));
 	}
 	else

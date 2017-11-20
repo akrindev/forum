@@ -61,7 +61,7 @@
               <?php if(form_error('quotes')) echo form_error('quotes','<div class="error-msg">','</div>');?>
 			  <textarea id="quotes" class="form-log" name="quotes" placeholder=""></textarea>
 			
-			  <p class="center-block"></p>
+			  <p class="center-block"><?=$this->recaptcha->getWidget()?></p>
 			  <button type="submit" class="btn btn-outline-success bll">Daftar</button>
 			<?= form_close();?>
 				<div style="margin-top:10px"></div>
