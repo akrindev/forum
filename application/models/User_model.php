@@ -21,15 +21,19 @@ class User_model extends CI_Model {
 			foreach($gwt->result() as $pass)
 			{
 				$pwd = $pass->password;
+				$banned = $pass->banned;
 			}
-			
-			if(password_verify($password,$pwd))
+			if($banned != 'y')
 			{
-				return $gwt;
-			}else{
-				return "fail";
+				if(password_verify($password,$pwd))
+				{
+					return "success";
+				}else{
+					return "fail";
+				}
+			} else {
+				return "banned";
 			}
-			
 		}
 		return "fail";
 	}

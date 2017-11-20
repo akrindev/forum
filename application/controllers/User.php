@@ -7,7 +7,7 @@ class User extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->library('pagination');
+		
 	}
 	
   
@@ -142,24 +142,33 @@ class User extends CI_Controller
         
         $ini = $this->user->ceklogin($username,$password);
         
-        if($ini != "fail"){          
-          $date = $ini->row_array();
+        if($ini == "success"){    
+       $date = $ini->user->tampiluser($username)->row_array();      
 		  $user = $this->session->set_userdata(
-			array(
+			[
             'iduser' => $date['id'],
             'user'=>$username,   
      	   'level'=> $date['role']   
-                                ));
-			$this->session->set_flashdata('sukses','sukses login');
+            ]);
 		 redirect('user');
         }//if ada data
+        else if($ini == "banned")
+        {
+        		      $this->session->set_flashdata('gagal_login','Akun di tangguhkan, baca peraturam post!');
+
+				$this->load->view('forum/header',$header);
+   	         $this->load->view('forum/login');
+        }
         else
         {
-          $this->session->set_flashdata('gagal_login','Username atau password salah');
+        	
+    		      $this->session->set_flashdata('gagal_login','Username atau password salah');
 
-$this->load->view('forum/header',$header);
-          $this->load->view('forum/login');
+				$this->load->view('forum/header',$header);
+   	         $this->load->view('forum/login');
+
         }
+        
       }
 		else
         {
@@ -168,7 +177,6 @@ $this->load->view('forum/header',$header);
 		  $this->load->view('forum/login');
 		}
     }
-	
 	
 	
 	//action daftat
@@ -194,8 +202,9 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
       $this->form_validation->set_rules('gender','Gender','required');
     
   $this->form_validation->set_error_delimiters('<div class="error-msg">', '</div>');
-      
-		if($this->form_validation->run() === FALSE)
+         $recaptcha = $this->input->post('g-recaptcha-response');
+        $response = $this->recaptcha->verifyResponse($recaptcha);
+		if($this->form_validation->run() == FALSE || !isset($response['success']) || $response['success'] <> true)
 		{
 			$this->load->view('forum/header',$header);
 			$this->load->view('forum/register');
