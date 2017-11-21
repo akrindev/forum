@@ -9,19 +9,22 @@ class Forum_model extends CI_Model
 		parent::__construct();
 	}
   
-  function get_allpost($tabel)
-  {
-    return $this->db->query("Select f.id,f.id_user,f.judul,f.slug,f.isi,f.date,u.id,u.username from $tabel as f inner join users as u where f.id_user = u.id order by date desc limit 10");
-  }
   
   function post_data($table,$data)
   {
     return $this->db->insert($table,$data);
   }
   
+  function get_recent_post_comment()
+  {
+  	$this->db->order_by('updated','DESC');
+  	$this->db->limit(5);
+  	return $this->db->get("timeline");
+  }
+  
   function getone($tabel,$slug)
   {
-    return $this->db->query("Select f.id as tlid,f.id_user,f.judul,f.slug,f.isi,f.tags,f.kijimu,f.date,f.dilihat,u.id,u.email,u.username from $tabel as f inner join users as u where f.id_user = u.id and f.slug ='$slug'");
+    return $this->db->query("Select f.id as tlid,f.id_user,f.judul,f.slug,f.isi,f.tags,f.banned,f.date,f.dilihat,u.id,u.email,u.username from $tabel as f inner join users as u where f.id_user = u.id and f.slug ='$slug'");
   }
   
   
@@ -142,19 +145,6 @@ class Forum_model extends CI_Model
 			return $this->db->query("select f.slug,f.kat_id,ka.id_kat,ka.kat from timeline as f join kategori as ka where f.slug='$slug' and f.kat_id = ka.id_kat");
 		}
 		
-		function get_arsip($kat)
-		{
-			$datanya = $this->db->query("select f.id as iid,f.judul,f.slug,f.kat_id,f.dilihat,f.date,ka.id_kat,ka.kat,u.id,u.username from timeline as f join kategori as ka join users as u where f.id_user=u.id and ka.kat = '$kat' and f.kat_id = ka.id_kat order by date desc");
-			if($datanya->num_rows() > 0)
-			{
-			       foreach ($datanya->result() as $row) {
-                $data[] = $row;
-
-            }
-         
-            return $data;
-            }
-            return false;
-		}
+		
 		
 }

@@ -51,11 +51,8 @@
 	</div>
 		<div class="row">
 			
-         <div class="col-12">
-           <div class="zone">Arsip: <?=$nmarsip;?></div>
-          </div>
-            <div class="col-12">
-            
+         <div class="col-12 col-md-7">
+           <div class="zone">Arsip: <?=$nmarsip;?></div>    
      <?php if($arsip){
 		foreach($arsip as $post){?>
      	
@@ -81,11 +78,7 @@ foreach($coco as $coc)
   	echo "Belum ada data dalam arsip ini";
   }
 ?>
-           </div><!--col-->
-		
-		</div><!--row-->
-		
-		<div class="pagination">
+	<div class="pagination">
 <ul>
 	<?php
 	foreach($links as $link)
@@ -95,6 +88,18 @@ foreach($coco as $coc)
 	?>
 </ul>
 </div>
+           </div><!--col-->
+		 <div class="col-12 col-md-5">
+           <div class="zone">Terakhir di komentari</div>
+                	<?php
+                foreach($this->forum->get_recent_post_comment()->result() as $ost)
+                { ?>
+           <a href="/forum/tl/<?=$ost->slug;?>" class="post"> <?=$ost->judul;?> <div class="post-info"><?=time_ago($ost->date);?> . dibaca: <?=$ost->dilihat;?></div></a> 
+           <?php } ?>
+          </div>
+		</div><!--row-->
+		
+		
 	  </div><!--container-->
 	  
 	</main><!--maiinnn-->

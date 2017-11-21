@@ -5,13 +5,7 @@
 		
 		<!--breadcrumb-->
 		<div style="margin-top:10px"></div>
-		<nav aria-label="breadcrumb" role="navigation">
-		  <ol class="breadcrumb" itemscope="" itemtype="http://schema.org/
-			BreadcrumbList">
-			<li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem"><span itemprop="item" itemprop="item">Home</span></li>
-		  </ol>
-		</nav>
-	  
+		
 	    <div class="row">
 		  <div class="col-12">
 			<div class="cari-form">
@@ -42,11 +36,13 @@
 				</div>
 	</div>
 		<div class="row">
-			
-         <div class="col-12">
-           <div class="zone">Timeline</div>
-          </div>
-            <div class="col-12">
+			<!--
+	<div class="col-12">
+           <div class="zone">Informasi</div>
+      </div>
+      -->
+         <div class="col-12 col-md-7">
+           <div class="zone">Terakhir di posting</div>
      <?php foreach($timeline as $post){?>
      	
        <?php    $coco = $this->forum->get_comment_count($post->tlid)->result();
@@ -55,9 +51,9 @@
 		<a class="post" title="<?=$post->judul?>" href="<?php echo base_url()?>forum/tl/<?=$post->slug?>">
 	      
 		        <div class="post-title"><h4><?php echo $post->judul ?></h4></div>
-				<div class="post-info"><b>By:</b> <span class="author small" data-author="<?=$post->username?>"> <?php echo $post->username ?></span> <b>.</b> <span class="timeago"><?php 
+				<div class="post-info">oleh: <span class="author small" data-author="<?=$post->username?>"> <?php echo $post->username ?></span> <b>.</b> <span class="timeago"><?php 
 echo time_ago($post->date); 
-?></span> . <b>dilihat:</b> <?=$post->dilihat;?>      <?php
+?></span> . <b>dibaca: </b> <?=$post->dilihat;?>      <?php
 foreach($coco as $coc)
       { 
       echo '<b>balasan:';
@@ -67,10 +63,7 @@ foreach($coco as $coc)
 	    
 		</a>
 		  <?php } ?>
-           </div><!--col-->
-		 <div class="col-12">
-			
-				<div class="pagination">
+			<div class="pagination">
 <ul>
 	<?php
 	foreach($links as $link)
@@ -80,8 +73,17 @@ foreach($coco as $coc)
 	?>
 </ul>
 </div>
+           </div><!--col--><!-- col page -->
 			
-			</div>
+			    
+           	      <div class="col-12 col-md-5">
+           <div class="zone">Terakhir di komentari</div>
+                	<?php
+                foreach($this->forum->get_recent_post_comment()->result() as $ost)
+                { ?>
+           <a href="/forum/tl/<?=$ost->slug;?>" class="post"> <?=$ost->judul;?> <div class="post-info"><?=time_ago($ost->date);?> . dibaca: <?=$ost->dilihat;?></div></a> 
+           <?php } ?>
+          </div>
 		</div><!--row-->
 		
 		
