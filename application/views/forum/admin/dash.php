@@ -1,143 +1,66 @@
+
+
+
 <main>
 
 	  <div class="container-fluid">
-		<div class="row">
-		  <div class="col-sm-12 col-md-6">	
-		<div class="mow">
-		  <div class="mow-head">6 user terakhir <a href="#" class="text-muted float-right small">Lebih banyak</a></div>
-		  <div class="row">
-
-			<div class="col-12">
-			  <div class="mow-user">
-				<img src="/" height=70 width=70 class="mow-user-img rounded-circle"/>
-				
-				<span class="mow-user-name">Akrin</span><br/>
-				<span class="mow-user-date">rabu, 22 agu 2017</span>
-			    <a href="#" class="btn btn-sm btn-outline-danger">Banned</a>
-			  </div>
-			</div><!--col-->
-
-			<div class="col-12">
-			  <div class="mow-user">
-				<img src="/" height=70 width=70 class="mow-user-img rounded-circle"/>
-				<span class="mow-user-name">Akrin</span><br/>
-				<span class="mow-user-date">rabu, 22 agu 2017</span>
-				<a href="#" class="btn btn-sm btn-outline-danger">Banned</a>
-			  </div>
-			</div><!--col-->
-
-			<div class="col-12">
-			  <div class="mow-user">
-				<img src="/" height=70 width=70 class="mow-user-img rounded-circle"/>
-				<span class="mow-user-name">Akrin</span><br/>
-				<span class="mow-user-date">rabu, 22 agu 2017</span>
-				<a href="#" class="btn btn-sm btn-outline-danger">Banned</a>
-			  </div>
-			</div><!--col-->
-
-			
-			<div class="col-12">
-			  <div class="mow-user">
-				<img src="/" height=70 width=70 class="mow-user-img rounded-circle"/>
-				<span class="mow-user-name">Akrin</span><br/>
-				<span class="mow-user-date">rabu, 22 agu 2017</span>
-				<a href="#" class="btn btn-sm btn-outline-danger">Banned</a>
-			  </div>
-			</div><!--col-->
-
-			<div class="col-12">
-			  <div class="mow-user">
-				<img src="/" height=70 width=70 class="mow-user-img rounded-circle"/>
-				<span class="mow-user-name">Akrin</span><br/>
-				<span class="mow-user-date">rabu, 22 agu 2017</span>
-				<a href="#" class="btn btn-sm btn-outline-danger">Banned</a>
-			  </div>
-			</div><!--col-->
-
-			<div class="col-12">
-			  <div class="mow-user">
-				<img src="/" height=70 width=70 class="mow-user-img rounded-circle"/>
-				<span class="mow-user-name">Akrin</span><br/>
-				<span class="mow-user-date">rabu, 22 agu 2017</span>
-				<a href="#" class="btn btn-sm btn-outline-danger">Banned</a>
-			  </div>
-			</div><!--col-->
-			
-		  </div>
-		</div>
 		
-		<!-- wew -->
-		  </div>
-		  
-		  <div class="col-sm-12 col-md-6">	
+		 
+			<div class="post-titlee"><h3>Last users</h3></div>
 			<div class="mow">
-			  <div class="mow-head">6 Posting terakhir <a href="#" class="text-muted float-right small">Lebih banyak</a></div>
-			  <div class="mow-user">
-				<ul class="lili">
-				  <li class="list-inline-b">
-					<a href="#" class="mow-link">Varant punya kambing?</a><br/>
-			         	<span class="text-muted">22 nov 2022</span> . <a href="" class="text-danger">hapus</a>
-				  </li>
-				  <li class="list-inline-b">
-					<a href="#" class="mow-link">Varant punya kambing?</a><br/>
-					<span class="text-muted">22 nov 2022</span> . <a href="" class="text-danger">hapus</a>
-				  </li>
-				  <li class="list-inline-b">
-					<a href="#" class="mow-link">Varant punya kambing?</a><br/>
-					<span class="text-muted">22 nov 2022</span> . <a href="" class="text-danger">hapus</a>
-				  </li>
-				  <li class="list-inline-b">
-					<a href="#" class="mow-link">Varant punya kambing?</a><br/>
-					<span class="text-muted">22 nov 2022</span> . <a href="" class="text-danger">hapus</a>
-				  </li>
-				  <li class="list-inline-b">
-					<a href="#" class="mow-link">Varant punya kambing?</a><br/>
-					<span class="text-muted">22 nov 2022</span> . <a href="" class="text-danger">hapus</a>
-				  </li>
-				  <li class="list-inline-b">
-					<a href="#" class="mow-link">Varant punya kambing?</a><br/>
-					<span class="text-muted">22 nov 2022</span> . <a href="" class="text-danger">hapus</a>
-				  </li>
-				  <li class="list-inline-b">
-					<a href="#" class="mow-link">Varant punya kambing?</a><br/>
-					<span class="text-muted">22 nov 2022</span> . <a href="" class="text-danger">hapus</a>
-				  </li>
-				</ul>
+		
+			<?php
+			foreach($users->result() as $user)
+			{ 
+				echo "<div style=\"font-size:10pt;display:block;padding:3px;\">";
+				echo "$user->id";
+				echo " | $user->username | $user->kota | $user->ign | $user->email<br/> ";
+				echo "<span class=\"text-muted small\">";
+				echo time_ago($user->date);
+				echo "</span> ";
+				if($user->banned == 'n')
+				{
+					echo "<a href='/miemin/banned/y/$user->id' class=\"text-danger\">banned</a>";
+				}
+				else
+				{
+					echo "<a href='/miemin/banned/n/$user->id' class=\"text-success\">bebaskan</a>";
+				}
+				echo "</div>";
+			}
+			?>
+				</br>
+				<div class="btn btn-outline-dark disabled bll">Total users: <?=$this->miemin_model->total_count("users");?></div>
+	
 			</div>
-			</div>
-		  </div>
-		  
-		</div>
+	
+	
+	<div class="post-titlee"><h3>Last Post</h3></div>
+			<div class="mow">
+	<?php
+	foreach($posts->result() as $post)
+	{ ?>
+		<a href="/forum/tl/<?=$post->slug;?>"><?=$post->judul?></a> <span class="text-muted small">[Dibaca: <?=$post->dilihat?>]</span> <span class="text-info small"> [Dibalas: <?php foreach($this->forum->get_comment_count($post->tlid)->result() as $com){ echo $com->c;}?>]</span><br/>
+		<span class="text-muted small"><?=time_ago($post->date);?></span> <span class="small">Oleh: </span> <span class="text-warning"><?=$post->username?></span> <a class="text-danger small" onclick="return confirm('yakin ingin menghapus')" href="/miemin/delpost/<?=$post->tlid?>">delete</a>  - 
+<?php
+if($post->banned == 'n'){ ?>
+<a class="text-danger small" onclick="return confirm('yakin ingin membanned?')" href="/miemin/banned_post/y/<?=$post->tlid?>">banned</a> 
+<?php } else { ?>
+	<a class="text-success small" href="/miemin/banned_post/n/<?=$post->tlid?>">bebaskan</a> 
+	<?php } ?>
+<br/>
+		
+<?php
+	}
+	
+	?>
+		
+		</br>
+				<div class="btn btn-outline-dark disabled bll">Total Post: <?=$this->miemin_model->total_count("timeline");?></div>
+	</div>
+	
 	  </div><!--container-->
 
 	</main>
 	
-		<footer>
-	  <div class="footer-forum">Copyright 2017 - All Right Reserved</div>
-	</footer>
-<script type="text/javascript">
-		$(".drop-body").not('.drop-bodyzz').hide();
-
-  $(".drop-head").click( function(){
-      var current = $(this).next(".drop-body");
-      current.slideToggle(400);
-
-      //---------------------- change plus to -----------------------
-      if( $(this).find("span").html() == '+' ){
-        $(this).find("span").html('-');
-        $(this).addClass('box_head_active');
-
-        //-------------------- close other active box -----------------
-        $(".drop-body").not(current).slideUp(400);
-        $(".drop-head").not($(this)).find("span").html('+');
-      }
-
-      else{
-        $(this).find("span").html('+');
-      }
-  })
-  
-
-</script>
-  </body>
-</html>		
+		

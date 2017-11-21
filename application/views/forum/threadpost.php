@@ -92,7 +92,10 @@
 </div> <!-- col -->
 		  <?php
  		//jika ada sesi user
-		 if($this->session->userdata('user') != ''){?>
+		 if($this->session->userdata('user') != ''){
+
+		if($banned != 'y'){
+		?>
 			
 			
 		  <div class="col-12">
@@ -116,7 +119,15 @@
               
 			</div><!--komentar-->
 		  </div><!--col xs 12-->
-		  <?php } else {?>
+		  <?php
+			}
+			else {	?>
+				
+				<div class="col-xs-12"><div class="nokomen">Komentar telah di nonaktifkan</div> </div>
+		<?php
+				}
+
+ } else {?>
 <div class="col-xs-12"><div class="nokomen"> <a href="<?=base_url('login');?>">Masuk</a> untuk berkomentar</div> </div>
 <?php } ?>
 		  </div><!--row-->
