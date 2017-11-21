@@ -82,7 +82,7 @@
 						<div class="reply">#<?=$r->koid;?></div>
 							  </div>
 						  </div>
-						  <p class="c-isi"><?= $this->bbcode->bbcode_to_html($r->isi);?></p>
+						  <div class="c-isi"><?= $this->bbcode->bbcode_to_html($r->isi);?></div>
 						</li>
 		<?php }?>
 </ul>
@@ -92,7 +92,10 @@
 </div> <!-- col -->
 		  <?php
  		//jika ada sesi user
-		 if($this->session->userdata('user') != ''){?>
+		 if($this->session->userdata('user') != ''){
+
+		if($banned != 'y'){
+		?>
 			
 			
 		  <div class="col-12">
@@ -103,19 +106,28 @@
               	
               <div class="badge badge-dark">komentar</div>
 			  <div class="komentar-form-isi">
-				<textarea id="isi" class="form-isi" name="isi" minlength="5" cols=7></textarea>
+				<textarea id="isi" class="form-isi" name="isi" minlength=5></textarea>
 				</div>	
+				<?=form_error('isi');?>
               
 			  	<input type="hidden" name="idtl" value=<?=$id;?> />
 				
-			  <button type="submit" name="submit" id="submit" class="btn btn-outline-primary">kirim</button>   <button type="reload" id="reload" class="btn btn-sm btn-outline-danger" onclick="javascript:location.reload(true);">reload</button>
+			  <button type="submit" name="submit" id="submit" class="btn btn-outline-primary">kirim</button>  
 			<span class="req text-danger"></span>
               <?= form_close();?>
               	
               
 			</div><!--komentar-->
 		  </div><!--col xs 12-->
-		  <?php } else {?>
+		  <?php
+			}
+			else {	?>
+				
+				<div class="col-xs-12"><div class="nokomen">Komentar telah di nonaktifkan</div> </div>
+		<?php
+				}
+
+ } else {?>
 <div class="col-xs-12"><div class="nokomen"> <a href="<?=base_url('login');?>">Masuk</a> untuk berkomentar</div> </div>
 <?php } ?>
 		  </div><!--row-->
@@ -187,100 +199,7 @@ $(".tangkap").click(function(e){
  		
 	}
 	
-	$('#comment_form').submit(function(e){
-	e.preventDefault();
-	var aku = $(this);
 	
- $.ajax({
- 	url: aku.attr("action"),
- 	dataType: 'json',
- 	data: aku.serialize(),
- 	type: 'post',
- 	beforeSend: function(){
-$("#submit").text("Sending...");
-},
- 	
-success: function(response) {
-		$("#submit").text("kirim");
-				if (response.success == true) {
-				$('.nothing').load("<?=base_url('diskusi/c/'.$id);?>");
-			$.iaoAlert({ 
-			msg: "Komentar berhasil ditambahkan!!", 
-			type: "success", 
-			mode: "light",
-			 autoHide: true, 
-			alertTime: "5000", 
-			fadeTime: "1000", 
-			closeButton: false, 
-			closeOnClick: true, 
-			fadeOnHover: true, 
-			position: "top-right", 
-			zIndex: "999" 
-		});
- 		aku[0].reset();
-				}
-				else {
-							$("#submit").text("kirim");
-					$.each(response.msg, function(key, value) {
-						var element = $('#' + key);
-						
-						element.after(value);
-					});
-				}
-			}
-		
-		
-	 
-	 })
-	})
-        
-        
-/*
-	$('.coli').load("<?=base_url('diskusi/c/'.$id);?>");
-	*/
-	/*
-	
-	$('#comment_form').submit(function(e) {
-		e.preventDefault();
-
-		var me = $(this);
-	$("#submit").text("Sending...");
-		// perform ajax
-		$.ajax({
-			url: me.attr('action'),
-			type: 'post',
-			data: me.serialize(),
-			dataType: 'json',
-			success: function(response) {
-				if (response.success == true) {
-						$('.nothing').load("<?=base_url('diskusi/c/'.$id);?>");
-					$.iaoAlert({ 
-			msg: "Komentar berhasil ditambahkan!!", 
-			type: "success", 
-			mode: "light",
-			 autoHide: true, 
-			alertTime: "5000", 
-			fadeTime: "1000", 
-			closeButton: false, 
-			closeOnClick: true, 
-			fadeOnHover: true, 
-			position: "top-right", 
-			zIndex: "999" 
-		});
-		me[0].reset();
- 			$("#submit").text("kirim");
-				}
-				else {
-					$.each(response.msg, function(key, value) {
-						var element = $('#' + key);
-						
-						element.after(value);
-					});
-				}
-			}
-		});
-	});
-	*/
 	$("#sharing").jsSocials({
     showLabel: false,
     showCount: false,

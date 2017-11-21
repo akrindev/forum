@@ -7,17 +7,17 @@ class Miemin extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		if($this->session->userdata('role') === 'user')
-		{
-			redirect(base_url('dashboard'));
-		}
+		
 		$this->_init();
 	}
 	
 	
 	private function _init()
 	{
-		
+		if($this->session->userdata('level') == 'user')
+		{
+			redirect(base_url('dashboard'));
+		}
 		$this->load->model('miemin_model');
 		
 		$this->output->set_template('default');
@@ -32,8 +32,49 @@ class Miemin extends CI_Controller
 	function index()
 	{
 		$data["users"] = $this->miemin_model->get_last_users();
-		
+		$data["posts"] = $this->miemin_model->get_allpost("timeline");
 		$this->load->view('forum/admin/dash',$data);
 	}
 	
+	function banned($param,$id)
+	{
+		$data = [
+			'banned' => $param
+			];
+			
+			if($this->miemin_model->banned_user($id,$data))
+			{
+				redirect(base_url('miemin'));
+				echo "<script>alert('sukses')</script>";
+			}
+		
+	}
+	
+	function banned_post($param,$id)
+	{
+		$data = [
+			'banned' => $param
+			];
+			
+			if($this->miemin_model->banned_post($id,$data))
+			{
+				redirect(base_url('miemin'));
+				echo "<script>alert('sukses')</script>";
+			}
+		
+	}
+	
+	
+	function delpost($id)
+	{
+		if($this->miemin_model->delpost($id))
+			{
+				redirect(base_url('miemin'));
+				echo "<script>alert('sukses')</script>";
+			}else{
+				echo "<script>alert('gagal, mungkin tidak ada')</script>";
+			}
+	}
+	
+
 }

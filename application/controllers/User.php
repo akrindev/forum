@@ -7,6 +7,7 @@ class User extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
+		
 	}
 	
   
@@ -19,10 +20,24 @@ class User extends CI_Controller
 		}else
 		{
     $user = $this->session->userdata('user');
+    $userid = $this->session->userdata('iduser');
 
 
  $hh = $this->user->tampiluser($user);
     $data['nyun'] = $hh->row_array();
+      $this->config->load('pagination',TRUE);
+ 	   $configg = $this->config->item('pagination');
+        $configg["base_url"] = base_url() . "user/index";
+        $total_row = $this->user->get_user_c('timeline',$userid)->num_rows();
+        
+       $configg["total_rows"] = $total_row;
+ 
+        $this->pagination->initialize($configg);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        
+        $data["posts"] = $this->user->get_user_post("timeline",$userid,$configg["per_page"], $page);
+            $str_links = $this->pagination->create_links();
+        $data["links"] = explode('&nbsp;',$str_links );
 	
 	$this->load->view('forum/header',$header);
     $this->load->view('forum/dashboard',$data);
@@ -30,21 +45,40 @@ class User extends CI_Controller
 		}
 	}
   
-  function profile($nama)
+  function profile($user)
 	{
-		    $header['judul'] = "$nama - Profile";
+		    $header['judul'] = "$user - Profile";
   		  $header["isi"] = "Dinding user";
 
 
-		 $hh = $this->user->tampiluser($nama);
-	    $data['nyun'] = $hh->row_array();
+		  $hh = $this->user->tampiluser($user);
+    $data['nyun'] = $hh->row_array();
     
-		
-		$this->load->view('forum/header',$header);
-	    $this->load->view('forum/profile',$data);
+    foreach($hh->result() as $gg)
+    {
+    	$iduserr = $gg->id;
+    }
     
+      $this->config->load('pagination',TRUE);
+ 	   $configg = $this->config->item('pagination');
+        $configg["base_url"] = base_url() . "user/index";
+        $total_row = $this->user->get_user_c('timeline',$iduserr)->num_rows();
+        
+       $configg["total_rows"] = $total_row;
+ 
+        $this->pagination->initialize($configg);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        
+        $data["posts"] = $this->user->get_user_post("timeline",$iduserr,$configg["per_page"], $page);
+            $str_links = $this->pagination->create_links();
+        $data["links"] = explode('&nbsp;',$str_links );
+	
+	$this->load->view('forum/header',$header);
+    $this->load->view('forum/profile',$data);
+    
+}
 		
-	}
+
 	function register()
 	{
       if($this->session->userdata('user'))
@@ -108,24 +142,33 @@ class User extends CI_Controller
         
         $ini = $this->user->ceklogin($username,$password);
         
-        if($ini != "fail"){          
-          $date = $ini->row_array();
+        if($ini == "success"){    
+       $date = $this->user->tampiluser($username)->row_array();      
 		  $user = $this->session->set_userdata(
-			array(
+			[
             'iduser' => $date['id'],
             'user'=>$username,   
      	   'level'=> $date['role']   
-                                ));
-			$this->session->set_flashdata('sukses','sukses login');
+            ]);
 		 redirect('user');
         }//if ada data
+        else if($ini == "banned")
+        {
+        		      $this->session->set_flashdata('gagal_login','Akun di tangguhkan, baca peraturam post!');
+
+				$this->load->view('forum/header',$header);
+   	         $this->load->view('forum/login');
+        }
         else
         {
-          $this->session->set_flashdata('gagal_login','Username atau password salah');
+        	
+    		      $this->session->set_flashdata('gagal_login','Username atau password salah');
 
-$this->load->view('forum/header',$header);
-          $this->load->view('forum/login');
+				$this->load->view('forum/header',$header);
+   	         $this->load->view('forum/login');
+
         }
+        
       }
 		else
         {
@@ -134,7 +177,6 @@ $this->load->view('forum/header',$header);
 		  $this->load->view('forum/login');
 		}
     }
-	
 	
 	
 	//action daftat
@@ -160,8 +202,9 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
       $this->form_validation->set_rules('gender','Gender','required');
     
   $this->form_validation->set_error_delimiters('<div class="error-msg">', '</div>');
-      
-		if($this->form_validation->run() === FALSE)
+         $recaptcha = $this->input->post('g-recaptcha-response');
+        $response = $this->recaptcha->verifyResponse($recaptcha);
+		if($this->form_validation->run() == FALSE || !isset($response['success']) || $response['success'] <> true)
 		{
 			$this->load->view('forum/header',$header);
 			$this->load->view('forum/register');

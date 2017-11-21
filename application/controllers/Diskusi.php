@@ -7,7 +7,7 @@ class Diskusi extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->library('pagination');
+		
 	}
   
   
@@ -52,6 +52,7 @@ redirect(base_url());
     		$data['username'] = $d->username;
     		$data['email']      = $d->email;
     		$data['date'] = $d->date;
+    		$data['banned'] = $d->banned;
     		$dil =  $d->dilihat+1;
     		$data['tags'] = explode(",",$d->tags);
           $this->db->where('slug',$data['slug']);
@@ -191,13 +192,60 @@ redirect(base_url());
   
   public function komentar($slug)
   {
-  	$respon = array('success' => false, 'msg' => array());
+  	if(!$this->input->post())
+  	{
+  		redirect('forum/tl/'.$slug);
+  	}
+  	if(!$this->session->userdata('user'))
+  	{
+  		echo "nyari apa gan?";
+  	}
+      $o = $this->forum->getone('timeline',$slug);
+    $c = $o->num_rows();
+    $x = $o->result();
  
+  
+
+    if($c > 0)
+    {
+      foreach($x as $d){
+      	
+    		$data['id'] = $d->tlid;
+    		$idtl = $d->tlid;
+    		$data['judul'] = $d->judul;
+    		$katego =  $d->slug;
+    		$data['slug'] = $d->slug;
+    		$data['isi'] = $this->bbcode->bbcode_to_html($d->isi);
+    		$data['username'] = $d->username;
+    		$data['email']      = $d->email;
+    		$data['date'] = $d->date;
+    		$dil =  $d->dilihat+1;
+    		$data['tags'] = explode(",",$d->tags);
+          $this->db->where('slug',$data['slug']);
+          $this->db->update('timeline',array(	'dilihat' => $dil));
+    
+      }
+      }
+	foreach($this->forum->get_nama_kat($katego)->result() as $kat)
+	{
+		$data['kategori'] = $kat->kat;
+     }
+     
+     
+      $data['dilihat'] = $dil;
+      $coco = $this->forum->get_comment_count($idtl)->result();
+      foreach($coco as $coc)
+      {
+      $data['coco'] = $coc->c;
+      }
+      $k = $this->forum->get_comment($idtl);
+	$t = $k->num_rows();
+	$data['k'] = $v = $k->result();
      $this->form_validation->set_rules('isi','isi komentar','min_length[5]|required');
      $this->form_validation->set_error_delimiters('<div class="error-msg">', '</div>');
     $iduser = $this->session->userdata('iduser');
     $url = $slug;
-    $data = array(
+    $datta = array(
       
       'id_user' 	=> $iduser,
       'id_timeline' => $this->input->post('idtl'),
@@ -206,21 +254,16 @@ redirect(base_url());
     );
     
     if($this->form_validation->run() != FALSE){
-		$respon['success'] = true;
-    	$this->forum->post_komentar($data);
+    	$d = [ 'updated' => date('Y-m-d H:i:s') ];
+    	$this->forum->post_komentar($datta);
+    	$this->forum->update_post($this->input->post('idtl'),$d);
+    	redirect(base_url("forum/tl/$slug"));
 	}
-	else {
-			foreach ($_POST as $key => $value) {
-				$respon['msg'][$key] = form_error($key);
-			}
+	else
+	{
+		$this->load->view("forum/header",$data);
+		$this->load->view("forum/threadpost",$data);
 		}
-
-		 $this->output
-      ->set_status_header(200)
-      ->set_content_type('application/json', 'utf-8')
-      ->set_output(json_encode($respon, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))
-      ->_display();
-      exit;
 }
 	
  
@@ -236,37 +279,18 @@ redirect(base_url());
  	$data['nmarsip'] = $kat;
  
  
- 	$config = array();
-        $config["base_url"] = base_url() . "diskusi/arsip/$kat";
+ 	   $this->config->load('pagination',TRUE);
+ 		$configg = $this->config->item('pagination');
+        $configg["base_url"] = base_url() . "diskusi/arsip/$kat";
         $total_row = $this->forum->count_arsip($kat);
+        $configg["total_rows"] = $total_row;
+
         
-        $config["total_rows"] = $total_row;
-        $config["per_page"] = 10;
-        $config['use_page_numbers'] = false;
-        $config['num_links'] =1;
-        
-        $config['next_link'] = 'Next';
-        $config['prev_link'] = 'Previous';
-         $config["first_tag_open"] = '<li class="pagination-list">';
-  $config["first_tag_close"] = '</li>';
-  $config["last_tag_open"] = '<li class="pagination-list">';
-  $config["last_tag_close"] = '</li>';
-  $config['next_link'] = '&gt;';
-  $config["next_tag_open"] = '<li class="pagination-list">';
-  $config["next_tag_close"] = '</li>';
-  $config["prev_link"] = "&lt;";
-  $config["prev_tag_open"] = '<li class="pagination-list">';
-  $config["prev_tag_close"] = "</li>";
-  $config["cur_tag_open"] = "<li class='pagination-list active'><a href='#'>";
-  $config["cur_tag_close"] = "</a></li>";
-  $config["num_tag_open"] = "<li class='pagination-list'>";
-  $config["num_tag_close"] = "</li>";
-        
-        $this->pagination->initialize($config);
+        $this->pagination->initialize($configg);
         $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
         $data['judul'] = 'ID';
         $data['isi'] = 'Iruna online forum, tutorial iruna, Production iruna';
-                $data["arsip"] = $this->forum->fetch_data_arsip($kat,$config["per_page"], $page);
+                $data["arsip"] = $this->forum->fetch_data_arsip($kat,$configg["per_page"], $page);
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;',$str_links );
  
@@ -295,38 +319,19 @@ redirect(base_url());
   
     
      public function page(){
-        $config = array();
-        $config["base_url"] = base_url() . "diskusi/page";
+        $this->config->load('pagination',TRUE);
+ 	   $configg = $this->config->item('pagination');
+        $configg["base_url"] = base_url() . "diskusi/page";
         $total_row = $this->forum->record_count();
         
-        $config["total_rows"] = $total_row;
-        $config["per_page"] = 10;
-        $config['use_page_numbers'] = false;
-        $config['num_links'] =1;
-        
-        $config['next_link'] = 'Next';
-        $config['prev_link'] = 'Previous';
-         $config["first_tag_open"] = '<li class="pagination-list">';
-  $config["first_tag_close"] = '</li>';
-  $config["last_tag_open"] = '<li class="pagination-list">';
-  $config["last_tag_close"] = '</li>';
-  $config['next_link'] = '&gt;';
-  $config["next_tag_open"] = '<li class="pagination-list">';
-  $config["next_tag_close"] = '</li>';
-  $config["prev_link"] = "&lt;";
-  $config["prev_tag_open"] = '<li class="pagination-list">';
-  $config["prev_tag_close"] = "</li>";
-  $config["cur_tag_open"] = "<li class='pagination-list active'><a href='#'>";
-  $config["cur_tag_close"] = "</a></li>";
-  $config["num_tag_open"] = "<li class='pagination-list'>";
-  $config["num_tag_close"] = "</li>";
-        
-        $this->pagination->initialize($config);
+        $configg["total_rows"] = $total_row;
+ 
+        $this->pagination->initialize($configg);
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         $data['judul'] = 'ID';
         $data['isi'] = 'Iruna online forum, tutorial iruna, Production iruna';
         
-        $data["timeline"] = $this->forum->fetch_data($config["per_page"], $page);
+        $data["timeline"] = $this->forum->fetch_data($configg["per_page"], $page);
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;',$str_links );
         

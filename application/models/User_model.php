@@ -21,15 +21,19 @@ class User_model extends CI_Model {
 			foreach($gwt->result() as $pass)
 			{
 				$pwd = $pass->password;
+				$banned = $pass->banned;
 			}
-			
-			if(password_verify($password,$pwd))
+			if($banned != 'y')
 			{
-				return $gwt;
-			}else{
-				return "fail";
+				if(password_verify($password,$pwd))
+				{
+					return "success";
+				}else{
+					return "fail";
+				}
+			} else {
+				return "banned";
 			}
-			
 		}
 		return "fail";
 	}
@@ -52,13 +56,33 @@ class User_model extends CI_Model {
 	}   
   
   // mendapatkan user post
-function get_user_post($tabel,$id){
+  function get_user_posted($tabel,$id){
    	$data = [
    		'id_user' => $id,
    	];
    	$this->db->order_by('date','DESC');
    	return $this->db->get_where($tabel,$data);
+   }
+function get_user_post($tabel,$id,$limit,$start){
+   
+		$datanya = $this->db->query("select * from $tabel where id_user = $id order by date DESC limit $start,$limit");
+           if ($datanya->num_rows() > 0) {
+            foreach ($datanya->result() as $row) {
+                $data[] = $row;
+
+            }
+         
+            return $data;
+        }
+        return false;
   }
+  function get_user_c($tabel,$id){
+   	$data = [
+   		'id_user' => $id,
+   	];
+   	$this->db->order_by('date','DESC');
+   	return $this->db->get_where($tabel,$data);
+   }
   
     // mendapatkan user total views
 function get_user_total_views($tabel,$id){

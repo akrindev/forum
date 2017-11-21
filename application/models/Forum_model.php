@@ -9,19 +9,16 @@ class Forum_model extends CI_Model
 		parent::__construct();
 	}
   
-  function get_allpost($tabel)
-  {
-    return $this->db->query("Select f.id,f.id_user,f.judul,f.slug,f.isi,f.date,u.id,u.username from $tabel as f inner join users as u where f.id_user = u.id order by date desc limit 10");
-  }
   
   function post_data($table,$data)
   {
     return $this->db->insert($table,$data);
   }
   
+  
   function getone($tabel,$slug)
   {
-    return $this->db->query("Select f.id as tlid,f.id_user,f.judul,f.slug,f.isi,f.tags,f.kijimu,f.date,f.dilihat,u.id,u.email,u.username from $tabel as f inner join users as u where f.id_user = u.id and f.slug ='$slug'");
+    return $this->db->query("Select f.id as tlid,f.id_user,f.judul,f.slug,f.isi,f.tags,f.banned,f.date,f.dilihat,u.id,u.email,u.username from $tabel as f inner join users as u where f.id_user = u.id and f.slug ='$slug'");
   }
   
   
