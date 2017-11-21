@@ -52,6 +52,7 @@ redirect(base_url());
     		$data['username'] = $d->username;
     		$data['email']      = $d->email;
     		$data['date'] = $d->date;
+    		$data['banned'] = $d->banned;
     		$dil =  $d->dilihat+1;
     		$data['tags'] = explode(",",$d->tags);
           $this->db->where('slug',$data['slug']);
@@ -127,7 +128,8 @@ redirect(base_url());
         'kat_id' => $this->input->post('kategori'),
         'tags' => $this->input->post('tags'),
         'isi' => $this->input->post('isi'),
-        'date' => date('Y-m-d H:i:s')
+        'date' => date('Y-m-d H:i:s'),
+        'updated' => date('Y-m-d H:i:s')
       );
      
       $this->session->set_flashdata('post_terbit','Thread berhasil di terbitkan!! :)');

@@ -76,5 +76,14 @@ class Miemin extends CI_Controller
 			}
 	}
 	
+	function not_found()
+	{
+		$this->load->view('forum/404');
+	}
+	
+	function bbcode()
+	{
+		$this->load->view('forum/bbcode');
+	}
 
 }
