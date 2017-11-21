@@ -168,12 +168,12 @@ ol.breadcrumb li
 
 .zone
 {
-  background-color:#2f2f2f;
+  background-color:;
   padding:7px 15px;
-  color:#fff;
+  color:#222;
   clear:both;
   margin:0 -7px;
-  border-top:3px solid #BA8815;
+  border-top:3px solid #222;
 }
 
 .col-12 > a
@@ -247,10 +247,10 @@ a.post
 {
   background-color:#fff;
   display:block;
-  margin:0px -7px;
-  padding:5px;
+  margin:5px -7px;
+  padding:9px;
   margin-bottom:1px;
-  border-left:5px solid #654824;
+  border:1px solid #E1E5E7
 }
 a.post:hover
 {
@@ -739,11 +739,17 @@ footer{
 .mow-user
 {
   padding:10px;
-  overflow:hidden;
-  margin:2px 0;
-  border-bottom:1px double transparent !important;
+  border-bottom:1px double #aaa;
   display:block;
   clear:both;
+}
+.mow-infor
+{
+}
+.mow-pesan
+{
+	color:#111;
+	font-family:'Karla',sans-serif;
 }
 .mow-user-img
 {
@@ -784,4 +790,3 @@ display:block;
 .col-md-12 b a:hover{
 color:#fff;
 }
-
