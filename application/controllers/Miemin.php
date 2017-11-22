@@ -14,7 +14,7 @@ class Miemin extends CI_Controller
 	
 	private function _init()
 	{
-		if($this->session->userdata('level') == 'user')
+		if($this->session->userdata('level') == 'user' || !$this->session->userdata('user'))
 		{
 			redirect(base_url('dashboard'));
 		}
@@ -31,11 +31,35 @@ class Miemin extends CI_Controller
 	
 	function index()
 	{
+		$this->load->js('https://unpkg.com/vue');
+		$this->load->js('https://unpkg.com/axios/dist/axios.min.js');
+		$this->load->js('https://unpkg.com/lodash');
 		$data["users"] = $this->miemin_model->get_last_users();
 		$data["posts"] = $this->miemin_model->get_allpost("timeline");
 		$this->load->view('forum/admin/dash',$data);
 	}
-	
+	function user_get($n)
+	{
+		
+		$this->output->unset_template();
+		$ha = $this->miemin_model->get_user_n($n);
+		if($ha->num_rows() > 0)
+		{
+			foreach($ha->result() as $row)
+			{
+				$data['username'] = $row->username;
+				$data['email'] = $row->email;
+			}
+		}else{
+			   $data['error'] = "gak ditemukan";
+		}
+		$this->output
+        ->set_status_header(200)
+        ->set_content_type('application/json', 'utf-8')
+        ->set_output(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
+        ->_display();
+exit;
+	}
 	function banned($param,$id)
 	{
 		$data = [
@@ -85,5 +109,73 @@ class Miemin extends CI_Controller
 	{
 		$this->load->view('forum/bbcode');
 	}
+	
+	
+  function usercari()
+  {
+  	$kata = $this->input->post('user-cari');
+  	$data['cari'] = $this->miemin_model->cari($kata);
+
+  	$data['carikata'] = $kata;
+  
+  	$this->load->view('forum/admin/cari',$data);
+  	
+  }
+  function carip()
+  {
+  	$kata = $this->input->post('post-cari');
+  	$data['cari'] = $this->forum->cari($kata);
+
+  	$data['carikata'] = $kata;
+  
+  	$this->load->view('forum/admin/carip',$data);
+  	
+  }
+  
+     public function allusers(){
+        $this->config->load('pagination',TRUE);
+ 	   $configg = $this->config->item('pagination');
+        $configg["base_url"] = base_url() . "miemin/allusers";
+        $total_row = $this->miemin_model->count_users();
+        
+        $configg["total_rows"] = $total_row;
+ 
+        $this->pagination->initialize($configg);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $data['judul'] = 'ID';
+        $data['isi'] = 'Iruna online forum, tutorial iruna, Production iruna';
+        
+        $data["users"] = $this->miemin_model->fetch_users($configg["per_page"], $page);
+        $str_links = $this->pagination->create_links();
+        $data["links"] = explode('&nbsp;',$str_links );
+        
+        // View data according to array.
+    $this->load->view('forum/admin/allusers',$data);
+        //$this->load->view("pagination_view", $data);
+        }
+  
+	     public function allposts(){
+        $this->config->load('pagination',TRUE);
+ 	   $configg = $this->config->item('pagination');
+        $configg["base_url"] = base_url() . "miemin/allusers";
+        $total_row = $this->forum->record_count();
+        
+        $configg["total_rows"] = $total_row;
+ 
+        $this->pagination->initialize($configg);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $data['judul'] = 'ID';
+        $data['isi'] = 'Iruna online forum, tutorial iruna, Production iruna';
+        
+        $data["posts"] = $this->miemin_model->fetch_posts($configg["per_page"], $page);
+        $str_links = $this->pagination->create_links();
+        $data["links"] = explode('&nbsp;',$str_links );
+        
+        // View data according to array.
+    $this->load->view('forum/admin/allposts',$data);
+        //$this->load->view("pagination_view", $data);
+        }
+  
+   
 
 }

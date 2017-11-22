@@ -8,7 +8,12 @@
 		 
 			<div class="post-titlee"><h3>Last users</h3></div>
 			<div class="mow">
-		
+		<div class="cari-form">
+				<?=form_open('miemin/cari');?>
+			  <input type="text" name="user-cari" class="in-cari" placeholder="Cari sesuatu . . ."/>
+			  <button type="submit" class="b-cari">cari</button>
+			</form>
+			</div>
 			<?php
 			foreach($users->result() as $user)
 			{ 
@@ -30,13 +35,19 @@
 			}
 			?>
 				</br>
-				<div class="btn btn-outline-dark disabled bll">Total users: <?=$this->miemin_model->total_count("users");?></div>
+				<a href="/miemin/allusers" class="btn btn-outline-dark bll">Total users: <?=$this->miemin_model->total_count("users");?></a>
 	
 			</div>
 	
 	
 	<div class="post-titlee"><h3>Last Post</h3></div>
 			<div class="mow">
+				<div class="cari-form">
+				<?=form_open('miemin/carip');?>
+			  <input type="text" name="post-cari" class="in-cari" placeholder="Cari sesuatu . . ."/>
+			  <button type="submit" class="b-cari">cari</button>
+			</form>
+			</div>
 	<?php
 	foreach($posts->result() as $post)
 	{ ?>
@@ -56,7 +67,7 @@ if($post->banned == 'n'){ ?>
 	?>
 		
 		</br>
-				<div class="btn btn-outline-dark disabled bll">Total Post: <?=$this->miemin_model->total_count("timeline");?></div>
+				<a href="/miemin/allposts" class="btn btn-outline-dark bll">Total Post: <?=$this->miemin_model->total_count("timeline");?></a>
 	</div>
 	
 	  </div><!--container-->
