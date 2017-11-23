@@ -34,7 +34,7 @@ function bbcode_to_html($text)
 			'<em>$1</em>',
 			'<span style="text-decoration:underline;">$1</span>',
 			'<span style="text-decoration:line-through;">$1</span>',
-			'<img src="$1" alt="Image" />',
+			'<div class="text-center"><img class="img-fluid" src="$1" alt="Iruna online indonesia" /></div>',
 			'<a href="$1">$1</a>',
 			'<a href="$1">$4</a>',
 			'<div style="text-align:left;">$1</div>',
@@ -56,18 +56,22 @@ function html_to_bbcode($text)
 	$text = str_replace('<br />','',$text);
 	$in = array(
 		'#<strong>(.*)</strong>#Usi',
+		'#<b>(.*)</b>#Usi',
+		'#<i>(.*)</i>#Usi',
 		'#<em>(.*)</em>#Usi',
-		'#<span style="text-decoration:underline;">(.*)</span>#Usi',
-		'#<span style="text-decoration:line-through;">(.*)</span>#Usi',
-		'#<img src="(.*)" alt="Image" />#Usi',
+		'#<u>(.*)</u>#Usi',
+		'#<strike>(.*)</strike>#Usi',
+		'#<img src="(.*)"/>#Usi',
 		'#<a href="(.*)">(.*)</a>#Usi',
 		'#<div style="text-align:left;">(.*)</div>#Usi',
 		'#<div style="text-align:center;">(.*)</div>#Usi',
 		'#<div style="text-align:right;">(.*)</div>#Usi',
-		'#<div style="padding:10px; background:#FCF8C2;color:#764563;border-radius:3px;font-family:courier-new;font-size:12px;auto;">(.*)</div>#Usi'
+		'#<div style="padding:10px; background:black;color:green;border-radius:3px;font-family:courier-new;font-size:12px;auto;">(.*)</div>#Usi'
 	);
 	$out = array(
 		'[b]$1[/b]',
+		'[b]$1[/b]',
+		'[i]$1[/i]',
 		'[i]$1[/i]',
 		'[u]$1[/u]',
 		'[s]$1[/s]',

@@ -120,16 +120,17 @@ redirect(base_url());
     if($this->form_validation->run() != FALSE)
     {
       $u = $this->session->userdata('iduser');
-      $t = strtolower(url_title($this->input->post('judul')));
+      $j = substr(sha1($u),0,5);
+      $t = strtolower(url_title($this->input->post('judul')).'-'.$j);
       $data = array(
         'id_user' => $u,
-        'judul' => $this->input->post('judul'),
-        'slug' => $t, 
+        'judul' => strip_tags($this->input->post('judul' ,TRUE)),
+        'slug' => $t,
         'kat_id' => $this->input->post('kategori'),
-        'tags' => $this->input->post('tags'),
-        'isi' => $this->input->post('isi'),
+        'tags' => strip_tags($this->input->post('tags',TRUE)),
+        'isi' => $this->bbcode->html_to_bbcode($this->input->post('isi')),
         'date' => date('Y-m-d H:i:s'),
-        'updated' => date('Y-m-d H:i:s')
+   
       );
      
       $this->session->set_flashdata('post_terbit','Thread berhasil di terbitkan!! :)');
@@ -432,8 +433,8 @@ redirect(base_url());
     {
       
       $data = array(
-        'judul' => $this->input->post('edjudul'),
-        'tags' => $this->input->post('tags'),
+        'judul' => strip_tags($this->input->post('edjudul')),
+        'tags' => strip_tags($this->input->post('tags')),
         'isi' => $this->input->post('edisi'),
       );
      
