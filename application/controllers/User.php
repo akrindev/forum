@@ -143,7 +143,7 @@ class User extends CI_Controller
         $ini = $this->user->ceklogin($username,$password);
         
         if($ini == "success"){    
-       $date = $ini->user->tampiluser($username)->row_array();      
+       $date = $this->user->tampiluser($username)->row_array();      
 		  $user = $this->session->set_userdata(
 			[
             'iduser' => $date['id'],
@@ -275,7 +275,7 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
 		$this->form_validation->set_rules('semail','Email','required|valid_email');
 		
       	$this->form_validation->set_rules('skota','Kota','required|min_length[5]');
-      	$this->form_validation->set_rules('sfullname','Fullname','required|min_length[5]');
+      	$this->form_validation->set_rules('sfullname','Fullname','required|alpha|min_length[5]');
   $this->form_validation->set_error_delimiters('<div class="error-msg">', '</div>');
 		
 		    $header['judul'] = "Setting";

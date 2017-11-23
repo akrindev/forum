@@ -28,13 +28,10 @@
     <link href="/assets/css/styles.css" rel="stylesheet" type ="text/css" media="screen"/>
     <link rel="stylesheet" href="/assets/css/iao-alert.css" type="text/css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>-->
+<script src="/assets/js/jquery.tagsinput.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-<script src="/assets/js/iao-alert.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.js"></script>
-
- <script src="http://malsup.github.com/jquery.form.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css"/>
 
 <link rel="stylesheet" type="text/css" href="/assets/css/jquery.tagsinput.css" />
 	

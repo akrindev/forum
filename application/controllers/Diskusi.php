@@ -345,7 +345,7 @@ redirect(base_url());
   
   function cari()
   {
-  	$kata = $this->input->post('cari');
+  	$kata = strip_tags($this->input->post('cari',TRUE));
   	$data['cari'] = $this->forum->cari($kata);
   
   	$head['judul'] = "Cari $kata ";

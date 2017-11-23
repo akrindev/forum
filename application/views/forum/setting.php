@@ -16,7 +16,7 @@
 
 
 		<div class="row">
-			 <div class="col-sm-12 col-md-5">
+			 <div class="col-12" style="width:400px;margin:10px auto;">
 	      	<div class="propil" style="word-wrap:break-word">
 <div class="setting">
 	<?=form_open('user/setting_p',array('id'=>'setting-form'));?>
@@ -52,19 +52,7 @@
 			
 			</div>
 			</div>
-			  <div class="col-sm-12 col-md-7">
-			<div class="propil-top">
-			  <div class="jdl"><?=$se['username'];?>'s topics</div>
-			  <div class="list-propil-p">
-				<?php
-				foreach($this->user->get_user_post("timeline",$se['id'])->result() as $put)
-				{
-					?>
-				<a class="list-group-i" href="/forum/tl/<?=$put->slug;?>"><?=$put->judul;?><br/><span class="waktu"><?=pisah_waktu($put->date);?></span></a>
-				<?php } ?>
-			  </div>
-			</div>
-		  </div>
+
 
 
 
@@ -91,6 +79,7 @@
 	  <button type="submit" id="submit" class="btn tt btn-dark bll">Ubah</button>
 	  <?=form_close();?>
 	</div>
+	<script src="http://malsup.github.com/jquery.form.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 	<script>
    
