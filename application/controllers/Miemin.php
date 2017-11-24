@@ -60,6 +60,26 @@ class Miemin extends CI_Controller
         ->_display();
 exit;
 	}
+	
+	
+	function komdel($id)
+	{
+		$this->output->unset_template();
+		if($this->session->userdata('level') == 'admin')
+		{
+			if($this->miemin_model->hapuskom($id))
+			{
+				echo "sukses";
+			} else {
+				echo "gagal";
+			}
+		}else{
+			echo "nakal";
+		}
+		
+	}
+	
+	
 	function banned($param,$id)
 	{
 		$data = [

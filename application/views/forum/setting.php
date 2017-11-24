@@ -75,7 +75,7 @@
 	  <label for="newpw" class="badge badge-dark badge-pill">Password baru</label>
 	  <input type="password" name="newpw" class="form-log"/>
 
-
+<span class="text-muted small">min 7 karakter</span>
 	  <button type="submit" id="submit" class="btn tt btn-dark bll">Ubah</button>
 	  <?=form_close();?>
 	</div>

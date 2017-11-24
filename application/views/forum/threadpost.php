@@ -37,7 +37,7 @@
 	
 }?>
         <div class="post-titlee"><h3><?=$judul?></h3></div>
-	      	<div class="post-single">
+	      	<div class="post-single animated fadeInLeft">
 			   
 		      <div class="post-header">
 		        
@@ -58,7 +58,7 @@
 	
 		<div class="col-12">
 <div class="nothing">
-<div class="commentar">
+<div class="commentar animated fadeInDown">
 	 <div class="commentar-title">
 	   <h5> Comments</h5>
 	   </div>
@@ -82,7 +82,7 @@
 						<div class="reply">#<?=$r->koid;?></div>
 							  </div>
 						  </div>
-						  <div class="c-isi"><?= $this->bbcode->bbcode_to_html($r->isi);?></div>
+						  <div class="c-isi"><?= $this->bbcode->bbcode_to_html($r->isi);?> <?php if($this->session->userdata('level') == 'admin') { echo "<br/><br/><a class='text-danger' href='/miemin/komdel/$r->koid'>hapus</a>"; } ?></div>
 						</li>
 		<?php }?>
 </ul>

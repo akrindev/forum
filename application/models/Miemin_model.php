@@ -95,5 +95,11 @@ class Miemin_model extends CI_Model {
         return false;
    }
    
+   function hapuskom($id)
+   {
+   	$this->db->where('id',$id);
+   	return $this->db->delete("komentar");
+   }
+   
    
 }
