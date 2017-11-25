@@ -37,7 +37,7 @@
 				<input type="text" class="form-log" name="semail" value="<?=$se['email']?>"/>
 				<?=form_error('semail');?>
 				<label for="fb" class="badge badge-pill badge-dark">Facebook</label>
-				<input type="text" class="form-log" name="fb" placeholder="contoh http://fb.com/akrin22"/>
+				<input type="text" class="form-log" name="fb" placeholder="contoh https://facebook.com/irunaonline.en"/>
 				<?=form_error('fb');?>
 				
 				
@@ -63,9 +63,6 @@
 
 	</main>
 
-	<footer>
-	  <div class="footer-forum">Copyright 2017 - All Right Reserved</div>
-	</footer>
 <div class="modaljs mdl" id="pww">
 	<?=form_open('user/ch_pw',array('id'=>'pw-form'));?>
 	  <h6 class="mdl-head">Ubah Password</h6>
@@ -111,5 +108,4 @@ success: function(response) {
 
 	</script>
 	
-  </body>
-</html>
+ 

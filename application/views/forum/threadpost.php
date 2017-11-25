@@ -137,9 +137,7 @@
 
 	</main><!--maiinnn-->
 
-	<footer>
-	  <div class="footer-forum">Copyright 2017 - All Right Reserved</div>
-	</footer>
+	
 	
 	<script type="application/ld+json">
 	{
@@ -210,7 +208,3 @@ $(".tangkap").click(function(e){
         
 		
 </script>
-
-
-  </body>
-</html>
