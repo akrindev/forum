@@ -44,7 +44,7 @@ function bbcode_to_html($text)
 			'<div style="text-align:right;">$1</div>',
 			'<div style="line-height:15px;padding:10px;background:#FCEFD9;color:#A56901;border-radius:5px;font-family:courier new;font-size:12px;text-align:left;margin:0;">$1</div>',
 			'<a class="tangkap" href="#$1">#$1</a>',
-			'<iframe width="400" height="315" src="https://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>'
+			'<div class="embed-responsive embed-responsive-16by9"> <iframe class="embed-responsive-item" width="400" height="315" src="https://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe></div>'
 		);
     $count = count($in)-1;
     for($i=0;$i<=$count;$i++)

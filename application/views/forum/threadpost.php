@@ -43,7 +43,7 @@
 		        
 				<div class="post-info"><div class=""><img style="height:40px;width:40px" class="u-img" src="<?=$this->gravatar->get($email);?>"/></div> <b>Oleh:</b><span data-author="<?=$username?>"> <a href="<?=base_url('profile/'.$username);?>">@<?=$username?></a></span> <b>Pada:</b><span class="post-date"> <?=pisah_waktu($date);?></span> <br/><b>Komen:</b> <?=$coco;?> <b>Dibaca:</b> <?=$dilihat;?> <b>Arsip:</b> <a href="<?= base_url('arsip/'.$kategori);?>"><?=$kategori?></a></div>
 	    	  </div><!--post header-->
-			  <div class="post-isi" data-description="<?=character_limiter($isi,160);?>">
+			  <div class="post-isi">
 				<p><?=$isi?></p>
 				<div id="sharing" class="sharing">
 					
