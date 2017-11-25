@@ -89,9 +89,7 @@ foreach($coco as $coc)
 	  
 	</main><!--maiinnn-->
 	
-	<footer>
-	  <div class="footer-forum">Copyright 2017 - All Right Reserved</div>
-	</footer>
+	
 <script type="text/javascript">
 		$(".drop-body").not('.drop-bodyzz').hide();
 
@@ -116,5 +114,4 @@ foreach($coco as $coc)
   
 
 </script>
-  </body>
-</html>		
+	

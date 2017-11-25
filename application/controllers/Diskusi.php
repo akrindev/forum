@@ -31,6 +31,7 @@ redirect(base_url());
     
 	$this->load->view('forum/header',$header);
     $this->load->view('forum/threadpost',$x);
+    $this->load->view('forum/footer');
     }
     
     $o = $this->forum->getone('timeline',$slug);
@@ -86,6 +87,7 @@ redirect(base_url());
 	
 	$this->load->view('forum/header' ,$data);
     $this->load->view('forum/threadpost',$data);
+    $this->load->view('forum/footer');
     }
   }
   
@@ -124,7 +126,7 @@ redirect(base_url());
       $t = strtolower(url_title($this->input->post('judul')).'-'.$j);
       $data = array(
         'id_user' => $u,
-        'judul' => strip_tags($this->input->post('judul' ,TRUE)),
+        'judul' => $this->input->post('judul' ,TRUE),
         'slug' => $t,
         'kat_id' => $this->input->post('kategori'),
         'tags' => strip_tags($this->input->post('tags',TRUE)),
@@ -144,6 +146,7 @@ redirect(base_url());
 
 		$this->load->view('forum/header',$header);
         $this->load->view('forum/forum');
+        $this->load->view('forum/footer');
     }
     
     
@@ -186,6 +189,7 @@ redirect(base_url());
         $data["image"] = $this->forum->fetch_data_image(999, 0);
 		$this->load->view('forum/header',$header);
         $this->load->view('forum/img',$data);
+        $this->load->view('forum/footer');
     }
     
     
@@ -265,6 +269,7 @@ redirect(base_url());
 	{
 		$this->load->view("forum/header",$data);
 		$this->load->view("forum/threadpost",$data);
+		$this->load->view('forum/footer');
 		}
 }
 	
@@ -298,6 +303,7 @@ redirect(base_url());
  
  	$this->load->view("forum/header",$header);
  	$this->load->view("forum/arsip",$data);
+    $this->load->view('forum/footer');
  
 	}
   
@@ -313,10 +319,11 @@ redirect(base_url());
         $data["image"] = $this->forum->fetch_data_image(999, 0);
 
         
-        // View data according to array.
-     $this->load->view('forum/header', $data);
+
+    $this->load->view('forum/header', $data);
     $this->load->view('forum/img',$data);
-        //$this->load->view("pagination_view", $data);
+    $this->load->view('forum/footer');
+
         }
   
     
@@ -337,10 +344,10 @@ redirect(base_url());
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;',$str_links );
         
-        // View data according to array.
+
      $this->load->view('forum/header', $data);
     $this->load->view('forum/forumd',$data);
-        //$this->load->view("pagination_view", $data);
+    $this->load->view('forum/footer');
         }
   
   function cari()
@@ -354,7 +361,7 @@ redirect(base_url());
   
   	$this->load->view('forum/header',$head);
   	$this->load->view('forum/cari',$data);
-  	
+  	$this->load->view('forum/footer');
   }
   
   //hapus
@@ -404,6 +411,7 @@ redirect(base_url());
   			
   			$this->load->view('forum/header',$header);
   			$this->load->view('forum/edpost',$data);
+    		  $this->load->view('forum/footer');
   
   	}else{
   		echo "<script>alert('tidak punya akses')</script>";
@@ -458,6 +466,7 @@ redirect(base_url());
   			
   			$this->load->view('forum/header',$header);
   			$this->load->view('forum/edpost',$data);
+  		    $this->load->view('forum/footer');
     }
     
   

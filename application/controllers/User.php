@@ -14,33 +14,31 @@ class User extends CI_Controller
 	function index()
 	{
 		    $header['judul'] = "Dashboard";
-    $header["isi"] = "Dashboard user";
-		if(!$this->session->userdata('user')){
-		redirect(site_url('login'));
-		}else
-		{
-    $user = $this->session->userdata('user');
-    $userid = $this->session->userdata('iduser');
+ 		   $header["isi"] = "Dashboard user";
+				if(!$this->session->userdata('user')){
+					redirect(site_url('login'));
+				}else{
+    				$user = $this->session->userdata('user');
+    				$userid = $this->session->userdata('iduser');
 
-
- $hh = $this->user->tampiluser($user);
-    $data['nyun'] = $hh->row_array();
-      $this->config->load('pagination',TRUE);
- 	   $configg = $this->config->item('pagination');
-        $configg["base_url"] = base_url() . "user/index";
-        $total_row = $this->user->get_user_c('timeline',$userid)->num_rows();
+					$hh = $this->user->tampiluser($user);
+				    $data['nyun'] = $hh->row_array();
+				
+     	   		$this->config->load('pagination',TRUE);
+			 	   $configg = $this->config->item('pagination');
+   			     $configg["base_url"] = base_url() . "user/index";
+ 			       $total_row = $this->user->get_user_c('timeline',$userid)->num_rows();
+           	     $configg["total_rows"] = $total_row;
+ 			       $this->pagination->initialize($configg);
+			        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         
-       $configg["total_rows"] = $total_row;
- 
-        $this->pagination->initialize($configg);
-        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-        
-        $data["posts"] = $this->user->get_user_post("timeline",$userid,$configg["per_page"], $page);
-            $str_links = $this->pagination->create_links();
-        $data["links"] = explode('&nbsp;',$str_links );
+  			      $data["posts"] = $this->user->get_user_post("timeline",$userid,$configg["per_page"], $page);
+ 		           $str_links = $this->pagination->create_links();
+			        $data["links"] = explode('&nbsp;',$str_links );
 	
-	$this->load->view('forum/header',$header);
-    $this->load->view('forum/dashboard',$data);
+					$this->load->view('forum/header',$header);
+				    $this->load->view('forum/dashboard',$data);
+				    $this->load->view('forum/footer');
     
 		}
 	}
@@ -51,15 +49,15 @@ class User extends CI_Controller
   		  $header["isi"] = "Dinding user";
 
 
-		  $hh = $this->user->tampiluser($user);
-    $data['nyun'] = $hh->row_array();
+		    $hh = $this->user->tampiluser($user);
+		    $data['nyun'] = $hh->row_array();
     
     foreach($hh->result() as $gg)
     {
     	$iduserr = $gg->id;
     }
     
-      $this->config->load('pagination',TRUE);
+        $this->config->load('pagination',TRUE);
  	   $configg = $this->config->item('pagination');
         $configg["base_url"] = base_url() . "user/index";
         $total_row = $this->user->get_user_c('timeline',$iduserr)->num_rows();
@@ -75,7 +73,7 @@ class User extends CI_Controller
 	
 	$this->load->view('forum/header',$header);
     $this->load->view('forum/profile',$data);
-    
+    $this->load->view('forum/footer');
 }
 		
 
@@ -85,11 +83,13 @@ class User extends CI_Controller
       {
         redirect('user');
       }
-    $header['judul'] = "Register";
-    $header["isi"] = "Form registreasi";
+      
+ 	   $header['judul'] = "Register";
+  	  $header["isi"] = "Form registreasi";
     
 		$this->load->view('forum/header',$header);
 		$this->load->view('forum/register');
+ 	   $this->load->view('forum/footer');
 	}
 	
 	function logout()
@@ -114,11 +114,11 @@ class User extends CI_Controller
     $ava = $hh->row_array();
     $email = $ava['email'];
     $data['nyun'] = $hh->row_array();
-    //$data['nyun'] .= array('avatar' => $this->gravatar->get($email))
-   
+
 
     $this->load->view('forum/header',$header);
     $this->load->view('forum/dashboard',$data);
+    $this->load->view('forum/footer');
     
   }
   
@@ -142,39 +142,42 @@ class User extends CI_Controller
         
         $ini = $this->user->ceklogin($username,$password);
         
-        if($ini == "success"){    
-       $date = $this->user->tampiluser($username)->row_array();      
-		  $user = $this->session->set_userdata(
-			[
-            'iduser' => $date['id'],
-            'user'=>$username,   
-     	   'level'=> $date['role']   
-            ]);
+        if($ini == "success")
+		{    
+		       $date = $this->user->tampiluser($username)->row_array();      
+			   $user = $this->session->set_userdata(
+				[
+   		         'iduser' => $date['id'],
+  		          'user'=>$username,   
+		     	   'level'=> $date['role']   
+ 	           ]);
 		 redirect('user');
-        }//if ada data
+        }
         else if($ini == "banned")
         {
-        		      $this->session->set_flashdata('gagal_login','Akun di tangguhkan, baca peraturam post!');
+        	    $this->session->set_flashdata('gagal_login','Akun di tangguhkan, baca peraturam post!');
 
 				$this->load->view('forum/header',$header);
    	         $this->load->view('forum/login');
+			    $this->load->view('forum/footer');
         }
         else
         {
         	
-    		      $this->session->set_flashdata('gagal_login','Username atau password salah');
+    		    $this->session->set_flashdata('gagal_login','Username atau password salah');
 
 				$this->load->view('forum/header',$header);
    	         $this->load->view('forum/login');
-
+  			  $this->load->view('forum/footer');
         }
         
       }
-		else
+	else
         {
 
-$this->load->view('forum/header',$header);
+		  $this->load->view('forum/header',$header);
 		  $this->load->view('forum/login');
+	      $this->load->view('forum/footer');
 		}
     }
 	
@@ -187,60 +190,67 @@ $this->load->view('forum/header',$header);
         redirect('user');
       }
 		    $header['judul'] = "Register";
-    $header["isi"] = "Form registreasi";
+		    $header["isi"] = "Form registreasi";
     
     
-		$this->form_validation->set_rules('username','Username','required|min_length[4]|max_length[8]|trim|alpha_numeric|is_unique[users.username]',array('is_unique'=>'Username sudah digunakan'));
-$this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_unique[users.ign]',array('is_unique'=>'IGN sudah digunakan'));
+			$this->form_validation->set_rules('username','Username','required|min_length[3]|max_length[8]|trim|alpha_numeric|is_unique[users.username]',array('is_unique'=>'Username sudah digunakan'));
+			
+			$this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_unique[users.ign]',array('is_unique'=>'IGN sudah digunakan'));
 
-		$this->form_validation->set_rules('email','Email','required|valid_email|is_unique[users.email]',array('is_unique'=>'email sudah digunakan'));
-		$this->form_validation->set_rules('password','Password','required');
-		$this->form_validation->set_rules('re-password','Ulangi Password','required|matches[password]');
-		$this->form_validation->set_rules('quotes','Quotes','min_length[5]');
-      	$this->form_validation->set_rules('kota','Kota','required|min_length[5]');
-      	$this->form_validation->set_rules('fullname','Fullname','required|min_length[5]');
-      $this->form_validation->set_rules('gender','Gender','required');
+			$this->form_validation->set_rules('email','Email','required|valid_email|is_unique[users.email]',array('is_unique'=>'email sudah digunakan'));
+			
+			$this->form_validation->set_rules('password','Password','required');
+			$this->form_validation->set_rules('re-password','Ulangi Password','required|matches[password]');
+			
+			$this->form_validation->set_rules('quotes','Quotes','min_length[5]');
+			
+        	$this->form_validation->set_rules('kota','Kota','required|min_length[5]');
+        
+        	$this->form_validation->set_rules('fullname','Fullname','required|min_length[3]');
+      
+	        $this->form_validation->set_rules('gender','Gender','required');
     
-  $this->form_validation->set_error_delimiters('<div class="error-msg">', '</div>');
-         $recaptcha = $this->input->post('g-recaptcha-response');
-        $response = $this->recaptcha->verifyResponse($recaptcha);
+ 		   $this->form_validation->set_error_delimiters('<div class="error-msg">', '</div>');
+ 
+           $recaptcha = $this->input->post('g-recaptcha-response');
+           $response = $this->recaptcha->verifyResponse($recaptcha);
+           
+           
 		if($this->form_validation->run() == FALSE || !isset($response['success']) || $response['success'] <> true)
 		{
 			$this->load->view('forum/header',$header);
 			$this->load->view('forum/register');
-			
+	        $this->load->view('forum/footer');
           
-		}//jika gagal
-		
-      else
-      //jika benar
-      {
-		$options = [
-    'cost' => 12,
-];
-		$data = [
-		'username' => strtolower($this->input->post('username')),
-		'ign' => $this->input->post('ign'),
-		'fullname' => $this->input->post('fullname'),
-		'email' => $this->input->post('email'),
-		'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT, $options),
-		'kota' => $this->input->post('kota'),
-		'quotes' => $this->input->post('quotes'),
-		'gender' => $this->input->post('gender'),
-        'date' => date('Y-m-d H:i:s')
-		];
+		}
+        else
+       {
+			$options = [
+			    'cost' => 12,
+			];
+			
+			$data = [
+				'username' => strtolower($this->input->post('username')),
+				'ign' => $this->input->post('ign'),
+				'fullname' => $this->input->post('fullname'),
+				'email' => $this->input->post('email'),
+				'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT, $options),
+				'kota' => $this->input->post('kota'),
+				'quotes' => $this->input->post('quotes'),
+				'gender' => $this->input->post('gender'),
+ 		       'date' => date('Y-m-d H:i:s')
+			];
         
 		if($this->user->daftar($data))
 		{
           
              $this->session->set_flashdata('cukses','Berhasil mendaftar! silahkan login <br/> Username: <b>'.$data['username'].'</b>');
           
-       
 			redirect('login');
 		}
       
 	}
-	}
+}
 	
 	//setting
 	function setting()
@@ -259,6 +269,7 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
 		
 			$this->load->view('forum/header',$header);
 			$this->load->view('forum/setting',$datq);
+		    $this->load->view('forum/footer');
 		}
 	}
   
@@ -274,37 +285,41 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
 
 		$this->form_validation->set_rules('semail','Email','required|valid_email');
 		
-      	$this->form_validation->set_rules('skota','Kota','required|min_length[5]');
-      	$this->form_validation->set_rules('sfullname','Fullname','required|alpha|min_length[5]');
+      	$this->form_validation->set_rules('skota','Kota','required|min_length[3]');
+      	$this->form_validation->set_rules('sfullname','Fullname','required|alpha|min_length[4]');
   $this->form_validation->set_error_delimiters('<div class="error-msg">', '</div>');
 		
 		    $header['judul'] = "Setting";
-    $header["isi"] = "Setting";
+   		 $header["isi"] = "Setting";
     
 		
-		$options = [
-    'cost' => 12,
-];
-		$id = $this->session->userdata('iduser');
-		$ign = $this->input->post('sign');
-		$fullname = $this->input->post('sfullname');
-		$email = $this->input->post('semail');
-		$kota = $this->input->post('skota');
-		$bio = $this->input->post('quotes');
-		$fb = $this->input->post('fb');
+			$options = [
+			    'cost' => 12,
+			];
+			
+			$id = $this->session->userdata('iduser');
+			$ign = $this->input->post('sign');
+			$fullname = $this->input->post('sfullname');
+			$email = $this->input->post('semail');
+			$kota = $this->input->post('skota');
+			$bio = $this->input->post('quotes');
+			$fb = $this->input->post('fb');
       
 		if($this->form_validation->run() != FALSE)
 		{
 			
-      		if($this->user->sett_update($id,$fullname,$ign,$email,$kota,$bio,$fb)){
-      		redirect(base_url('user'));
-    				  }
+      		if($this->user->sett_update($id,$fullname,$ign,$email,$kota,$bio,$fb))
+			  {
+    		  		redirect(base_url('user'));
+    		  }
+    
      	 }else{
      		$user = $this->session->userdata('user');
-			$datq['se'] = $this->user->tampiluser($user)->row_array();
+			 $datq['se'] = $this->user->tampiluser($user)->row_array();
 		
 			$this->load->view('forum/header',$header);
 			$this->load->view('forum/setting',$datq);
+			$this->load->view('forum/footer');
      	}
 			
       }
@@ -347,7 +362,7 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
 		
 		$this->load->view('forum/header',$head);
 		$this->load->view('forum/admtulis');
-		
+		$this->load->view('forum/footer');
 	}
 	function kontak_admin()
 	{
@@ -384,9 +399,10 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
 		
 		$this->load->view('forum/header',$head);
 		$this->load->view('forum/admtulis');
+        $this->load->view('forum/footer');
     }
     
-	}
+}
 	
 	function cek_user($user)
 	{
@@ -431,6 +447,7 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
 		}
 		$this->load->view('forum/header',$head);
 		$this->load->view('forum/pesanbaca',$data);
+	    $this->load->view('forum/footer');
 	}
 	
 	function pesan()
@@ -449,6 +466,7 @@ $this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_un
 		
 		$this->load->view('forum/header',$head);
 		$this->load->view('forum/pesan',$data);
+	    $this->load->view('forum/footer');
 	}
 	
 }

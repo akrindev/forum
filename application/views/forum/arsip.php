@@ -31,24 +31,7 @@
 		</div>
 	  
 	  
-	<div class="row">
-		<div class="col-12">
-				<div class="dropdrop">
-		<div class="drop-head">Arsip <span>+</span></div>
-		<div class="drop-body">
-		  <div class="liest">
-			<?php
-			foreach($this->forum->get_kategori()->result() as $kate)
-			{
-				
-			  echo "<a href=\"/arsip/$kate->kat\"> $kate->kat</a>";
-			}
-			?>
-		  </div><!--liest-->
-</div><!--drop body-->
-			</div><!--drop drop-->
-				</div>
-	</div>
+	 	<div style="margin-top:10px"></div>
 		<div class="row">
 			
          <div class="col-12 col-md-7">
@@ -96,6 +79,26 @@ foreach($coco as $coc)
                 { ?>
            <a href="/forum/tl/<?=$ost->slug;?>" class="post"> <?=$ost->judul;?> <div class="post-info"><?=time_ago($ost->date);?> . dibaca: <?=$ost->dilihat;?></div></a> 
            <?php } ?>
+           	
+                      <!--arsip-->
+           	  <div style="margin-top:10px">
+				<div class="dropdrop">
+		<div class="drop-head">Arsip <span>+</span></div>
+		<div class="drop-body">
+		  <div id="arsip menu" class="liest">
+			<?php
+			foreach($this->forum->get_kategori()->result() as $kate)
+			{
+				
+			  echo "<a title=\"$kate->kat\" href=\"/arsip/$kate->kat\"> $kate->kat</a>";
+			}
+			?>
+		  </div><!--liest-->
+</div><!--drop body-->
+			</div><!--drop drop-->
+				</div>
+           <!--arsip-->
+           
           </div>
 		</div><!--row-->
 		
@@ -103,10 +106,7 @@ foreach($coco as $coc)
 	  </div><!--container-->
 	  
 	</main><!--maiinnn-->
-	
-	<footer>
-	  <div class="footer-forum">Copyright 2017 - All Right Reserved</div>
-	</footer>
+		
 <script type="text/javascript">
 		$(".drop-body").not('.drop-bodyzz').hide();
 
@@ -130,6 +130,4 @@ foreach($coco as $coc)
   })
   
 
-</script>
-  </body>
-</html>		
+</script>	

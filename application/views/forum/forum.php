@@ -39,7 +39,7 @@
 }?>
 			  <label class="float-left badge badge-pill badge-dark">Isi Post</label>
      
-			  <textarea class="form-log" name="isi" placeholder=""></textarea>
+			  <textarea class="form-log" name="isi" rows=5></textarea>
 			         <?php if(form_error('isi')) {echo form_error('isi','<div class="error-msg">','</div>');}?>
 			  <p class="center-block"></p>
 			  <label for="tags" class="float-left badge badge-pill badge-dark">Tags</label><p class="float-left text-sm text-muted"> (optional)</p> 
@@ -58,9 +58,7 @@
 
 	</main><!--maiinnn-->
 
-	<footer>
-	  <div class="footer-forum">Copyright 2017 - All Right Reserved</div>
-	</footer>
+	
 <script>
 	$("#tags").tagsInput({
 		 'height':'50px', 
@@ -68,5 +66,4 @@
 
 });
 	</script>
-  </body>
-</html>
+  
