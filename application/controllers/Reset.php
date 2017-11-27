@@ -13,6 +13,8 @@
 	private function _init()
 	{
 		$this->load->model('reset_model');
+		
+		$this->load->model('miemin_model');
 		$this->output->set_template('default');
 
 		$this->load->js('https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js');
@@ -71,7 +73,7 @@
              );
      
 		   $this->email->initialize($config);
-		   $this->email->from('ADMIN@DOMAIN.COM', 'Admin Tamvan Memvesona');
+		   $this->email->from('admin@rokoko-iruna.com', 'Admin Tamvan Memvesona');
 		   $this->email->to($email);
 		
 		   $this->email->subject('Password reset rokoko-iruna.com');
@@ -93,10 +95,7 @@
          
        $user_info = $this->reset_model->isTokenValid($cleanToken); //either false or array();          
          
-       if(!$user_info){  
-         $this->output->unset_template();
-         echo "Token tidak valid";
-       }    
+
    
 
          
@@ -104,7 +103,14 @@
        $this->form_validation->set_rules('repassword', 'Password Confirmation', 'required|matches[password]');         
          
        if ($this->form_validation->run() == FALSE) {    
+       	       if(!$user_info){  
+         $this->output->unset_template();
+         echo "
+<script>for(i = 0; i <=5;i++){ alert('token tidak valid') }</script>
+";
+       }    else {
          $this->load->view('forum/chgpwd');  
+         }
        }else{  
              	$options = [
 				    'cost' => 12,
@@ -123,6 +129,48 @@
          	$this->load->view('forum/login');
        }  
      }  
-       
+       function pinned_v()
+  {
+  	$this->config->load('pagination',TRUE);
+ 	   $configg = $this->config->item('pagination');
+        $configg["base_url"] = base_url() . "this/pinned";
+        $total_row = $this->miemin_model->count_pinned();
+        
+        $configg["total_rows"] = $total_row;
+ 
+        $this->pagination->initialize($configg);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $data['judul'] = 'ID';
+        $data['isi'] = 'Iruna online forum, tutorial iruna, Production iruna';
+        
+        $data["pinned"] = $this->miemin_model->pinned_fetch($configg["per_page"], $page);
+        $str_links = $this->pagination->create_links();
+        $data["links"] = explode('&nbsp;',$str_links );
+        
+        $this->load->view('forum/pinned',$data);
+        
+  }
+  
+       function not_found()
+	{
+		$this->load->view('forum/404');
+	}
+	
+	function bbcode()
+	{
+		$this->load->view('forum/bbcode');
+	}
+function intro()
+	{
+		$this->load->view('forum/intro');
+	}
+function privacy()
+	{
+		$this->load->view('forum/privacy');
+	}
+function rules()
+	{
+		$this->load->view('forum/rules');
+	}
 
  }
