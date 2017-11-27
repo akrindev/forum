@@ -120,15 +120,20 @@ exit;
 			}
 	}
 	
-	function not_found()
-	{
-		$this->load->view('forum/404');
-	}
-	
-	function bbcode()
-	{
-		$this->load->view('forum/bbcode');
-	}
+	  function pinned($param,$id)
+  {
+  	$data = [
+			'pinned' => $param
+			];
+			
+  	if($this->miemin_model->ppinned($param,$id))
+  	{
+  		redirect(base_url('pinned'));
+  	} else {
+  		echo "kegagalan";
+  	}
+  
+  }
 	
 	
   function usercari()
@@ -151,7 +156,8 @@ exit;
   	$this->load->view('forum/admin/carip',$data);
   	
   }
-  
+
+
      public function allusers(){
         $this->config->load('pagination',TRUE);
  	   $configg = $this->config->item('pagination');
