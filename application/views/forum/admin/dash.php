@@ -58,6 +58,12 @@ if($post->banned == 'n'){ ?>
 <a class="text-danger small" onclick="return confirm('yakin ingin membanned?')" href="/miemin/banned_post/y/<?=$post->tlid?>">banned</a> 
 <?php } else { ?>
 	<a class="text-success small" href="/miemin/banned_post/n/<?=$post->tlid?>">bebaskan</a> 
+	<?php } ?> |
+		<?php
+if($post->pinned == 1){ ?>
+<a class="text-success small" onclick="return confirm('yakin ingin membanned?')" href="/miemin/pinned/0/<?=$post->tlid?>">pinned</a> 
+<?php } else { ?>
+	<a class="text-danger small" href="/miemin/pinned/1/<?=$post->tlid?>">unpinned</a> 
 	<?php } ?>
 <br/>
 		
