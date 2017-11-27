@@ -5,11 +5,11 @@ date_default_timezone_set('Asia/Jakarta');
 
 $autoload['packages'] = array();
 
-$autoload['libraries'] = array('database','session','form_validation','email','bbcode','gravatar');
+$autoload['libraries'] = array('database','session','form_validation','email','bbcode','gravatar','recaptcha','pagination','predis');
 
 $autoload['drivers'] = array();
 
-$autoload['helper'] = array('url','form','time_ago','text');
+$autoload['helper'] = array('url','form','time_ago','text','tgl_indo');
 
 $autoload['config'] = array();
 
