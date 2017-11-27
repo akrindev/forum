@@ -129,7 +129,7 @@ redirect(base_url());
         'judul' => $this->input->post('judul' ,TRUE),
         'slug' => $t,
         'kat_id' => $this->input->post('kategori'),
-        'tags' => strip_tags($this->input->post('tags',TRUE)),
+        'tags' => $this->input->post('tags',TRUE),
         'isi' => $this->bbcode->html_to_bbcode($this->input->post('isi')),
         'date' => date('Y-m-d H:i:s'),
    
