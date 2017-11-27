@@ -155,7 +155,7 @@ class User extends CI_Controller
         }
         else if($ini == "banned")
         {
-        	    $this->session->set_flashdata('gagal_login','Akun di tangguhkan, baca peraturam post!');
+        	    $this->session->set_flashdata('gagal_login','Akun di tangguhkan, baca Rules!');
 
 				$this->load->view('forum/header',$header);
    	         $this->load->view('forum/login');
@@ -286,7 +286,7 @@ class User extends CI_Controller
 		$this->form_validation->set_rules('semail','Email','required|valid_email');
 		
       	$this->form_validation->set_rules('skota','Kota','required|min_length[3]');
-      	$this->form_validation->set_rules('sfullname','Fullname','required|alpha|min_length[4]');
+      	$this->form_validation->set_rules('sfullname','Fullname','required|min_length[4]');
   $this->form_validation->set_error_delimiters('<div class="error-msg">', '</div>');
 		
 		    $header['judul'] = "Setting";
