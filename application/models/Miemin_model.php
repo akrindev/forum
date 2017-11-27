@@ -16,7 +16,7 @@ class Miemin_model extends CI_Model {
 	
 	function get_allpost($tabel)
   {
-    return $this->db->query("Select f.id as tlid,f.id_user,f.judul,f.slug,f.isi,f.date,f.dilihat,f.banned,u.id,u.username from $tabel as f inner join users as u where f.id_user = u.id order by date desc limit 10");
+    return $this->db->query("Select f.id as tlid,f.id_user,f.judul,f.slug,f.isi,f.date,f.dilihat,f.banned,f.pinned,u.id,u.username from $tabel as f inner join users as u where f.id_user = u.id order by date desc limit 10");
   }
   
   function total_count($tabel)
@@ -27,6 +27,34 @@ class Miemin_model extends CI_Model {
 		return $tu->c;
 	}
  }
+ 
+ function ppinned($p,$id)
+ {
+ 	$this->db->where('id',$id);
+ 	return $this->db->update('timeline',[ 'pinned' => $p]);
+ }
+ function count_pinned()
+ {
+ 	$g = $this->db->query("select count(*) as c from timeline where pinned=1");
+ 	foreach($g->result() as $i)
+ 	{
+ 		$c = $i->c;
+ 	}
+ return $c;
+ }
+  public function pinned_fetch($limit, $start) {
+
+        $query = $this->db->query("select * from timeline where pinned=1 order by id DESC limit $start,$limit");
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data[] = $row;
+
+            }
+         
+            return $data;
+        }
+        return false;
+   }
  
  function banned_user($id,$data)
 		{

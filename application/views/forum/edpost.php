@@ -27,7 +27,7 @@
 }?>
 			  <label class="float-left badge badge-dark">Isi Post</label>
      
-			  <textarea class="form-log" name="edisi"><?=$isi;?></textarea>
+			  <textarea class="form-log" rows=5 name="edisi"><?=$isi;?></textarea>
 			<input type="hidden" name="edid" value="<?=$id;?>"/>
 			         <?php if(form_error('edisi')) {echo form_error('edisi','<div class="error-msg">','</div>');}?>
 			  <p class="center-block"></p>

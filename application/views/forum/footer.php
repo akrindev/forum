@@ -1,6 +1,10 @@
 	<footer>
 
-	  <div class="footer-forum">Copyright 2017 - All Right Reserved</div>
+	  <div class="footer-forum">&copy; 2017 <a href="https://rokoko-iruna.com/" title="iruna online Indonesia">rokoko-iruna.com</a> - All Right Reserved
+<br/>
+<a href="/kebijakan-privasi" title="Privacy policy">Kebijakan privasi</a> . <a href="/rules" title="Privacy policy">Rules/peraturan</a> . <a href="/tutorial" title="BBCode Tutorial">BBCode support</a>
+
+</div>
 
 	</footer>
 

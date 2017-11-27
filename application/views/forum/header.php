@@ -11,7 +11,7 @@
 
  <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
 <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
-<meta name="google-site-verification" content="KepqXCIws9XJoRrMQkQQZqYnQOPDnFUuH5iIeXT9DNs" />
+<meta name="google-site-verification" content="Uszxxo6fNkYbiVyMjjN3Cgbd_dXG-hgf3Gz3uv3BMCI" />
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
 
  <meta property="og:url"                content="<?=base_url($this->uri->uri_string());?>" />
@@ -50,7 +50,7 @@
   </head>
   <body>
 	<header>
-	 	<div class="brand"><a href="/">Mobile Iruna Notes</a></div>
+	 	<div class="brand"><a href="/">Rokoko Iruna<br/><span class="small">Para petualang dari desa Rokoko</span></a></div>
 	   <div class="atas position-sticky">
 		<div style="max-width:720px;text-align:left;margin:0 auto;">
 		<div id="menu" class="kpl-forum">
@@ -64,7 +64,7 @@
 		  <a class="list-item" href="<?=base_url('login');?>">Login</a>
 <?php } ?>
 		
-		<a class="list-item" href="/tutorial">Apa ini?</a>
+		<a class="list-item" href="/pinned">Pinned</a>
 <?php if($this->session->userdata('user')){?>
 		  <a class="list-item" href="<?=base_url('logout');?>">Logout</a>
 <?php }?>

@@ -27,16 +27,16 @@
       </div>
       -->
          <div class="col-12 col-md-7">
-           <div class="zone animated fadeInLeft">Terakhir di posting</div>
-     <?php foreach($timeline as $post){?>
+           <div class="post-titlee animated fadeInLeft">-- Pinned --</div>
+     <?php foreach($pinned as $post){?>
      	
-       <?php    $coco = $this->forum->get_comment_count($post->tlid)->result();
+       <?php    $coco = $this->forum->get_comment_count($post->id)->result();
 ?>
      
 		<a class="post" title="<?=$post->judul?>" href="<?php echo base_url()?>forum/tl/<?=$post->slug?>">
 	      
 		        <div class="post-title"><h4><?php echo $post->judul ?></h4></div>
-				<div class="post-info">oleh: <span class="author small" data-author="<?=$post->username?>"> <?php echo $post->username ?></span> <b>.</b> <span class="timeago"><?php 
+				<div class="post-info"> <span class="timeago"><?php 
 echo time_ago($post->date); 
 ?></span> . <b>dibaca: </b> <?=$post->dilihat;?>      <?php
 foreach($coco as $coc)

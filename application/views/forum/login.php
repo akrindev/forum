@@ -48,7 +48,7 @@
 			  <button type="submit" class="btn btn-outline-primary bll">Masuk</button>
 <?= form_close();?>
             <hr>
-              <a href="<?=base_url();?>register" class="btn btn-outline-success bll">Daftar</a>
+              <a href="<?=base_url();?>register" class="btn btn-outline-success bll">Daftar</a><br/><div class="text-center"><a class="text-muted small" href="/reset">Lupa kata sandi?</a></div>
 			</div>
 		  </div><!--col-->
 
