@@ -12,7 +12,7 @@
 
  <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
 <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
-<meta name="google-site-verification" content="KepqXCIws9XJoRrMQkQQZqYnQOPDnFUuH5iIeXT9DNs" />
+<meta name="google-site-verification" content="Uszxxo6fNkYbiVyMjjN3Cgbd_dXG-hgf3Gz3uv3BMCI"/>
 <meta name="title" content="ID - Iruna online forum">
  <meta property="og:url"                content="http://inko-chan.net/" />
 <meta property="og:type"               content="article" />
@@ -56,23 +56,38 @@
   </head>
   <body>
 	<header>
-	 	<div class="brand"><a href="/">Mobile Iruna Notes</a></div>
+ 	<div class="brand"><a href="/">Rokoko Iruna<br/><span class="small">Para petualang dari desa Rokoko</span></a></div>
 	   <div class="atas position-sticky">
 		<div style="max-width:720px;text-align:left;margin:0 auto;">
-		<div class="kpl-forum">
+		<div id="menu" class="kpl-forum">
 			
-		  <a class="list-item" href="http://inko-chan.net/forum">Forum</a>
-  <a class="list-item" href="http://inko-chan.net/login">Panel</a>
-		  <a class="list-item" href="http://inko-chan.net/login">Pesan</a>
-		  <a class="list-item" href="http://inko-chan.net/login">Tulis</a>
+		  <a class="list-item" href="<?=base_url('forum');?>">Forum</a>
+<?php if($this->session->userdata('user')){?>
+		  <a class="list-item" href="<?=base_url('dashboard');?>">Panel</a>
+          <a class="list-item" href="<?=base_url('forum/tulis');?>">Tulis</a>
+<?php } else {?>
+
+		  <a class="list-item" href="<?=base_url('login');?>">Login</a>
+<?php } ?>
+		
+		<a class="list-item" href="/pinned">Pinned</a>
+<?php if($this->session->userdata('user')){?>
+		  <a class="list-item" href="<?=base_url('logout');?>">Logout</a>
+<?php }?>
 	</div>
 		</div>
 	</div>
 	</header>
 	    <?php echo $output;?>
-	<footer>
-	  <div class="footer-forum">Copyright 2017 - All Right Reserved</div>
+	 	<footer>
+
+	  <div class="footer-forum">&copy; 2017 <a href="https://rokoko-iruna.com/" title="iruna online Indonesia">rokoko-iruna.com</a> - All Right Reserved
+<br/>
+<a href="/kebijakan-privasi" title="Privacy policy">Kebijakan privasi</a> . <a href="/rules" title="Privacy policy">Rules/peraturan</a> . <a href="/tutorial" title="BBCode Tutorial">BBCode support</a>
+
+</div>
+
 	</footer>
 
   </body>
-</html>		
+</html>
