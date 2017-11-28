@@ -183,7 +183,7 @@ exit;
 	     public function allposts(){
         $this->config->load('pagination',TRUE);
  	   $configg = $this->config->item('pagination');
-        $configg["base_url"] = base_url() . "miemin/allusers";
+        $configg["base_url"] = base_url() . "miemin/allposts";
         $total_row = $this->forum->record_count();
         
         $configg["total_rows"] = $total_row;
