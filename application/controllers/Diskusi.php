@@ -122,7 +122,7 @@ redirect(base_url());
     if($this->form_validation->run() != FALSE)
     {
       $u = $this->session->userdata('iduser');
-      $j = substr(sha1($u),0,5);
+      $j = substr(sha1(date('Y-m-d H:i:s')),0,5);
       $t = strtolower(url_title($this->input->post('judul')).'-'.$j);
       $data = array(
         'id_user' => $u,
