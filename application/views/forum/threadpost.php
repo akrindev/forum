@@ -25,7 +25,7 @@
             <?php
             foreach($tags as $key => $value)
             {
-            	echo '<a href="#" title="'.$value.'" class="badge badge-pill badge-warning">'.$value.' </a>&nbsp;&nbsp;' ;
+            	echo '<a href="#" data-toggle="tooltip" data-placement="top" title="'.$value.'" class="badge badge-pill badge-warning">'.$value.' </a>&nbsp;' ;
             }
             ?>
             <?php
@@ -45,6 +45,23 @@
 	    	  </div><!--post header-->
 			  <div class="post-isi">
 				<p><?=$isi?></p>
+				<p>
+				<?php
+				if($this->session->userdata('level') == 'admin'){ ?>
+				<?php
+				if($banned == 'n'){ ?>
+				<a class="text-danger small" onclick="return 							 confirm('yakin ingin membanned?')" href="/miemin/banned_post/y/<?=$id?>">banned</a> 
+<?php } else { ?>
+	<a class="text-success small" href="/miemin/banned_post/n/<?=$id?>">bebaskan</a> 
+	<?php } ?> |
+		<?php
+if($pinned == 1){ ?>
+<a class="text-success small" onclick="return confirm('Pinned?')" href="/miemin/pinned/0/<?=$id?>">pinned</a> 
+<?php } else { ?>
+	<a class="text-danger small" href="/miemin/pinned/1/<?=$id?>">unpinned</a> 
+	<?php } ?>
+<?php } ?>
+	</p>
 				<div id="sharing" class="sharing">
 					
 					</div>
@@ -157,15 +174,17 @@
  "datePublished": "<?=$date;?>",
  "dateCreated": "<?=$date;?>",
  "dateModified": "<?=$date;?>",
- "description": "<?=character_limiter($isi,160);?>",
+ "description": "<?=htmlentities(character_limiter($isi,160), ENT_QUOTES, 'UTF-8');?>",
  "articleBody": "<?=$isi;?>"
  }
 </script>
     
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+	
 	
 	    <script type="text/javascript">
 $(document).ready(function(){
+
 
 $(".tangkap").click(function(e){
 	e.preventDefault();
@@ -203,6 +222,8 @@ $(".tangkap").click(function(e){
     showCount: false,
     shares: ["email", "twitter", "facebook", "googleplus", "whatsapp"]
 });
+
+$('[data-toggle="tooltip"]').tooltip()
 });
 
         
