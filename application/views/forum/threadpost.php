@@ -161,7 +161,7 @@ if($pinned == 1){ ?>
   "@context": "http://schema.org", 
  "@type": "Article",
  "headline": "<?=$judul;?>",
- "image": "http://i.cubeupload.com/a6W64O.jpeg",
+ "image": "<?=get_gambar($isi)?>",
  "author": "<?=$username;?>", 
  "mainEntityOfPage": {
          "@type": "WebPage",
@@ -169,13 +169,12 @@ if($pinned == 1){ ?>
       },
  "genre": "<?=$kategori;?>", 
  "keywords": "<?=$value;?>",
- "publisher": "Iruna Notes Publisher Inc",
  "url": "<?=current_url();?>",
  "datePublished": "<?=$date;?>",
  "dateCreated": "<?=$date;?>",
  "dateModified": "<?=$date;?>",
  "description": "<?=htmlentities(character_limiter($isi,160), ENT_QUOTES, 'UTF-8');?>",
- "articleBody": "<?=$isi;?>"
+ "articleBody": "<?=htmlentities(character_limiter($isi,160), ENT_QUOTES, 'UTF-8');?>"
  }
 </script>
     

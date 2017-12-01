@@ -13,7 +13,9 @@ $route['kontak-admin'] = 'user/kontakadm';
 $route['pesan'] 	= 'user/pesan';
 $route['pesan/x/(:any)'] = 'user/pesan_baca/$1';
 
+$route['ga-2017'] = 'reset/gasub';
 
+$route['sitemap\.xml'] = 'sitemap';
 $route['image'] = 'diskusi/image';
 
 $route['tutorial'] = 'reset/bbcode';

@@ -9,7 +9,7 @@ $autoload['libraries'] = array('database','session','form_validation','email','b
 
 $autoload['drivers'] = array();
 
-$autoload['helper'] = array('url','form','time_ago','text','tgl_indo');
+$autoload['helper'] = array('url','form','time_ago','text','tgl_indo','gambar');
 
 $autoload['config'] = array();
 
