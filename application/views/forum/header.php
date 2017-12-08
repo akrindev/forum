@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
 	<title><?=$judul;?> - Iruna Online Indonesia</title>
-	<meta name="description" content=" <?=htmlentities(character_limiter($isi,160), ENT_QUOTES , 'UTF-8');?> ">
+	<meta name="description" content=" <?=htmlentities(character_limiter(strip_tags($isi),160), ENT_QUOTES , 'UTF-8');?> ">
 	<meta name='language' content='id_ID'>
 		<meta name='robots' content='all,index,follow'>
 			<meta name='HandheldFriendly' content='True'>
@@ -17,8 +17,8 @@
  <meta property="og:url"                content="<?=base_url($this->uri->uri_string());?>" />
 <meta property="og:type"               content="article" />
 <meta property="og:title"              content="<?=$judul;?>" />
-<meta property="og:description"        content="<?=htmlentities(character_limiter($isi,160), ENT_QUOTES , 'UTF-8');?> " />
-<meta property="og:image"              content="http://i.cubeupload.com/a6W64O.jpeg" />
+<meta property="og:description"        content="<?=htmlentities(character_limiter(strip_tags($isi),160), ENT_QUOTES , 'UTF-8');?> " />
+<meta property="og:image"              content="<?=get_gambar($isi)?>" />
 <meta property="fb:app_id" content="2008283499456981"/>
 <meta name="generator" content="WordPress 4.8.3" />
 
