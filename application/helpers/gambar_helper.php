@@ -13,7 +13,8 @@
 		
 							echo $akhir[0];
 					}else {
-							echo "http://i.cubeupload.com/a6W64O.jpeg";
+							//echo "http://i.cubeupload.com/a6W64O.jpeg";
+							echo "https://i.ytimg.com/vi/jsr8PI72Tq4/hqdefault.jpg";
 					}
 		    }
 	}

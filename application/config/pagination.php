@@ -17,7 +17,7 @@
   $config["prev_link"] = "&lt;";
   $config["prev_tag_open"] = '<li class="pagination-list">';
   $config["prev_tag_close"] = "</li>";
-  $config["cur_tag_open"] = "<li class='pagination-list active'><a href='#'>";
+  $config["cur_tag_open"] = "<li class='active'><a href='#'>";
   $config["cur_tag_close"] = "</a></li>";
   $config["num_tag_open"] = "<li class='pagination-list'>";
   $config["num_tag_close"] = "</li>";

@@ -7,73 +7,82 @@ class User extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
-		
+		$this->_init();
 	}
 	
-  
+  private function _init()
+	{
+		$this->output->set_template('adminlte');
+		$this->load->js('https://code.jquery.com/jquery-3.2.1.min.js');
+	}
+	
 	function index()
 	{
-		    $header['judul'] = "Dashboard";
- 		   $header["isi"] = "Dashboard user";
-				if(!$this->session->userdata('user')){
-					redirect(site_url('login'));
-				}else{
-    				$user = $this->session->userdata('user');
-    				$userid = $this->session->userdata('iduser');
+			if(!$this->session->userdata('user')){
+				redirect(site_url('login'));
+			}else{
+    			$user = $this->session->userdata('user');
+    			$userid = $this->session->userdata('iduser');
 
-					$hh = $this->user->tampiluser($user);
-				    $data['nyun'] = $hh->row_array();
+				$hh = $this->user->tampiluser($user);
+			    $data['user'] = $hh->row_array();
 				
-     	   		$this->config->load('pagination',TRUE);
-			 	   $configg = $this->config->item('pagination');
-   			     $configg["base_url"] = base_url() . "user/index";
- 			       $total_row = $this->user->get_user_c('timeline',$userid)->num_rows();
-           	     $configg["total_rows"] = $total_row;
- 			       $this->pagination->initialize($configg);
-			        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+     	   	$this->config->load('pagination',TRUE);
+		 	   $configg = $this->config->item('pagination');
+   		     $configg["base_url"] = base_url() . "user/index";			        $total_row = $this->user->get_user_c('timeline',$userid)->num_rows();
+       	     $configg["total_rows"] = $total_row;
+ 		       $this->pagination->initialize($configg);
+		        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         
-  			      $data["posts"] = $this->user->get_user_post("timeline",$userid,$configg["per_page"], $page);
- 		           $str_links = $this->pagination->create_links();
-			        $data["links"] = explode('&nbsp;',$str_links );
+  		      $data["posts"] = $this->user->get_user_post("timeline",$userid,$configg["per_page"], $page);
+ 	           $str_links = $this->pagination->create_links();
+		        $data["links"] = explode('&nbsp;',$str_links );
 	
-					$this->load->view('forum/header',$header);
-				    $this->load->view('forum/dashboard',$data);
-				    $this->load->view('forum/footer');
+				$this->output->set_common_meta('Dashboard','Dashboard','a');
+			
+	    		$this->output->set_output_data('deskripsi','Halaman dashboard');
+        		$this->output->set_output_data('og','gak tau');
+			    $this->load->view('dashboard',$data);
+			    
     
 		}
 	}
   
-  function profile($user)
+    function profile($user)
 	{
-		    $header['judul'] = "$user - Profile";
-  		  $header["isi"] = "Dinding user";
-
+			if(!$user)
+			{
+					redirect('dashboard');
+			}
 
 		    $hh = $this->user->tampiluser($user);
-		    $data['nyun'] = $hh->row_array();
+		    $data['user'] = $hh->row_array();
     
-    foreach($hh->result() as $gg)
-    {
-    	$iduserr = $gg->id;
-    }
+		    foreach($hh->result() as $gg)
+  		  {
+    			$iduserr = $gg->id;
+ 		   }
     
-        $this->config->load('pagination',TRUE);
- 	   $configg = $this->config->item('pagination');
-        $configg["base_url"] = base_url() . "user/index";
-        $total_row = $this->user->get_user_c('timeline',$iduserr)->num_rows();
+     	   $this->config->load('pagination',TRUE);
+ 		   $configg = $this->config->item('pagination');
+     	   $configg["base_url"] = base_url() . "user/index";
+    	    $total_row = $this->user->get_user_c('timeline',$iduserr)->num_rows();
         
-       $configg["total_rows"] = $total_row;
+            $configg["total_rows"] = $total_row;
  
-        $this->pagination->initialize($configg);
-        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+      	  $this->pagination->initialize($configg);
+     	   $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         
-        $data["posts"] = $this->user->get_user_post("timeline",$iduserr,$configg["per_page"], $page);
+      	  $data["posts"] = $this->user->get_user_post("timeline",$iduserr,$configg["per_page"], $page);
             $str_links = $this->pagination->create_links();
-        $data["links"] = explode('&nbsp;',$str_links );
+            $data["links"] = explode('&nbsp;',$str_links );
 	
-	$this->load->view('forum/header',$header);
-    $this->load->view('forum/profile',$data);
-    $this->load->view('forum/footer');
+			$this->output->set_common_meta($user.'- profile',$user,'a');
+			
+    		$this->output->set_output_data('deskripsi',$user.'- profile');
+        	$this->output->set_output_data('og','gak tau');
+    		$this->load->view('profile',$data);
+
 }
 		
 
@@ -84,12 +93,12 @@ class User extends CI_Controller
         redirect('user');
       }
       
- 	   $header['judul'] = "Register";
-  	  $header["isi"] = "Form registreasi";
+			$this->output->set_common_meta('Mendaftar','Form untuk mendaftar','daftar');
+			
+    		$this->output->set_output_data('deskripsi','Registrasi');
+        	$this->output->set_output_data('og','gak tau');
     
-		$this->load->view('forum/header',$header);
-		$this->load->view('forum/register');
- 	   $this->load->view('forum/footer');
+		$this->load->view('register');
 	}
 	
 	function logout()
@@ -97,31 +106,6 @@ class User extends CI_Controller
 		$this->session->sess_destroy();
 		redirect(base_url());
 	}
-	
-  public function dashboard()
-  {
-    if($this->session->userdata('user') == '')
-    {
-      redirect(base_url());
-    }
-    $user = $this->session->userdata('user');
-	$uid = $this->session->userdata('iduser');
-	
-    $header['judul'] = "Dashboard";
-    $header["isi"] = "Dashboard user";
-    
- $hh = $this->user->tampiluser($user);
-    $ava = $hh->row_array();
-    $email = $ava['email'];
-    $data['nyun'] = $hh->row_array();
-
-
-    $this->load->view('forum/header',$header);
-    $this->load->view('forum/dashboard',$data);
-    $this->load->view('forum/footer');
-    
-  }
-  
   
 	public function login()
 	{
@@ -129,55 +113,52 @@ class User extends CI_Controller
 		{
 			redirect(base_url('user'));
 		}
-		    $header['judul'] = "Login";
-    $header["isi"] = "Form login";
-         $this->form_validation->set_rules('username','Username','required|alpha_numeric|trim');
-         $this->form_validation->set_rules('password','Password','required');
-      
+
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
       
-      if($this->form_validation->run() != FALSE)
-      {
+      $this->output->set_common_meta('Login','Login form, lets start','a');
+			
+    		$this->output->set_output_data('deskripsi','login');
+        	$this->output->set_output_data('og','gak tau');
+      
+       if($this->form_validation->run('login') != FALSE)
+       {
         
-        $ini = $this->user->ceklogin($username,$password);
+	        $ini = $this->user->ceklogin($username,$password);
         
-        if($ini == "success")
-		{    
+  	      if($ini == "success")
+			{    
 		       $date = $this->user->tampiluser($username)->row_array();      
-			   $user = $this->session->set_userdata(
+			   $this->session->set_userdata(
 				[
    		         'iduser' => $date['id'],
   		          'user'=>$username,   
 		     	   'level'=> $date['role']   
  	           ]);
-		 redirect('user');
+			 redirect('user');
         }
         else if($ini == "banned")
         {
         	    $this->session->set_flashdata('gagal_login','Akun di tangguhkan, baca Rules!');
 
-				$this->load->view('forum/header',$header);
-   	         $this->load->view('forum/login');
-			    $this->load->view('forum/footer');
+				
+   	         $this->load->view('login');
+			
         }
         else
         {
         	
     		    $this->session->set_flashdata('gagal_login','Username atau password salah');
 
-				$this->load->view('forum/header',$header);
-   	         $this->load->view('forum/login');
-  			  $this->load->view('forum/footer');
+   	         $this->load->view('login');
         }
         
       }
 	else
         {
 
-		  $this->load->view('forum/header',$header);
-		  $this->load->view('forum/login');
-	      $this->load->view('forum/footer');
+		  $this->load->view('login');
 		}
     }
 	
@@ -185,42 +166,24 @@ class User extends CI_Controller
 	//action daftat
 	function ndaftar()
 	{
-      if($this->session->userdata('user'))
-      {
-        redirect('user');
-      }
-		    $header['judul'] = "Register";
-		    $header["isi"] = "Form registreasi";
-    
-    
-			$this->form_validation->set_rules('username','Username','required|min_length[3]|max_length[8]|trim|alpha_numeric|is_unique[users.username]',array('is_unique'=>'Username sudah digunakan'));
-			
-			$this->form_validation->set_rules('ign','IGN','required|max_length[8]|trim|is_unique[users.ign]',array('is_unique'=>'IGN sudah digunakan'));
-
-			$this->form_validation->set_rules('email','Email','required|valid_email|is_unique[users.email]',array('is_unique'=>'email sudah digunakan'));
-			
-			$this->form_validation->set_rules('password','Password','required');
-			$this->form_validation->set_rules('re-password','Ulangi Password','required|matches[password]');
-			
-			$this->form_validation->set_rules('quotes','Quotes','min_length[5]');
-			
-        	$this->form_validation->set_rules('kota','Kota','required|min_length[5]');
-        
-        	$this->form_validation->set_rules('fullname','Fullname','required|min_length[3]');
-      
-	        $this->form_validation->set_rules('gender','Gender','required');
-    
- 		   $this->form_validation->set_error_delimiters('<div class="error-msg">', '</div>');
+  	    if($this->session->userdata('user'))
+	      {
+     		   redirect('user');
+	      }
+		
  
            $recaptcha = $this->input->post('g-recaptcha-response');
            $response = $this->recaptcha->verifyResponse($recaptcha);
            
            
-		if($this->form_validation->run() == FALSE || !isset($response['success']) || $response['success'] <> true)
+		if($this->form_validation->run('register') == FALSE || !isset($response['success']) || $response['success'] <> true)
 		{
-			$this->load->view('forum/header',$header);
-			$this->load->view('forum/register');
-	        $this->load->view('forum/footer');
+			      $this->output->set_common_meta('Register','Register form, lets start','a');
+			
+    		$this->output->set_output_data('deskripsi','daftar');
+        	$this->output->set_output_data('og','gak tau');
+      
+			$this->load->view('register');
           
 		}
         else
@@ -255,9 +218,7 @@ class User extends CI_Controller
 	//setting
 	function setting()
 	{
-		    $header['judul'] = "Setting";
-    $header["isi"] = "Setting";
-    
+
 		if(!$this->session->userdata('user'))
 		{
 			redirect(base_url('login'));
@@ -266,10 +227,12 @@ class User extends CI_Controller
 		{
 			$user = $this->session->userdata('user');
 			$datq['se'] = $this->user->tampiluser($user)->row_array();
-		
-			$this->load->view('forum/header',$header);
-			$this->load->view('forum/setting',$datq);
-		    $this->load->view('forum/footer');
+		      $this->output->set_common_meta('Setting','Setting form, lets start','a');
+			
+    		$this->output->set_output_data('deskripsi','setting');
+        	$this->output->set_output_data('og','gak tau');
+      
+			$this->load->view('setting',$datq);
 		}
 	}
   
@@ -281,18 +244,8 @@ class User extends CI_Controller
 			redirect(base_url('login'));
 		}
 		
-		$this->form_validation->set_rules('sign','IGN','required|max_length[8]|trim');
-
-		$this->form_validation->set_rules('semail','Email','required|valid_email');
-		
-      	$this->form_validation->set_rules('skota','Kota','required|min_length[3]');
-      	$this->form_validation->set_rules('sfullname','Fullname','required|min_length[4]');
-  $this->form_validation->set_error_delimiters('<div class="error-msg">', '</div>');
-		
-		    $header['judul'] = "Setting";
-   		 $header["isi"] = "Setting";
+		  $this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
     
-		
 			$options = [
 			    'cost' => 12,
 			];
@@ -305,7 +258,7 @@ class User extends CI_Controller
 			$bio = $this->input->post('quotes');
 			$fb = $this->input->post('fb');
       
-		if($this->form_validation->run() != FALSE)
+		if($this->form_validation->run('setting') != FALSE)
 		{
 			
       		if($this->user->sett_update($id,$fullname,$ign,$email,$kota,$bio,$fb))
@@ -317,9 +270,13 @@ class User extends CI_Controller
      		$user = $this->session->userdata('user');
 			 $datq['se'] = $this->user->tampiluser($user)->row_array();
 		
-			$this->load->view('forum/header',$header);
-			$this->load->view('forum/setting',$datq);
-			$this->load->view('forum/footer');
+      $this->output->set_common_meta('Setting','Setting form, lets start','a');
+			
+    		$this->output->set_output_data('deskripsi','setting');
+        	$this->output->set_output_data('og','gak tau');
+      
+			$this->load->view('setting',$datq);
+			
      	}
 			
       }
@@ -351,122 +308,6 @@ class User extends CI_Controller
 			$rea['success'] = false;
 		}
 		echo json_encode($rea);
-	}
-	
-	
-	function kontakadm()
-	{
-		$head['judul'] = "Kontak Admin";
-		$head['isi']  = "Kontak admin form";
-		
-		
-		$this->load->view('forum/header',$head);
-		$this->load->view('forum/admtulis');
-		$this->load->view('forum/footer');
-	}
-	function kontak_admin()
-	{
-		if(!$this->session->userdata('user'))
-		{
-			redirect(base_url('login'));
-		}
-		$this->form_validation->set_rules('tentang','Tentang','required|min_length[5]|max_length[100]');
-    $this->form_validation->set_rules('pesan','isi pesan','required|min_length[5]');
-    
-    
-    if($this->form_validation->run() != FALSE)
-    {
-      $u = $this->session->userdata('user');
-
-      $data = [
-        'dari' => $u,
-        'tentang' => $this->input->post('tentang'),
-        'pesan' => $this->input->post('pesan'),
-        'keamanan' => md5($this->input->post('tentang').$u.date('Y-m-d H:i:s')),
-        'date' => date('Y-m-d H:i:s')
-      ];
-    
-      
-      if($this->forum->post_data('pesan',$data)){ 
-        redirect(base_url().'pesan');
-      }
-    }
-    else
-    {
-     $head['judul'] = "Kontak Admin";
-		$head['isi']  = "Kontak admin form";
-		
-		
-		$this->load->view('forum/header',$head);
-		$this->load->view('forum/admtulis');
-        $this->load->view('forum/footer');
-    }
-    
-}
-	
-	function cek_user($user)
-	{
-		if($this->user->tampiluser($user)->num_rows() > 0)
-		{
-			return TRUE;
-		}else{
-			$this->form_validation->set_message('cek_user', 'Tidak ditemukan user!! periksa kembali username');
-			return FALSE;
-		}
-		
-	}
-	
-	function pesan_baca($x)
-	{
-		if(!$this->session->userdata('user'))
-		{
-			redirect(base_url());
-		}
-		
-		$head['judul'] = "Pesan";
-		$head['isi']  = "Pesan";
-		
-		$user = $this->session->userdata('user');
-		
-		$dat = $this->user->get_pesan_p($x);
-			if($dat)
-		{
-			foreach($dat->result() as $tu)
-			{
-				$data['tentang'] = $tu->tentang;
-				$data['dari'] = $tu->dari;
-				$data['pesan'] = $tu->pesan;
-				$data['date'] = $tu->date;
-				$data['jawaban'] = $tu->jawaban;
-				$data['terjawab'] = $tu->terjawab;
-			}
-		}
-			else
-		{
-				echo "<script>alert('tidak ditemukan')</script>";
-		}
-		$this->load->view('forum/header',$head);
-		$this->load->view('forum/pesanbaca',$data);
-	    $this->load->view('forum/footer');
-	}
-	
-	function pesan()
-	{
-		if(!$this->session->userdata('user'))
-		{
-			redirect(base_url());
-		}
-		
-	    $head['judul'] = "Pesan";
-		$head['isi']  = "Pesan";
-		
-		$user = $this->session->userdata('user');
-		
-		$data['pesan'] = $this->user->get_pesan($user);
-		
-		$this->load->view('forum/header',$head);
-		$this->load->view('forum/pesan',$data);
-	    $this->load->view('forum/footer');
 	}
 	
 }

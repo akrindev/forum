@@ -2,11 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 
-$route['default_controller'] = 'reset/intro';
+$route['default_controller'] = 'diskusi/intro';
 $route['forum'] = 'diskusi/page';
 $route['forum/tl'] = 'diskusi/timeline';
 $route['forum/tl/(:any)'] = 'diskusi/timeline/$1';
-$route['forum/tulis'] = 'diskusi/tulis';
+$route['tulis'] = 'diskusi/tulis';
 
 
 $route['kontak-admin'] = 'user/kontakadm';
@@ -19,7 +19,7 @@ $route['sitemap\.xml'] = 'sitemap';
 $route['image'] = 'diskusi/image';
 
 $route['tutorial'] = 'reset/bbcode';
-$route['kebijakan-privasi'] = 'reset/privacy';
+$route['kebijakan-privasi'] = 'diskusi/privacy';
 $route['rules'] = 'reset/rules';
 
 //aktivitas user 

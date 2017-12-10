@@ -12,9 +12,9 @@
 $config['gravatar_base_url'] = 'http://www.gravatar.com/';
 $config['gravatar_secure_base_url'] = 'https://secure.gravatar.com/';
 $config['gravatar_image_extension'] = '.png';   // '', '.png' or '.jpg'.
-$config['gravatar_image_size'] = 80;
+$config['gravatar_image_size'] = 100;
 
-$config['gravatar_default_image'] = 'wavatar'; // '', '404', 'mm', 'identicon', 'monsterid', 'wavatar', 'retro', 'blank'.
+$config['gravatar_default_image'] = 'monsterid'; // '', '404', 'mm', 'identicon', 'monsterid', 'wavatar', 'retro', 'blank'.
 //$config['gravatar_default_image'] = DEFAULT_BASE_URL.'assets/img/lib/default-person.png'; // Another possible option: a custon image.
 
 $config['gravatar_force_default_image'] = false;

@@ -1,267 +1,153 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Diskusi extends CI_Controller
- {
-	
+class Diskusi extends CI_Controller {
+
 	function __construct()
 	{
 		parent::__construct();
+
+		$this->load->helper('url');
+
+		$this->_init();
+	}
+
+	private function _init()
+	{
+		$this->output->set_template('adminlte');
+		$this->load->js('https://code.jquery.com/jquery-3.2.1.min.js');
+	}
+
+	public function index()
+	{
+		redirect('/');
+	}
+
+	public function timeline($slug)
+	{
+		    $o = $this->forum->getone('timeline',$slug);
+ 		   $c = $o->num_rows();
+		    $x = $o->result();
+		
+			if($c > 0)
+		    {
+     			foreach($x as $d)
+				 {
+    					$idtl = $d->tlid;
+    					$katego =  $d->slug;
+    					$taggs = $d->tags;
+    					$this->db->where('slug',$d->slug);
+      				  $this->db->update('timeline',['dilihat' => $d->dilihat+1]);
+ 
+    					$data = [
+    							'id' 		=>	$d->tlid,
+    							'judul'   =>	$d->judul,
+    							'slug'     =>	$d->slug,
+    							'isi'		 =>	$this->bbcode->bbcode_to_html($d->isi),
+    							'username'	=> $d->username,
+    							'email'	 =>	$d->email,
+    							'date'		=>	$d->date,
+    							'banned'  =>	$d->banned,
+    							'pinned'   =>	$d->pinned,
+    							'dilihat'	=>	$d->dilihat,
+   							 'tags'		=>	explode(",",$d->tags)
+   						];
+   
+          		
+ 			    }	//end foreach
+ 
+ 			$getkat = $this->forum->get_nama_kat($katego);
+ 			foreach($getkat->result() as $kat)
+			{
+				$data['kategori'] = $kat->kat;
+  		   }
+  
+  			/* sudah ada berapa komentar */
+  			$coco = $this->forum->get_comment_count($idtl)->result();
+    		  foreach($coco as $coc)
+		      {
+			      $data['coco'] = $coc->c;
+ 		     }
+ 
+ 			/* mendapatkan list komen */
+ 			$k = $this->forum->get_comment($idtl);
+			 $data['k'] = $v = $k->result();
+			
+			if($this->session->userdata('user'))
+			{
+				$this->load->js('assets/js/v.js');
+			    $this->load->js('assets/js/te.js');
+			}
+			
+			$deskripsi = htmlentities(strip_tags($data['isi']),ENT_QUOTES,'UTF-8');
+			$this->output->set_common_meta($data['judul'],$deskripsi,$taggs);
+			
+	    	$this->output->set_output_data('deskripsi',$deskripsi);
+        	$this->output->set_output_data('og',$deskripsi);
+			$this->load->view('single',$data);
+		}	//jika ditemukan
+		
 		
 	}
-  
-  
-  public function index()
-  {
-    
-redirect(base_url());
-      
-  }
-  
-  public function timeline($slug = '')
-  {
-  	    $header['judul'] = "Timeline";
-    $header["isi"] = "timeline";
- // $data = new stdClass();
-    if($slug == '')
-    {
-    $y = $this->forum->get_allpost('timeline');
-    
-    $x['timeline'] = $y->result();
-    
-	$this->load->view('forum/header',$header);
-    $this->load->view('forum/threadpost',$x);
-    $this->load->view('forum/footer');
-    }
-    
-    $o = $this->forum->getone('timeline',$slug);
-    $c = $o->num_rows();
-    $x = $o->result();
- 
-  
 
-    if($c > 0)
-    {
-      foreach($x as $d){
-      	
-    		$data['id'] = $d->tlid;
-    		$idtl = $d->tlid;
-    		$data['judul'] = $d->judul;
-    		$katego =  $d->slug;
-    		$data['slug'] = $d->slug;
-    		$data['isi'] = $this->bbcode->bbcode_to_html($d->isi);
-    		$data['username'] = $d->username;
-    		$data['email']      = $d->email;
-    		$data['date'] = $d->date;
-    		$data['banned'] = $d->banned;
-    		$data['pinned'] = $d->pinned;
-    		$dil =  $d->dilihat+1;
-    		$data['tags'] = explode(",",$d->tags);
-          $this->db->where('slug',$data['slug']);
-          $this->db->update('timeline',array(	'dilihat' => $dil));
-    
-      }
-      
-	foreach($this->forum->get_nama_kat($katego)->result() as $kat)
-	{
-		$data['kategori'] = $kat->kat;
-     }
-     
-     
-      $data['dilihat'] = $dil;
-      $coco = $this->forum->get_comment_count($idtl)->result();
-      foreach($coco as $coc)
-      {
-      $data['coco'] = $coc->c;
-      }
-    //  $data['dilihat'] = $dilihat;
-         $k = $this->forum->get_comment($idtl);
-	$t = $k->num_rows();
-	$data['k'] = $v = $k->result();
-
-		if($t == 0){
-			
-      	
-	$this->session->set_flashdata('nokomen','jadilah komentator pertama!!');
-
-      	}
 	
-	$this->load->view('forum/header' ,$data);
-    $this->load->view('forum/threadpost',$data);
-    $this->load->view('forum/footer');
-    }
-  }
-  
-  
-  public function c($id)
-  {
-  	$k = $this->forum->get_comment($id);
-  //	$t = $k->num_rows();
-  	$v['komen'] = $k->result();
-  
-  
-  
-  	$this->load->view('forum/kom',$v);
-  }
-  
-  
   public function tulis()
   {
+  	   /* nyimpen sesi user dan sesi id */
+		$sesi = $this->session->userdata('user');
+  	  $sesiid = $this->session->userdata('iduser');
     
-    if($this->session->userdata('user')  == '')
-    {
-    	redirect(site_url('login'));
-    }
+    	/* jika sesi masih kosong */
+	    if(!$sesi)
+	    {
+			/* lalu redirect ke login */
+    		redirect(site_url('login'));
+ 	   }
     
-    $header['judul'] = "Tulis";
-    $header["isi"] = "tulis post timeline sesuai dengan standar";
+		$this->output->set_title('Tulis artikel');
     
-    $this->form_validation->set_rules('judul','Judul','required|min_length[5]|is_unique[timeline.judul]',array('is_unique' => 'Thread ini sudah ada'));
-        $this->form_validation->set_rules('kategori','Arsip','required');
-    $this->form_validation->set_rules('isi','isi post','required|min_length[15]');
-    
-    if($this->form_validation->run() != FALSE)
-    {
-      $u = $this->session->userdata('iduser');
-      $j = substr(sha1(date('Y-m-d H:i:s')),0,5);
-      $t = strtolower(url_title($this->input->post('judul')).'-'.$j);
-      $data = array(
-        'id_user' => $u,
-        'judul' => $this->input->post('judul' ,TRUE),
-        'slug' => $t,
-        'kat_id' => $this->input->post('kategori'),
-        'tags' => $this->input->post('tags',TRUE),
-        'isi' => $this->bbcode->html_to_bbcode($this->input->post('isi')),
-        'date' => date('Y-m-d H:i:s'),
-   
-      );
+	    if($this->form_validation->run('tulis') != FALSE)
+	    {
+		      $j = substr(sha1(date('Y-m-d H:i:s')),0,5);
+ 		     $t = strtolower(url_title($this->input->post('judul')).'-'.$j);
+ 		     $data = [
+ 			       'id_user' => $sesiid,
+			        'judul' => $this->input->post('judul' ,TRUE),
+			        'slug' => $t,
+ 			       'kat_id' => $this->input->post('kategori'),
+  			      'tags' => $this->input->post('tags',TRUE),
+  			      'isi' => $this->bbcode->html_to_bbcode($this->input->post('isi')),
+ 			       'date' => date('Y-m-d H:i:s'),
+   				];
      
-      $this->session->set_flashdata('post_terbit','Thread berhasil di terbitkan!! :)');
+		      $this->session->set_flashdata('post_terbit','Thread berhasil di terbitkan!! :)');
       
-      if($this->forum->post_data('timeline',$data)){ 
-        redirect(base_url().'forum/tl/'.$t);
-      }
-    }
-    else
-    {
-
-		$this->load->view('forum/header',$header);
-        $this->load->view('forum/forum');
-        $this->load->view('forum/footer');
-    }
-    
-    
+   	 	  if($this->forum->post_data('timeline',$data))
+			  { 
+   	  		   redirect(base_url().'forum/tl/'.$t);
+		      } //end if
+ 	   } 
+ 	   else
+ 	   {
+ 		   $this->load->js('assets/js/te.js');
+			$this->output->set_title("Tulis baru");
+			$this->output->set_output_data('deskripsi','rules atau peraturan  harus di patuhi');
+        	$this->output->set_output_data('og','none');
+        	$this->load->view('tulis');
+	    } // end validation
   }
-    public function tulis_img()
-  {
-    
-    if($this->session->userdata('user')  == '')
-    {
-    	redirect(site_url('login'));
-    }
-    
-    $header['judul'] = "Image";
-    $header["isi"] = "Image fansart iruna post timeline sesuai dengan standar";
-    
-    $this->form_validation->set_rules('url','Url gambar','required|min_length[5]|valid_url|is_unique[image.url]',array('is_unique' => 'Image ini sudah ada'));
-    $this->form_validation->set_rules('isi','isi post','required|min_length[5]');
-    $this->form_validation->set_error_delimiters('<div class="error-msg">', '</div>');
-    if($this->form_validation->run() != FALSE)
-    {
-      $u = $this->session->userdata('iduser');
-
-      $data = array(
-        'id_user' => $u,
-        'url' => $this->input->post('url'),
-        'isi' => $this->input->post('isi'),
-        'date' => date('Y-m-d H:i:s')
-      );
-    
-      
-      if($this->forum->post_data('image',$data)){ 
-        redirect(base_url().'image');
-      }
-    }
-    else
-    {
-        $data['judul'] = 'ID';
-        $data['isi'] = 'Fansart iruna, Meme iruna, Iruna online forum, tutorial iruna, Production iruna';
-        
-        $data["image"] = $this->forum->fetch_data_image(999, 0);
-		$this->load->view('forum/header',$header);
-        $this->load->view('forum/img',$data);
-        $this->load->view('forum/footer');
-    }
-    
-    
-  }
-  
   
   public function komentar($slug)
   {
-  	if(!$this->input->post())
-  	{
-  		redirect('forum/tl/'.$slug);
-  	}
-  	if(!$this->session->userdata('user'))
-  	{
-  		echo "nyari apa gan?";
-  	}
-      $o = $this->forum->getone('timeline',$slug);
-    $c = $o->num_rows();
-    $x = $o->result();
- 
-  
-
-    if($c > 0)
-    {
-      foreach($x as $d){
-      	
-    		$data['id'] = $d->tlid;
-    		$idtl = $d->tlid;
-    		$data['judul'] = $d->judul;
-    		$katego =  $d->slug;
-    		$data['slug'] = $d->slug;
-    		$data['isi'] = $this->bbcode->bbcode_to_html($d->isi);
-    		$data['username'] = $d->username;
-    		$data['email']      = $d->email;
-    		$data['date'] = $d->date;
-        	$data['banned'] = $d->banned;
-    		$dil =  $d->dilihat+1;
-    		$data['tags'] = explode(",",$d->tags);
-          $this->db->where('slug',$data['slug']);
-          $this->db->update('timeline',array(	'dilihat' => $dil));
+		$sessid = $this->session->userdata('iduser');
+ 	   $url = $slug;
+  	  $datta = [   
+   		   'id_user' 	=> $sessid,
+		      'id_timeline' => $this->input->post('idtl'),
+		      'isi'			=> $this->input->post('isi'),
+		      'date'		=> date('Y-m-d H:i:s')
+    		];
     
-      }
-      }
-	foreach($this->forum->get_nama_kat($katego)->result() as $kat)
-	{
-		$data['kategori'] = $kat->kat;
-     }
-     
-     
-      $data['dilihat'] = $dil;
-      $coco = $this->forum->get_comment_count($idtl)->result();
-      foreach($coco as $coc)
-      {
-      $data['coco'] = $coc->c;
-      }
-      $k = $this->forum->get_comment($idtl);
-	$t = $k->num_rows();
-	$data['k'] = $v = $k->result();
-     $this->form_validation->set_rules('isi','isi komentar','min_length[5]|required');
-     $this->form_validation->set_error_delimiters('<div class="error-msg">', '</div>');
-    $iduser = $this->session->userdata('iduser');
-    $url = $slug;
-    $datta = array(
-      
-      'id_user' 	=> $iduser,
-      'id_timeline' => $this->input->post('idtl'),
-      'isi'			=> $this->input->post('isi'),
-      'date'		=> date('Y-m-d H:i:s')
-    );
-    
-    if($this->form_validation->run() != FALSE){
+    if($this->form_validation->run('komentar') != FALSE){
     	$d = [ 'updated' => date('Y-m-d H:i:s') ];
     	$this->forum->post_komentar($datta);
     	$this->forum->update_post($this->input->post('idtl'),$d);
@@ -269,67 +155,38 @@ redirect(base_url());
 	}
 	else
 	{
-		$this->load->view("forum/header",$data);
-		$this->load->view("forum/threadpost",$data);
-		$this->load->view('forum/footer');
-		}
-}
-	
- 
- //Fungsi menampilkan arsip
- function arsip($kat = 'Curhat')
- {
-
- 	$header['judul'] = "Arsip $kat Iruna";
- 	$header['isi']      = "Arsip $kat Mobile iruna notes";
- 
- 	//$data['arsip'] = $this->forum->get_arsip($kat);
-          
- 	$data['nmarsip'] = $kat;
+		echo "kesalahan yang kamu buat :(";
+	}
+  }
+  
+  
+  /* fungsi arsip */
+	function arsip($kat = 'Curhat')
+    {
+ 	
+		$this->output->set_common_meta("Arsip $kat","Semua arsip dari kategori $kat","arsip $kat");   
+    	$data['nmarsip'] = $kat;
  
  
  	   $this->config->load('pagination',TRUE);
- 		$configg = $this->config->item('pagination');
-        $configg["base_url"] = base_url() . "diskusi/arsip/$kat";
+ 	   $configg = $this->config->item('pagination');
+        $configg["base_url"] = base_url() . "arsip/$kat";
         $total_row = $this->forum->count_arsip($kat);
         $configg["total_rows"] = $total_row;
 
         
         $this->pagination->initialize($configg);
-        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-        $data['judul'] = 'ID';
-        $data['isi'] = 'Iruna online forum, tutorial iruna, Production iruna';
-                $data["arsip"] = $this->forum->fetch_data_arsip($kat,$configg["per_page"], $page);
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+     
+        $data["arsip"] = $this->forum->fetch_data_arsip($kat,$configg["per_page"], $page);
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;',$str_links );
  
- 	$this->load->view("forum/header",$header);
- 	$this->load->view("forum/arsip",$data);
-    $this->load->view('forum/footer');
- 
+ 	$this->load->view("arsip",$data);
 	}
   
   
-  
-  //pagination image
-  
-     public function image(){
-  
-        $data['judul'] = 'ID';
-        $data['isi'] = 'Fansart iruna, Meme iruna, Iruna online forum, tutorial iruna, Production iruna';
-        
-        $data["image"] = $this->forum->fetch_data_image(999, 0);
-
-        
-
-    $this->load->view('forum/header', $data);
-    $this->load->view('forum/img',$data);
-    $this->load->view('forum/footer');
-
-        }
-  
-    
-     public function page(){
+   public function page(){
         $this->config->load('pagination',TRUE);
  	   $configg = $this->config->item('pagination');
         $configg["base_url"] = base_url() . "diskusi/page";
@@ -339,94 +196,89 @@ redirect(base_url());
  
         $this->pagination->initialize($configg);
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-        $data['judul'] = 'ID';
-        $data['isi'] = 'Iruna online forum, tutorial iruna, Production iruna';
-        
+   
         $data["timeline"] = $this->forum->fetch_data($configg["per_page"], $page);
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;',$str_links );
-        
 
-     $this->load->view('forum/header', $data);
-    $this->load->view('forum/forumd',$data);
-    $this->load->view('forum/footer');
-        }
+   		 $this->output->set_common_meta("Iruna ID","Iruna online best game MMORPG android and iOS, 3D with 1billion quest and dress","iruna online,best game mmorpg android,android mmorpg,3d mmorpg android!");
+        	$this->output->set_output_data('deskripsi','Forum iruna online indonesia');
+        	$this->output->set_output_data('og','noo');
+	   	 $this->load->view('pageindex',$data);
+       }
   
-  function cari()
-  {
-  	$kata = strip_tags($this->input->post('cari',TRUE));
-  	$data['cari'] = $this->forum->cari($kata);
+    function cari()
+    {
+	  	$kata = strip_tags($this->input->post('cari',TRUE));
+	
+	  	$data['cari'] = $this->forum->cari($kata);
+ 	 	$data['carikata'] = $kata;
   
-  	$head['judul'] = "Cari $kata ";
-  	$head['isi']   	= "Cari $kata";
-  	$data['carikata'] = $kata;
+  		$this->output->set_common_meta("Cari $kata iruna","Cari $kata dalam thread",$kata);
+ 	 	$this->load->view('cari',$data);
+ 	 }
   
-  	$this->load->view('forum/header',$head);
-  	$this->load->view('forum/cari',$data);
-  	$this->load->view('forum/footer');
-  }
-  
-  //hapus
+    //hapus
   function erase($id)
   {
-  	if(!$this->session->userdata('user'))
+  	$sess = $this->session->userdata('user');
+      $sessid = $this->session->userdata('iduser');
+  	if(!$sess)
   	{
   		redirect(base_url());
   	}else{
-  	$user = $this->session->userdata('iduser');
-
-  	if($this->forum->cocok($user,$id)->num_rows() > 0){
+  	
+  		if($this->forum->cocok($sessid,$id)->num_rows() > 0){
   
-  		if($this->forum->delpost($id))
-  		{
-  			redirect(base_url('user'));
-  		}else{
-  			redirect(base_url());
-  		}
-  	}else{
-  		echo "<script>alert('tidak punya akses')</script>";
-  	}
-  }
-  }
-  
-    function edit_post($id)
-  {
-  		$header['judul'] = "edit";
-  		$header['isi'] = "edit data";
-  
-  
-  	if(!$this->session->userdata('user'))
-  	{
-  		redirect(base_url());
-  	}else{
-  	$user = $this->session->userdata('iduser');
-	  $cocok = $this->forum->cocok($user,$id);
-  	if($cocok->num_rows() > 0){
-  			foreach($cocok->result() as $ya)
+  			if($this->forum->delpost($id))
   			{
-  					$data = [ 'id' 		=> $ya->id,
-									 'judul' => $ya->judul,
+  				redirect(base_url('user'));
+  			}else{
+	  			redirect(base_url());
+  			}
+  		}else{
+  			echo "<script>alert('tidak punya akses')</script>";
+  		}
+	   }
+  }
+  
+  
+  
+	function edit_post($id)
+    {
+  		if(!$this->session->userdata('user'))
+  		{
+  			redirect(base_url());
+	  	}else{
+ 		 	$user = $this->session->userdata('iduser');
+			  $cocok = $this->forum->cocok($user,$id);
+			
+  			if($cocok->num_rows() > 0)
+			  {
+  				foreach($cocok->result() as $ya)
+  				{
+  					$data = [
+									 'id' 		=> $ya->id,
+									 'judul'   => $ya->judul,
   									'slug' 	=> $ya->slug,
   									'isi'		=> $ya->isi,
-  									'tag'		=> $ya->tags ];
-  			}
+  									'tag'	   => $ya->tags 
+									];
+  				}
   			
-  			$this->load->view('forum/header',$header);
-  			$this->load->view('forum/edpost',$data);
-    		  $this->load->view('forum/footer');
+  				$this->output->set_output_data('deskripsi','edit');
+				  $this->output->set_title('edit artikel');
+			  	$this->output->set_output_data('og','none');
+  				$this->load->view('retulis',$data);
+  			}else{
+  				echo "<script>alert('tidak punya akses')</script>";
+  			}
+		  }
+  }
   
-  	}else{
-  		echo "<script>alert('tidak punya akses')</script>";
-  	}
-  }
-  }
   
   function retulis($id)
   {
-  		$header['judul'] = "edit";
-  		$header['isi'] = "edit data";
-  
-  
   	if(!$this->session->userdata('user'))
   	{
   		redirect(base_url());
@@ -465,10 +317,11 @@ redirect(base_url());
   									'isi'		=> $ya->isi,
   									'tag'		=> $ya->tags ];
   			}
-  			
-  			$this->load->view('forum/header',$header);
-  			$this->load->view('forum/edpost',$data);
-  		    $this->load->view('forum/footer');
+  	    	$this->output->set_output_data('og','none');
+			  $this->output->set_output_data('deskripsi','edit');
+			  $this->output->set_title('edit artikel');
+  			$this->load->view('retulis',$data);
+
     }
     
   
@@ -478,5 +331,36 @@ redirect(base_url());
   }
   }
   
+	function rules()
+	{
+			$this->output->set_title("Rules / Peraturan");
+			$this->output->set_output_data('deskripsi','rules atau peraturan yang harus di patuhi');
+        	$this->output->set_output_data('og','none');
+        	$this->load->view('rules');
+	}
+	
+	function kprivasi()
+	{
+			$this->output->set_title("Kebijakan Privasi");
+			$this->output->set_output_data('deskripsi','kebijakan privasi');
+        	$this->output->set_output_data('og','none');
+        	$this->load->view('privacy');
+	}
+	
+	function bbcode()
+	{
+			$this->output->set_title("BBCode Support");
+			$this->output->set_output_data('deskripsi','Format penulisan menggunakan bbcode');
+        	$this->output->set_output_data('og','none');
+        	$this->load->view('bbcode');
+	}
   
+  function intro()
+	{
+			$this->output->set_title("Iruna Online ID");
+			$this->output->set_output_data('deskripsi','Iruna online adalah game mmorpg terbaik android dan iOS. dikembangkan oleh ASOBIMO INC');
+        	$this->output->set_output_data('og','none');
+        	$this->load->view('intro');
+	}
+	
 }
