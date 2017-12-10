@@ -7,9 +7,7 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="../../lte/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-  <!-- Ionicons 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-  Theme style -->
+
   <link rel="stylesheet" href="../../lte/dist/css/AdminLTE.min.css">
 
   <link rel="stylesheet" href="../../lte/dist/css/skins/skin-purple.min.css">
@@ -121,8 +119,8 @@
                 <img src="<?=$this->gravatar->get($uup->email);?>" class="img-circle" alt="User Image">
 
                 <p>
-                 	@<?=$uup->username;?>
-                </p>
+                 	Selamat datang kak <?=$uup->username;?> 
+                </p> 
               </li>
               <!-- Menu Body -->
               <li class="user-body">
@@ -183,7 +181,7 @@ foreach($this->user->tampiluser($this->session->userdata('user'))->result() as $
       <!-- /.search form -->
 
       <ul class="sidebar-menu">
-        <li class="header">MAIN NAVIGATION</li>
+        <li class="header">NAVIGATION</li>
         <li class="treeview">
           <a title="forum" href="/forum">
             <i class="fa fa-dashboard"></i> <span>Forum</span>
@@ -204,14 +202,16 @@ foreach($this->user->tampiluser($this->session->userdata('user'))->result() as $
           </a>
           
         </li>
+        <?php if($this->session->userdata('user')){ ?>
         <li>
-          <a title="BBCODE support" href="/tutorial">
-            <i class="fa fa-th"></i> <span>BBCode support</span>
+          <a title="Pengaturan" href="/user/setting">
+            <i class="fa fa-th"></i> <span>Pengaturan akun</span>
             <span class="pull-right-container">
-              <small class="label pull-right bg-green">Hot</small>
+              <small class="label pull-right bg-green">♥</small>
             </span>
           </a>
         </li>
+        <?php } ?>
         <li class="treeview">
           <a title="kebijakan privasi" href="/kebijakan-privasi">
             <i class="fa fa-heart"></i>
@@ -237,22 +237,7 @@ foreach($this->user->tampiluser($this->session->userdata('user'))->result() as $
 ?>
         <li><a href="/arsip/<?=$kate->kat;?>"><i class="fa fa-circle-o text-<?=$q;?>"></i> <span><?=$kate->kat;?></span></a></li>
         <?php } ?>
-        	<li class="header">
-        	<!-- Histats.com  (div with counter) --><div id="histats_counter"></div>
-<!-- Histats.com  START  (aync)-->
-<script type="text/javascript">var _Hasync= _Hasync|| [];
-_Hasync.push(['Histats.start', '1,3962278,4,107,170,20,00010000']);
-_Hasync.push(['Histats.fasi', '1']);
-_Hasync.push(['Histats.track_hits', '']);
-(function() {
-var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
-hs.src = ('//s10.histats.com/js15_as.js');
-(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
-})();</script>
-<noscript><img  src="//sstatic1.histats.com/0.gif?3962278&101" alt="free geoip" border="0"></noscript>
-<!-- Histats.com  END  -->
-        
-        	</li>
+        	
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -267,7 +252,22 @@ hs.src = ('//s10.histats.com/js15_as.js');
       <b>Rokoko</b> Iruna
     </div>
     <strong>Copyright &copy; 2017 <a href="https://rokoko-iruna.com/">rokoko-iruna.com</a>.</strong> All rights
-    reserved.
+    reserved. <br/>
+    
+       <!-- Histats.com  (div with counter) -->
+<div id="histats_counter"></div>
+<!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,3962278,4,107,170,20,00010000']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><img  src="//sstatic1.histats.com/0.gif?3962278&101" alt="free geoip" border="0"></noscript>
+<!-- Histats.com  END  -->
   </footer>
 
   
