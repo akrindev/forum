@@ -3,13 +3,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-         <?=$name;?>
+         <?=ucfirst($type);?>s
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url();?>"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="<?=base_url();?>/price"><i class="fa fa-dashboard"></i> Price</a></li>
-        <li><a href="<?=base_url();?>/price/<?=$type?>"><?=$type?></a></li>
-        <li class="active"><a href="/forum"><?=$name;?>s</a></li>
+        <li><a href="<?=base_url();?>/price"> Price</a></li>
+        
+        <li class="active"><a href="/forum"><?=ucfirst($type);?>s</a></li>
         
       </ol>
     </section>
@@ -38,10 +38,13 @@
 	  <div style="margin:20px;"></div>
 	  <!-- price items -->
 	<div class="row">
-	  <div class="col-xs-12">
+		<?php
+		foreach($ini->result() as $uni){
+		?>
+	  <div class="col-xs-12 col-md-9">
 		<div class="box box-warning">
 		  <div class="box-body">
-			<h4 class="text-primary"><?=$name?><small><?=$type?></small></h4>
+			<h4 class="text-primary"><?=$uni->name?><small><?=$uni->type?></small></h4>
 			<table class="table table-striped table-condensed">
 			<thead>
 			  <tr>
@@ -52,34 +55,23 @@
 			  </tr>
 			</thead>
 				<tr>
-				  <td> <?=$date?></td>
-				  <td> <?=$price?> </td>
-				  <td> <?=$stk?> </td>
-				  <td> <?=$npc?> </td>
+				  <td> <?=$uni->latest_updated?></td>
+				  <td> <?=$uni->price?> </td>
+				  <td> <?=$uni->stk?> </td>
+				  <td> <?=$uni->npc?> </td>
 				</tr>
 			</table>
+			<?php 
+if($this->session->userdata('level') == 'admin'){ ?>
+			<button class="btn uio-<?=$uni->id;?> btn-primary" onClick="edit(<?=$uni->id;?>)">edit</button> <button class="btn btn-danger" onClick="delete(<?=$uni->id;?>)">delete</button>
+			<?php } ?>
 		  </div>
-		<!--
-		  <div class="box-footer">
-			<h5><i class="fa fa-hourglass-half"></i> History</h5>
-			<table class="table table-striped table-condensed">
-			  <thead>
-				<tr>
-				  <th>Date</th>
-				  <th>Price</th>
-				  <th>Stk</th>
-				</tr>
-			  </thead>
-			  <tr>
-				<td> December 12, 2017</td>
-				<td> 200m </td>
-				<td> 200k</td>
-			  </tr>
-			</table>
-		  </div>
-		-->
+	
 		</div>
 	  </div>
+	<?php 
+		}
+?>
 	</div> <!-- row -->
 	<!-- / price item -->
       <!-- uuhh -->
@@ -88,3 +80,5 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+  
+  
