@@ -82,7 +82,7 @@ class Diskusi extends CI_Controller {
 			$this->output->set_common_meta($data['judul'],$deskripsi,$taggs);
 			
 	    	$this->output->set_output_data('deskripsi',$deskripsi);
-        	$this->output->set_output_data('og',$deskripsi);
+        	$this->output->set_output_data('og',$data['isi']);
 			$this->load->view('single',$data);
 		}	//jika ditemukan
 		
@@ -109,16 +109,17 @@ class Diskusi extends CI_Controller {
 	    {
 		      $j = substr(sha1(date('Y-m-d H:i:s')),0,5);
  		     $t = strtolower(url_title($this->input->post('judul')).'-'.$j);
+ 		 	$isinya = $this->input->post('isi');
  		     $data = [
  			       'id_user' => $sesiid,
 			        'judul' => $this->input->post('judul' ,TRUE),
 			        'slug' => $t,
  			       'kat_id' => $this->input->post('kategori'),
   			      'tags' => $this->input->post('tags',TRUE),
-  			      'isi' => $this->bbcode->html_to_bbcode($this->input->post('isi')),
+  			      'isi' => $this->bbcode->html_to_bbcode(addslashes($isinya)),
  			       'date' => date('Y-m-d H:i:s'),
    				];
-     
+
 		      $this->session->set_flashdata('post_terbit','Thread berhasil di terbitkan!! :)');
       
    	 	  if($this->forum->post_data('timeline',$data))
@@ -128,6 +129,7 @@ class Diskusi extends CI_Controller {
  	   } 
  	   else
  	   {
+
  		   $this->load->js('assets/js/te.js');
 			$this->output->set_title("Tulis baru");
 			$this->output->set_output_data('deskripsi','rules atau peraturan  harus di patuhi');
@@ -215,6 +217,8 @@ class Diskusi extends CI_Controller {
  	 	$data['carikata'] = $kata;
   
   		$this->output->set_common_meta("Cari $kata iruna","Cari $kata dalam thread",$kata);
+     	$this->output->set_output_data('deskripsi','cari sesuatu mas?');
+          $this->output->set_output_data('og','enggak');
  	 	$this->load->view('cari',$data);
  	 }
   
@@ -297,7 +301,7 @@ class Diskusi extends CI_Controller {
       $data = array(
         'judul' => strip_tags($this->input->post('edjudul')),
         'tags' => strip_tags($this->input->post('tags')),
-        'isi' => $this->input->post('edisi'),
+        'isi' => addslashes($this->input->post('edisi')),
       );
      
       $this->session->set_flashdata('post_ubah','Thread berhasil diubah!! :)');
