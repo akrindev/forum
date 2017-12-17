@@ -3,14 +3,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-         <?=ucfirst($type);?>s
+         <?=ucfirst($q);?>
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url();?>"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="<?=base_url();?>/price"> Price</a></li>
-        
-        <li class="active"><a href="/forum"><?=ucfirst($type);?>s</a></li>
-        
+        <li class="active"><?=$q;?></li>
       </ol>
     </section>
 
@@ -27,7 +25,7 @@
 	</div>
       <div class="price">
         <div class="h">
-            	<?=form_open('price/cari',['class' => 'search-form']);?>
+            	<?=form_open('harga/cari',['class' => 'search-form']);?>
             <div class="input-group">
     
               <input type="text" name="search" class="form-control" placeholder="Search">
@@ -45,13 +43,14 @@
 	  <div style="margin:20px;"></div>
 	  <!-- price items -->
 	<div class="row">
-		<?php
-		foreach($ini->result() as $uni){
+	<?php
+	if($cari){
+	foreach($cari as $i){
 		?>
 	  <div class="col-md-9">
 		<div class="box box-warning">
-		  <div class="box-body yamete-<?=$uni->id;?>">
-			<h4 class="text-primary"><a title=" <?=$uni->name?>" href="/harga/item/<?=$uni->slug;?>"><?=$uni->name?><small><?=$uni->type?></small></a></h4>
+		  <div class="box-body yamete-<?=$i->id;?>">
+			<h4 class="text-primary"><?=$i->name?><small><?=$i->type?></small></h4>
 			<table class="table table-striped table-condensed">
 			<thead>
 			  <tr>
@@ -62,23 +61,24 @@
 			  </tr>
 			</thead>
 				<tr>
-				  <td> <?=$uni->latest_updated?></td>
-				  <td> <?=$uni->price?> </td>
-				  <td> <?=$uni->stk?> </td>
-				  <td> <?=$uni->npc?> </td>
+				  <td> <?=$i->latest_updated?></td>
+				  <td> <?=$i->price?> </td>
+				  <td> <?=$i->stk?> </td>
+				  <td> <?=$i->npc?> </td>
 				</tr>
 			</table>
 			<?php 
 if($this->session->userdata('level') == 'admin'){ ?>
-			<button class="btn uio-<?=$uni->id;?> btn-primary" onClick="edit(<?=$uni->id;?>)">edit</button> <button class="btn nno-<?=$uni->id;?> btn-danger" onClick="hps(<?=$uni->id;?>)">delete</button>
+			<button class="btn uio-<?=$i->id;?> btn-primary" onClick="edit(<?=$i->id;?>)">edit</button> <button class="btn nno-<?=$i->id;?> btn-danger" onClick="hps(<?=$i->id;?>)">delete</button>
 			<?php } ?>
 		  </div>
 	
 		</div>
 	  </div>
-	<?php 
-		}
-?>
+	<?php
+	}
+	}
+	?>
 	</div> <!-- row -->
 	<!-- / price item -->
       <!-- uuhh -->

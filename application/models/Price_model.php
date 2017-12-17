@@ -63,4 +63,43 @@ class Price_model extends CI_Model
  		return $this->db->update('price',$data);
  }
  
+ function delete_item($id)
+ {
+ 	return $this->db->where('id',$id)->delete('price');
+ }
+ 
+ function typenya()
+ {
+ 	return $this->db->query("select distinct(type) from price");
+ }
+ 	function cari($nama)
+ 	{
+ 		
+		$this->db->order_by('name','ASC');
+		$this->db->like('name',$nama);
+ 	   $car =  $this->db->get('price');
+    	if($car->num_rows() > 0)
+   	{
+   			foreach($car->result() as $kena)
+   			{
+   					$data[] = $kena;
+   			}
+   		return $data;
+   	}
+   	return false;
+ 	}
+  	function single($slug)
+ 	{
+		$this->db->where('slug',$slug);
+ 	   $car =  $this->db->get('price');
+    	if($car->num_rows() > 0)
+   	{
+   			foreach($car->result() as $kena)
+   			{
+   					$data[] = $kena;
+   			}
+   		return $data;
+   	}
+   	return false;
+ 	}
  }

@@ -22,34 +22,7 @@ class Price extends CI_Controller {
 	
 	
 	
-	function get_item($type,$slug)
-	{
-		/*
-		* routes = /price/sword/red-tengu (example)
-		*/
-			$ini = $this->price_model->get_item($type,$slug);
-
 	
-			if($ini->num_rows() > 0)
-			{
-			foreach($ini->result() as $uni)
-			{
-				$data = [
-					'type' => $uni->type,
-					'name' => $uni->name,
-					'price' => $uni->price,
-					'stk' => $uni->stk,
-					'npc' => $uni->npc,
-					'date' => $uni->latest_updated
-				];
-			}
-			}
-			$this->output->set_title('Iruna online items price');
-			$this->output->set_output_data('deskripsi','Iruna online items price');
-        	$this->output->set_output_data('og','none');
-			$this->load->view('price_index',$data);
-	}
-
 function get_item_type($type)
 	{
 		/*
@@ -105,4 +78,58 @@ function get_item_type($type)
 
 		
 	}
+	
+	
+	function hps_i($id)
+	{
+		$this->output->unset_template();
+
+		$zz = $this->price_model->delete_item($id);
+		
+		if($zz)
+		{
+			echo json_encode(['status' => true]);
+		}
+	}
+	
+function cari()
+	{
+		/*
+		* routes = /price/sword/red-tengu (example)
+		*/
+		$nama = $this->input->post('search');
+		
+			$ini['cari'] = $this->price_model->cari($nama);
+			$ini['q'] = $nama;
+			
+			$this->output->set_title('Iruna online '.$nama.' items price');
+			$this->output->set_output_data('deskripsi','Iruna online items price');
+        	$this->output->set_output_data('og','none');
+			$this->load->view('price_cari',$ini);
+	}
+	
+	
+	function single($slug)
+	{
+			$ini = $this->price_model->single($slug);
+			
+			foreach($ini as $u)
+			{
+				$data =[
+					'id' => $u->id,
+					'name' => $u->name,
+					'type' => $u->type,
+					'price' => $u->price,
+					'stk' => $u->stk,
+					'npc' => $u->npc,
+					'latest_updated' => $u->latest_updated
+				];
+			}
+			
+			$this->output->set_title('Iruna online '.$data['name'].' items price');
+			$this->output->set_output_data('deskripsi','Iruna online items price');
+        	$this->output->set_output_data('og','none');
+			$this->load->view('price_single',$data);
+	}
+	
 }
