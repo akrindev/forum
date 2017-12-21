@@ -21,7 +21,13 @@ class Price extends CI_Controller {
 	}
 	
 	
-	
+	function index()
+	{ 
+  $this->output->set_title('Iruna online items price');
+			$this->output->set_output_data('deskripsi','Iruna online items price');
+        	$this->output->set_output_data('og','none');
+		$this->load->view('price_awal');
+	}
 	
 function get_item_type($type)
 	{
@@ -126,8 +132,8 @@ function cari()
 				];
 			}
 			
-			$this->output->set_title('Iruna online '.$data['name'].' items price');
-			$this->output->set_output_data('deskripsi','Iruna online items price');
+			$this->output->set_title(''.$data['name'].' [Price]');
+			$this->output->set_output_data('deskripsi', ''.$data['name'].' [Price]');
         	$this->output->set_output_data('og','none');
 			$this->load->view('price_single',$data);
 	}
