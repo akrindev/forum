@@ -23,7 +23,7 @@
      <?php if($cari){
 		foreach($cari as $post){?>
 			
-       <?php    $coco = $this->forum->get_comment_count($post->iid)->result();
+       <?php    $coco = $this->forum->get_comment_count($post->id)->result();
 ?>
 	<a class="hover" title="<?=$post->judul?>" href="<?php echo base_url()?>home/timeline/<?=$post->slug?>">
 	<div class="box box-widget">
@@ -34,8 +34,6 @@
 			  </div>
 			  <!-- /.box-header -->
 			  <div class="box-body"><div class="user-block">
-				  <img class="img-circle" src="<?=$this->gravatar->get($post->email);?>" alt="User Image">
-				  <span data-author="<?=$post->username?>" class="description">By: <span class="text-primary">@<?=$post->username?></span> </span>
 				  <span class="description"><?php 
 echo time_ago($post->date); 
 ?> . dibaca: <?=$post->dilihat;?>x . <i class="glyphicon glyphicon-comment"></i>  <?php
