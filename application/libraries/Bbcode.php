@@ -14,7 +14,7 @@ class Bbcode
 //This function let convert BBcode to HTML
 function bbcode_to_html($text)
 {
-	$text = nl2br(htmlentities($text, ENT_QUOTES, 'UTF-8'));
+	$text = stripslashes(nl2br(htmlentities($text, ENT_QUOTES, 'UTF-8')));
 	$in = array(
 			'#\[b\](.*)\[/b\]#Usi',
 			'#\[i\](.*)\[/i\]#Usi',
@@ -29,14 +29,16 @@ function bbcode_to_html($text)
 			'#\[code\](.*)\[/code\]#Usi',
 			'#\[reply=(.*)\]#Usi',
 			'#\[youtube\](.*)\[\/youtube\]#Usi',
-			
+			'#\[url=(.*)\](.*)\[/url\]#Usi'
 		);
 	$out = array(
 			'<strong>$1</strong>',
 			'<em>$1</em>',
 			'<span style="text-decoration:underline;">$1</span>',
 			'<span style="text-decoration:line-through;">$1</span>',
-			'<div class="text-center"><img class="img-fluid" src="$1" alt="Iruna online indonesia" /></div>',
+			'<div class="text-center" itemprop="image" itemscope="itemscope" itemtype="https://schema.org/ImageObject" ><span content="$1" itemprop="url"></span>
+<span content="250" itemprop="width"></span>
+<span content="160" itemprop="height"></span><img class="img-responsive" src="$1" alt="Iruna online indonesia" /></div>',
 			'<a href="$1">$1</a>',
 			'<a href="$1">$4</a>',
 			'<div style="text-align:left;">$1</div>',
@@ -44,7 +46,8 @@ function bbcode_to_html($text)
 			'<div style="text-align:right;">$1</div>',
 			'<div style="line-height:15px;padding:10px;background:#FCEFD9;color:#A56901;border-radius:5px;font-family:courier new;font-size:12px;text-align:left;margin:0;">$1</div>',
 			'<a class="tangkap" href="#$1">#$1</a>',
-			'<div class="embed-responsive embed-responsive-16by9"> <iframe class="embed-responsive-item" width="400" height="315" src="https://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe></div>'
+			'<div class="embed-responsive embed-responsive-16by9"> <iframe class="embed-responsive-item" width="400" height="315" src="https://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe></div>',
+			'<a href="$1">$2</a>'
 		);
     $count = count($in)-1;
     for($i=0;$i<=$count;$i++)

@@ -2,21 +2,24 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        	<?=$judul;?>
-      </h1>
-      <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
-        <li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem"><a itemprop="item" href="<?=base_url();?>"><i class="fa fa-dashboard"></i><span itemprop="name"> Home</span></a></li>
-        <li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem"><a itemprop="item" href="<?= base_url('arsip/'.$kategori);?>"><span itemprop="name"><?=$kategori;?></span></a></li>
-        <li itemscope="" itemprop="itemListElement" itemtype="http://schema.org/ListItem" class="active"><span itemprop="item"><span itemprop="name"><?=$judul;?></span></span></li>
+      
+      <ol class="breadcrumb" itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
+        <li itemscope="itemscope" itemprop="itemListElement" itemtype="http://schema.org/ListItem"><a itemprop="item" href="<?=base_url();?>"><i class="fa fa-dashboard"></i><span itemprop="name"> Home</span></a></li>
+   <li itemscope="itemscope" itemprop="itemListElement" itemtype="http://schema.org/ListItem"><a itemprop="item" href="<?=base_url();?>forum"><span itemprop="name"> forum</span></a></li>
+        <li itemscope="itemscope" itemprop="itemListElement" itemtype="http://schema.org/ListItem"><a itemprop="item" href="<?= base_url('arsip/'.$kategori);?>"><span itemprop="name"><?=$kategori;?></span></a></li>
+        <li itemscope="itemscope" itemprop="itemListElement" itemtype="http://schema.org/ListItem" class="active"><span itemprop="item"><span itemprop="name"><?=$judul;?></span></span></li>
       </ol>
     </section>
 	
 	
     <!-- Main content -->
     <section class="content">
-	  
+	  <article itemscope='itemscope' itemtype='http://schema.org/BlogPosting'>
+	<link href='<?=current_url();?>' itemprop='mainEntityOfPage'/>
 	  <div id="single-post">
+		<h1 class='post-title entry-title' itemprop='headline'>
+<?=$judul;?>
+</h1>
 		<div class="tags" style="margin:5px 0;">
 			 <span class="glyphicon glyphicon-tags"></span>&nbsp; 
 		 <?php
@@ -30,9 +33,22 @@
 		
 		<div class="box-header with-border">
 		  <div class="user-block">
+<div itemprop='author' itemscope='itemscope' itemtype='https://schema.org/Person'
+>
+	<span content='<?=base_url('profile/'.$username);?>' itemprop='url'></span>
 			<img class="img-circle" src="<?=$this->gravatar->get($email);?>" alt="User Image">
-			<span data-author="<?=$username;?>" class="username"><a href="<?=base_url('profile/'.$username);?>">@<?=$username;?></a></span>
-			<span class="description post-meta"><?=pisah_waktu($date);?> <span class="glyphicon glyphicon-tag"></span><?=$kategori;?></span>
+			<span data-author="<?=$username;?>" class="username"><a href="<?=base_url('profile/'.$username);?>">@<span itemprop='name'><?=$username;?></span></a></span>
+			</div>
+			<span itemprop='publisher' itemscope='itemscope' itemtype='https://schema.org/Organization'>
+			<span itemprop='logo' itemscope='itemscope' itemtype='https://schema.org/ImageObject'>
+<span content='<?=base_url()?>logo.jpg' itemprop='url'></span>
+<span content='600' itemprop='width'></span>
+<span content='60' itemprop='height'></span>
+</span>
+<span content='Rokoko Iruna Online Forum Indonesia' itemprop='name'></span>
+</span>
+			<span content='<?=current_url();?>' itemprop='url'></span>
+			<span class="description post-meta"><abbr content='<?=$date;?>' itemprop='datePublished dateModified' title='<?=$date;?>'><?=pisah_waktu($date);?> </abbr><span class="glyphicon glyphicon-tag"></span><?=$kategori;?></span>
 		  </div>
 		  <div class="box-tools">
 			<i class="glyphicon glyphicon-eye-open"></i> <?=$dilihat;?> <i class="glyphicon glyphicon-comment"></i> <?=$coco;?>
@@ -65,22 +81,7 @@ if($pinned == 1){ ?>
 	  </div>
 	  </div>
 	  
-	  <div class="box no-padding">
-		<div class="box-header">
-			Random thread
-		</div>
-				  <div class="box-body no-padding">
-						<ul class="nav nav-stacked">
-	<?php
-                foreach($this->forum->get_random_post()->result() as $ost)
-                { ?>
-                	<li><a href="/forum/tl/<?=$ost->slug;?>" ><?=$ost->judul;?><br/><span class="text-muted small"><?=time_ago($ost->date);?> . dibaca: <?=$ost->dilihat;?></span></a> </li>
-                
-             <?php } ?>
-						</ul>
-				</div>
-			  <!-- /.box-body -->
-			</div>
+</article>
 	  <!-- komen start -->
 		
 <?php
@@ -132,6 +133,8 @@ echo "<br/><br/><a class='text-danger' href='/miemin/komdel/$r->koid'>hapus</a>"
 			 <div id="yt_btn" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-film"></span></div>
 			</div>
 			<textarea style="display:block;border:1px solid #ddd;padding:7px;width:99%;margin-bottom:10px;" rows=4 class="form-log" id="subject_textarea" name="isi" placeholder="mau komentar kak?" title="minimal 5 karakter"  required="required"></textarea>
+  	<input type="hidden" name="idtl" value=<?=$id;?> />
+				
 			<button type="submit" class="btn btn-primary">kirim</button>
 
 			</form>
@@ -154,10 +157,10 @@ form.addValidation('isi','minlen=5','Minimal 5 karakter kak');
 				}
 
  } else {?>
-<div class="col-xs-12"><div class="text-center nokomen"> <a href="<?=base_url('login');?>">Masuk</a> untuk berkomentar</div> </div>
+<a href="<?=base_url('login');?>" class="btn bg-maroon btn-block">Masuk untuk berkomentar</a>
 <?php } ?>
 		<!-- ending -->
-
+<a href="/forum" title="back to forum" class="btn bg-navy btn-block">Back to forum</a>
 	</section>
     <!-- /.content -->
     </div> 
