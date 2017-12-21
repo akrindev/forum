@@ -50,7 +50,7 @@
 	  <div class="col-md-9">
 		<div class="box box-warning">
 		  <div class="box-body yamete-<?=$i->id;?>">
-			<h4 class="text-primary"><?=$i->name?><small><?=$i->type?></small></h4>
+			<h4 class="text-primary"><a href="/harga/item/<?=$i->slug;?>" title="<?=$i->name;?>"><?=$i->name?><small><?=$i->type?></small></a></h4>
 			<table class="table table-striped table-condensed">
 			<thead>
 			  <tr>

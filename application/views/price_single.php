@@ -42,6 +42,7 @@
       </div>
 	  <div style="margin:20px;"></div>
 	  <!-- price items -->
+<article>
 	<div class="row">
 	  <div class="col-md-9">
 		<div class="box box-warning">
@@ -68,11 +69,38 @@ if($this->session->userdata('level') == 'admin'){ ?>
 			<button class="btn uio-<?=$id;?> btn-primary" onClick="edit(<?=$id;?>)">edit</button> <button class="btn nno-<?=$id;?> btn-danger" onClick="hps(<?=$id;?>)">delete</button>
 			<?php } ?>
 		  </div>
-	
+		<?php
+			$in = $this->price_model->get_history($id);
+			if($in->num_rows() > 0){
+				?>
+	<div class="box-footer">
+			<h5><i class="fa fa-hourglass-half"></i> History</h5>
+			<table class="table table-striped table-condensed">
+			  <thead>
+				<tr>
+				  <th>Date</th>
+				  <th>Price</th>
+				  <th>Stk</th>
+				</tr>
+			  </thead>
+			
+				<?php
+				foreach($in->result() as $g){
+			?>
+			  <tr>
+				<td> <?=$g->date;?></td>
+				<td> <?=$g->price;?> </td>
+				<td> <?=$g->stk;?></td>
+			  </tr>
+			<?php } ?>
+			</table>
+		  </div>
+		<?php } ?>
 		</div>
 	  </div>
 	
 	</div> <!-- row -->
+</article>
 	<!-- / price item -->
       <!-- uuhh -->
 	
