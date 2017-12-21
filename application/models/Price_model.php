@@ -102,4 +102,9 @@ class Price_model extends CI_Model
    	}
    	return false;
  	}
+ 
+ 	function get_history($id)
+ 	{
+ 		return $this->db->where('id_parent',$id)->get('price_history');
+ 	}
  }
