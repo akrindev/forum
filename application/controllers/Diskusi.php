@@ -183,6 +183,10 @@ class Diskusi extends CI_Controller {
         $data["arsip"] = $this->forum->fetch_data_arsip($kat,$configg["per_page"], $page);
         $str_links = $this->pagination->create_links();
         $data["links"] = explode('&nbsp;',$str_links );
+        
+        
+	    	$this->output->set_output_data('deskripsi','Forum kategori '.$kat.'');
+        	$this->output->set_output_data('og','no');
  
  	$this->load->view("arsip",$data);
 	}
