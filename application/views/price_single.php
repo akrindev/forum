@@ -48,6 +48,7 @@
 		<div class="box box-warning">
 		  <div class="box-body yamete-<?=$id;?>">
 			<h4 class="text-primary"><?=$name?><small><?=$type?></small></h4>
+	
 			<table class="table table-striped table-condensed">
 			<thead>
 			  <tr>
@@ -64,6 +65,7 @@
 				  <td> <?=$npc?> </td>
 				</tr>
 			</table>
+	<p style="padding:5px" class="text-muted"><?=$lang;?></p>
 			<?php 
 if($this->session->userdata('level') == 'admin'){ ?>
 			<button class="btn uio-<?=$id;?> btn-primary" onClick="edit(<?=$id;?>)">edit</button> <button class="btn nno-<?=$id;?> btn-danger" onClick="hps(<?=$id;?>)">delete</button>
