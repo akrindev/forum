@@ -131,6 +131,7 @@ function cari()
 					'latest_updated' => $u->latest_updated
 				];
 			}
+			$data['lang'] = $this->lang->line('price');
 			
 			$this->output->set_title(''.$data['name'].' [Price]');
 			$this->output->set_output_data('deskripsi', ''.$data['name'].' [Price]');
