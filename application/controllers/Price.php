@@ -60,6 +60,8 @@ function get_item_type($type)
 		
 		$data = [
 			'name' => $this->input->post('name'),
+			'slug' => url_title($this->input->post('slug')),
+			'type' => $this->input->post('type'),
 			'price' => $this->input->post('price'),
 			'stk' => $this->input->post('stk'),
 			'npc' => $this->input->post('npc'),
@@ -83,6 +85,48 @@ function get_item_type($type)
 	}
 
 		
+	}
+	
+	
+	
+	function ajax_tambah()
+	{
+		$this->output->unset_template();
+		
+		foreach($this->price_model->last_price()->result() as $oo)
+  { 
+  	$ohya = $oo->id;
+  	$id = $ohya+1;
+  
+  }
+		
+		$data = [
+			'id' => $id,
+			'name' => $this->input->post('name'),
+			'slug' => url_title($this->input->post('name')),
+			'price' => $this->input->post('price'),
+			'stk' => $this->input->post('stk'),
+			'type' => $this->input->post('type'),
+			'npc' => $this->input->post('npc'),
+			'latest_updated' => date('Y-m-d')
+		];
+		
+		 if($this->price_model->insert_item('price',$data))
+		{
+			
+			
+			$qq = [
+				'id_parent' => $id,
+				'price' => $this->input->post('price'),
+				'stk' => $this->input->post('stk'),
+				'date' => date('Y-m-d')
+			];
+			
+			if($this->price_model->insert_item('price_history',$qq))
+			{
+				echo json_encode(['status'=>true]);
+			}
+		}
 	}
 	
 	

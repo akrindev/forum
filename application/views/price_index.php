@@ -42,7 +42,18 @@
         </div>
         <!-- /.error-content -->
       </div>
-	  <div style="margin:20px;"></div>
+        <div style="margin:20px 0;">
+			<?php 
+if($this->session->userdata('level') == 'admin'){ ?>
+	
+      <div class="">
+      	<button class="btn btn-block bg-navy" onClick="tambahkan()"><span class="glyphicon glyphicon-plus"></span> Tambah</button>
+       </div>
+       
+       <?php
+       }    
+       ?>
+	  </div>
 	  <!-- price items -->
 	<div class="row">
 		<?php

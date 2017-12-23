@@ -14,7 +14,7 @@
     <section class="content">
 
       <div class="error-page">
-        <h2 class="headline text-success">Iruna items price</h2>
+        <h3 class="headline text-success">Iruna items prices</h3>
 
         <div class="error-content">
           <p>
@@ -28,6 +28,18 @@
 			<a href="/harga/items/<?=$r->type;?>"><?=$r->type;?></a>&nbsp; . &nbsp;
 	<?php } ?>
 	</div>
+	   <div style="margin:20px 0;">
+			<?php 
+if($this->session->userdata('level') == 'admin'){ ?>
+	
+      <div class="">
+      	<button class="btn btn-block bg-navy" onClick="tambahkan()"><span class="glyphicon glyphicon-plus"></span> Tambah</button>
+       </div>
+       
+       <?php
+       }    
+       ?>
+	  </div>
           <?=form_open('harga/cari');?>
             <div class="input-group">
               <input type="text" name="search" class="form-control" placeholder="Search">

@@ -7,6 +7,14 @@ class Price_model extends CI_Model
 		{
 			parent::__construct();
 		}
+		
+	function last_price()
+	{
+		$this->db->limit(1);
+		$this->db->order_by('id','DESC');
+		return $this->db->get('price');
+}
+	
  
  	function get_item($type,$name)
  	{
@@ -41,7 +49,8 @@ class Price_model extends CI_Model
 							'name' => $row->name,
 							'price' => $row->price,
 							'stk' => $row->stk,
-							'npc' => $row->npc
+							'npc' => $row->npc,
+							'slug' => $row->slug
 						];
 
             }
