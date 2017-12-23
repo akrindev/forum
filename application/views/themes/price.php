@@ -318,6 +318,14 @@ hs.src = ('//s10.histats.com/js15_as.js');
   { ?>
   	<script src="http://malsup.github.com/jquery.form.js"></script>
   <script type="text/javascript">
+  
+  function tambahkan()
+  {
+  	$("#tbh")[0].reset();
+
+  	 $('#modal_form_tambah').modal('show');
+     $('.modal-title').text('Add Items');
+	};
   	
   function edit(id)
   {
@@ -334,11 +342,13 @@ hs.src = ('//s10.histats.com/js15_as.js');
         success: function(data)
         {
  $('.uio-'+id).text('edit');
-			   $('[name="id"]').val(data.id);
+		    $('[name="id"]').val(data.id);
             $('[name="name"]').val(data.name);
             $('[name="price"]').val(data.price);
             $('[name="stk"]').val(data.stk);
             $('[name="npc"]').val(data.npc);
+            $('[name="slug"]').val(data.slug);
+            $('#type option:selected').val(data.type);
  
  
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
@@ -396,20 +406,44 @@ if(confirm('Yakin mau hapus?'))
         data: $('#gnt').serialize(),
         beforeSend: function()
         {
-$('.gg').text('mengubah...');
+			$('.gg').text('mengubah...');
         },
         success: function(data)
         {
+        	$('.gg').text('Save Chages');
         	if(data.status == true){
-$('#modal_form').modal('hide'); 
-        	 alert('sukses, akan diperbarui ketika halaman di reload');
+				$('#modal_form').modal('hide'); 
+           	 alert('sukses, akan diperbarui ketika halaman di reload');
+        	}
+       }
+ 		});
+  	});
+  
+  $('#tbh').submit(function(e){
+  	e.preventDefault();
+  
+ 		$.ajax({
+ 	  url : "<?=base_url();?>price/ajax_tambah/",
+        type: "POST",
+        dataType: "JSON", 
+        data: $('#tbh').serialize(),
+        beforeSend: function()
+        {
+			$('.tamvan').text('Menambahkan...');
+        },
+        success: function(data)
+        {
+        	$('.tamvan').text('Tambahkan');
+        	if(data.status == true){
+				$('#modal_form_tambah').modal('hide'); 
+   	     	 alert('sukses Menambahkan item ');
         	}
        }
  		});
   	});
   })
   </script>
-  	
+  	<!--modal edit-->
         <div class="modal modal-primary fade" id="modal_form" role="dialog">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -436,6 +470,20 @@ $('#modal_form').modal('hide');
                	<label>Npc</label>
                	<input type="text" class="form-control" name="npc">
 </div>
+<div class="form-group">
+               	<label>Type</label>
+ 				<select name="type" id="type" class="form-control">
+ 		<?php
+			foreach($this->price_model->typenya()->result() as $r)
+		{ ?>
+			<option value="<?=$r->type;?>"><?=$r->type;?></option>
+			<?php } ?>
+ 				</select>
+</div>
+<div class="form-group">
+               	<label>Slug <small class="text-danger">jangan di ubah</small></label>
+               	<input type="text" class="form-control" name="slug">
+</div>
 	<input type="hidden" name="id" class="form-control">
               </div>
               <div class="modal-footer">
@@ -448,8 +496,63 @@ $('#modal_form').modal('hide');
           </div>
           <!-- /.modal-dialog -->
         </div>
-        <!-- /.modal -->
+        <!-- /.modal edit -->
       
+      
+      
+      <!--modal tambah-->
+      	  <div class="modal modal-default fade" id="modal_form_tambah" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Add item</h4>
+              </div>
+              <?=form_open('price/ajax_tambah',['id' => 'tbh']);?>
+              <div class="modal-body">
+<div class="form-group">
+	
+              	<label>Name</label>
+               	<input type="text" name="name" class="form-control">
+</div>
+<div class="form-group">
+               	<label>Price</label>
+               	<input type="text" class="form-control" name="price">
+</div>
+<div class="form-group">
+               	<label>Stk</label>
+               	<input type="text" class="form-control" name="stk">
+</div>
+<div class="form-group">
+               	<label>Npc</label>
+               	<input type="text" class="form-control" name="npc">
+</div>
+<div class="form-group">
+               	<label>Type</label>
+ 				<select name="type" class="form-control">
+ 		<?php
+			foreach($this->price_model->typenya()->result() as $r)
+		{ ?>
+			<option value="<?=$r->type;?>"><?=$r->type;?></option>
+			<?php } ?>
+ 				</select>
+</div>
+	
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn tamvan btn-primary">Tambahkan</button>
+              </div>
+              </form>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+      <!--modal tambah-->
   <?php
 
 } 
