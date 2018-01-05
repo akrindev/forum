@@ -84,7 +84,20 @@
 	  <div class="footer-forum">&copy; 2017 <a href="https://rokoko-iruna.com/" title="iruna online Indonesia">rokoko-iruna.com</a> - All Right Reserved
 <br/>
 <a href="/kebijakan-privasi" title="Privacy policy">Kebijakan privasi</a> . <a href="/rules" title="Privacy policy">Rules/peraturan</a> . <a href="/tutorial" title="BBCode Tutorial">BBCode support</a>
-
+<br/>
+<!-- Histats.com  (div with counter) --><div id="histats_counter"></div>
+<!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,3962278,4,107,170,20,00010000']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?3962278&101" alt="free geoip" border="0"></a></noscript>
+<!-- Histats.com  END  -->
 </div>
 
 	</footer>

@@ -348,8 +348,7 @@ hs.src = ('//s10.histats.com/js15_as.js');
             $('[name="stk"]').val(data.stk);
             $('[name="npc"]').val(data.npc);
             $('[name="slug"]').val(data.slug);
-            $('#type option:selected').val(data.type);
- 
+           
  
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Edit Items'); // Set title to Bootstrap modal title
@@ -470,16 +469,7 @@ if(confirm('Yakin mau hapus?'))
                	<label>Npc</label>
                	<input type="text" class="form-control" name="npc">
 </div>
-<div class="form-group">
-               	<label>Type</label>
- 				<select name="type" id="type" class="form-control">
- 		<?php
-			foreach($this->price_model->typenya()->result() as $r)
-		{ ?>
-			<option value="<?=$r->type;?>"><?=$r->type;?></option>
-			<?php } ?>
- 				</select>
-</div>
+
 <div class="form-group">
                	<label>Slug <small class="text-danger">jangan di ubah</small></label>
                	<input type="text" class="form-control" name="slug">
