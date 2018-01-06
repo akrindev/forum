@@ -27,11 +27,11 @@
                 <div style="margin-left:10px"> <h3>Total score</h3> </div>
                 
                 <?php
-                $yes = $this->quiz_model->getUserScore($this->session->userdata('iduser'));
-                $skor = $yes['score'];
-                $slah = $yes['salah'];
-                $pnt = $yes['point'];
-                
+                foreach($this->quiz_model->getUserScore($this->session->userdata('iduser'))->result() as $yes){
+                $skor = $yes->score;
+                $slah = $yes->salah;
+                $pnt = $yes->point;
+                }
                 
                 ?>
                 
@@ -41,7 +41,8 @@
                   <li><a><span class="text-warning"> Point = <?=$pnt;?></span></a></li>
                 </ul>
                 
-              <div style="margin:8px">  <a href="/quiz/begin" class="btn btn-primary btn-block"> Mulai lagi?</a></div>
+              <div style="margin:8px">  <a href="/quiz" class="btn btn-primary btn-block"> Mulai lagi?</a>
+                  <a href="/quiz/newQuiz" class="btn btn-default btn-block"> Buat quiz!</a></div>
               </div>
 			</div>      
                 

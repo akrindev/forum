@@ -1,22 +1,4 @@
-  <!-- Content Wrapper. Contains page content -->
-<script src="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.js"></script>
-<link rel="stylesheet" href="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.css">
 
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-         Iruna Quiz
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="<?=base_url();?>"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"><a href="/quiz">quiz</a></li>
-        
-      </ol>
-    </section>
-
-			  <?=form_open('quiz/submitAjax/',['id'=>'form-quiz']);?>
-<section class="content">
   <div class="row">
     <div class="col-md-9">
 <div class="box box-warning">
@@ -84,7 +66,7 @@
     {
       $terjwb += count($this->session->userdata('answer-'.$o));
     }
-    echo "<span id='terjwb' c='$terjwb'>$terjwb/10</span>";
+    echo "$terjwb/10"
     ?>
   </div>
        <div class="box-body">
@@ -120,89 +102,3 @@
       </div>
     </div>
   </div>
-</section>
-    
-      <?=form_close();?>
-</div>
-
-
-<script>
-  var dijawab = 0;
-  
-	$('#form-quiz').submit(function(e) {
-		e.preventDefault();
-      
-    	$("#submit").addClass('disabled')
-    				.html('<i class="fa fa-spinner fa-spin"></i> Submit');
-      
-    	
-		$.ajax({
-			url: $(this).attr('action'),
-			type: 'post',
-			data: $(this).serialize(),
-			dataType: 'json',
-			success: function(response) {
-              
-              dijawab = response.dijawab;
-              
-                $("section.content").load('/quiz/beginAjax/'+response.me, function(){
-                    
-                    $("#oper").hide();
-                  
-                swal('sukses!','jawaban disimpan','success');
-                })
-                
-              
-    	$("#submit").removeClass('disabled')
-    			.text('Submit');
-            }
-        })
-      return false;
-    })
-</script>
-
-<script>
-   $("#oper").hide();
-  function lanjut(){
-    var me = $("#nextq").attr('qid');
-     $("#oper").show();    
-     $("section.content").load('/quiz/beginAjax/'+me,function(){
-       
-  		$("#oper").hide()
-        
-     });    
-  }
-  
-  function kembali(){
-    var me = $("#backq").attr('qid');
-     $("#oper").show();    
-     $("section.content").load('/quiz/beginAjax/'+me,function(){
-  		$("#oper").hide();
-     });    
-  }
-  
-  
-  function tabel(me){
-     $("#oper").show();    
-     $("section.content").load('/quiz/beginAjax/'+me,function(){
-  		$("#oper").hide();
-     });    
-  }
- 
-  function ok()
-  {
-    swal({
-  title: "Yakin?",
-  text: "Kamu akan mensubmit quiz! \n Terjawab: "+dijawab+" / 10",
-  type: "warning",
-  showCancelButton: true,
-  confirmButtonClass: "btn-success",
-  confirmButtonText: "Ya, selesai!",
-  closeOnConfirm: false
-},
-function(){
-  swal("Selesai!", "Quiz di submit", "success");
-      document.location.href = '/quiz/submitQuiz';
-});
-  }
-</script>

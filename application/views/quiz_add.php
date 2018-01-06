@@ -34,7 +34,10 @@
               } else {
               ?>
               
-              <?=form_open('quiz/submitNewQuiz',['id'=>'addquiz']);?>
+              <form action='/quiz/submitNewQuiz' id='addquiz' method="POST">
+                
+                <input id="csrfp" type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>">
+                
               <div class="form-group">
                 <label>Pertanyaan</label>
                 <div class="btn-group pull-right">
@@ -76,7 +79,7 @@
               </div>
               <div class="form-group">
                 <label>Jawaban benar</label>
-                <input type="hidden" id="correct">
+                <input type="hidden" id="correct"><br>
                 <label class="radio-inline">
                   <input type="radio" name="correct" value="1" checked> a
                 </label>
@@ -93,7 +96,7 @@
 <?=form_error('correct','<div class="text-danger">','</div>');?>
               </div>
               <button class="btn btn-success btn-block" id="submitbtn" type="submit">Ajukan quiz</button>
-              <?=form_close();?>
+              </form>
            <?php } ?>
 			</div>                
             <!-- /.box-body -->
@@ -148,6 +151,9 @@
 			data: me.serialize(),
 			dataType: 'json',
 			success: function(response) {
+            
+            	$("#csrfp").val(response.csrfHash);
+              
 				if (response.success == true) {
 					// if success we would show message
            swal({
