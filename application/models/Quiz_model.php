@@ -64,7 +64,7 @@ class Quiz_model extends CI_Model
         			->select('*')
         			->from('quiz_users')
         			->join('users','users.id = quiz_users.user_id')
-        			->order_by('score','DESC')
+        			->order_by('point','DESC')
         			->limit(10)
         			->get();
       
@@ -78,24 +78,20 @@ class Quiz_model extends CI_Model
   
   	function getUserScore($id)
     {
-      $scores = $this->db->where('user_id',$id)
+      return $this->db->where('user_id',$id)
         				->get('quiz_users');
       
-      foreach($scores->result() as $score)
-      {
-        $data = [
-        	'score' => $score->score,
-          	'salah' => $score->salah,
-          	'point' => $score->point
-        ];
-      }
-      return $data;
     }
   
   	function updateScore($id,$data)
     {
       return $this->db->where('user_id',$id)
         		->update('quiz_users',$data);
+    }
+  
+  	function insertUserScore($data)
+    {
+      return $this->db->insert('quiz_users',$data);
     }
   
   	function insertQuiz($data)

@@ -94,13 +94,91 @@ class Quiz extends CI_Controller {
       $this->load->view('quiz_list',$data);
     }
   
+  	function beginAjax($id)
+    {
+    	$this->output->unset_template();
+    	$this->needLogin();
+      
+    	if($id > 10)
+        {
+          exit('Not found!!');
+        }
+        
+        $data = $this->session->userdata('q-'.$id);
+        $data['id'] = $id;
+      
+        $this->load->view('quiz_ajax',$data);
+    }
+  
+  	function submitAjax()
+    {
+      
+      $this->output->unset_template();
+      
+      if(!$this->input->is_ajax_request())
+      {
+        exit('No direct script access allowed!');
+      }
+      
+      $id = $this->input->post('certid') ?? 1;
+      
+      if($id > 10 || $id < 0 || !$this->session->userdata('q-'.$id) || !$this->session->qkey)
+      {
+        exit('Sorry!');
+      }
+     
+      $data = [
+        	'me' => $id,
+            'status' => false,
+        ];
+      
+      $set = $this->input->post();
+      $this->session->set_userdata($set);
+      
+      $thq = 0;
+      
+      if($this->input->post('qid'))
+      {
+        $thq = (int)$set['qid'];
+      }
+      
+      if($thq != 0)
+      {
+        $trjwb = $this->quiz_model
+          				->ambilTerjawab($thq);
+        
+        $upd = $trjwb+1;
+        
+        $this->quiz_model
+          		->updateTerjawab($thq,[
+                  'terjawab'=>$upd
+                ]);
+      }
+      
+      
+      if($this->input->post('answer-'.$id))
+      {
+        $data['status'] = true;
+      }
+      $trjwb = 0;
+      for($o=1;$o<=10;$o++)
+      {
+      	$trjwb += count($this->session->userdata('answer-'.$o));
+      }
+      
+      $data['dijawab'] = $trjwb;
+      
+      echo json_encode($data);
+
+    }
+  
   function submitQuiz()
   {
     $this->needLogin();
     
     if(!$this->session->userdata('qkey'))
     {
-      return redirect('/quiz/begin');
+      return redirect('/quiz');
     }
     
     
@@ -121,13 +199,8 @@ class Quiz extends CI_Controller {
         $benar++;
       } else 
       {
-        if($salah == 0)
-        {
-        	$salah = 0;
-        } else
-        {
-          $salah++;
-        }
+        $salah++;
+        
       }
       
       // hapus jawaban dan soal pada session
@@ -142,6 +215,28 @@ class Quiz extends CI_Controller {
     
     $udata = $this->quiz_model
       			->getUserScore($userid);
+    $sekor = 0;
+    $slh = 0;
+    $pnt = 0;
+    
+    if($udata->num_rows() > 0)
+    {
+      	foreach($udata->result() as $score)
+      	{
+        	$sekor = $score->score;
+          	$slh = $score->salah;
+          	$pnt = $score->point;
+      	}
+    } else {
+      $us = [
+        'user_id' => $this->session->iduser,
+        'score' => 0,
+        'salah' => 0,
+        'point' => 0
+      ];
+      	$this->quiz_model
+          		->insertUserScore($us);
+    }
     
     if($benar < 8) // 1,2,3,4,5,6,7
     {
@@ -161,9 +256,9 @@ class Quiz extends CI_Controller {
     }
     
     $anu = [
-    	'score'	=> $udata['score']+$benar,
-      	'salah' => $udata['salah']+$salah,
-      	'point' => $udata['point']+$point
+    	'score'	=> $sekor+$benar,
+      	'salah' => $slh+$salah,
+      	'point' => $pnt+$point
     ];
     
     $this->quiz_model
@@ -193,7 +288,13 @@ class Quiz extends CI_Controller {
         return "login bang!";
       }
       
-      $data = ['success'=>false,'messages'=>[]];
+      $data = [
+        'success'  => false,
+        'messages' => [],
+      	'csrfName' => $this->security->get_csrf_token_name(),
+        'csrfHash' => $this->security->get_csrf_hash()
+      ];
+      
       $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
       if($this->form_validation->run('quiz'))
       {
