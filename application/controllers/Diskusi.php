@@ -19,7 +19,7 @@ class Diskusi extends CI_Controller {
 
 	public function index()
 	{
-		redirect('/');
+		redirect('/forum');
 	}
 
 	public function timeline($slug)
@@ -124,7 +124,7 @@ class Diskusi extends CI_Controller {
       
    	 	  if($this->forum->post_data('timeline',$data))
 			  { 
-   	  		   redirect(base_url().'forum/tl/'.$t);
+   	  		   redirect(base_url().'forum/thread/'.$t);
 		      } //end if
  	   } 
  	   else
@@ -153,7 +153,7 @@ class Diskusi extends CI_Controller {
     	$d = [ 'updated' => date('Y-m-d H:i:s') ];
     	$this->forum->post_komentar($datta);
     	$this->forum->update_post($this->input->post('idtl'),$d);
-    	redirect(base_url("forum/tl/$slug"));
+    	redirect(base_url("forum/thread/$slug"));
 	}
 	else
 	{
@@ -172,13 +172,13 @@ class Diskusi extends CI_Controller {
  
  	   $this->config->load('pagination',TRUE);
  	   $configg = $this->config->item('pagination');
-        $configg["base_url"] = base_url() . "arsip/$kat";
+        $configg["base_url"] = base_url() . "diskusi/arsip/$kat";
         $total_row = $this->forum->count_arsip($kat);
         $configg["total_rows"] = $total_row;
 
         
         $this->pagination->initialize($configg);
-        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
      
         $data["arsip"] = $this->forum->fetch_data_arsip($kat,$configg["per_page"], $page);
         $str_links = $this->pagination->create_links();
@@ -273,7 +273,8 @@ class Diskusi extends CI_Controller {
   									'tag'	   => $ya->tags 
 									];
   				}
-  			
+  			 $this->load->js('assets/js/te.js');
+			
   				$this->output->set_output_data('deskripsi','edit');
 				  $this->output->set_title('edit artikel');
 			  	$this->output->set_output_data('og','none');
@@ -311,7 +312,7 @@ class Diskusi extends CI_Controller {
       $this->session->set_flashdata('post_ubah','Thread berhasil diubah!! :)');
       
       if($this->forum->update_post($dan['id'],$data)){ 
-        redirect(base_url().'forum/tl/'.$dan['slug']);
+        redirect(base_url().'forum/thread/'.$dan['slug']);
       }
     }
     else

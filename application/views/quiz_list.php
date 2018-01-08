@@ -6,11 +6,11 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-         Iruna Quiz
+         Iruna Online Quiz
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url();?>"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"><a href="/quiz">quiz</a></li>
+        <li class="active"><a href="/quiz">Quiz</a></li>
         
       </ol>
     </section>
@@ -18,11 +18,13 @@
 			  <?=form_open('quiz/submitAjax/',['id'=>'form-quiz']);?>
 <section class="content">
   <div class="row">
-    <div class="col-md-9">
-<div class="box box-warning">
-  <div id="oper" class="overlay">
+    <div class="col-md-7">
+      
+      
+  <div class="box box-primary">
+    <div id="oper" class="overlay">
     <i class="fa fa-spinner fa-spin"></i>
-  </div>
+    </div>
   <div class="box-header">
     Quiz: <?=$id;?> / 10
   </div>
@@ -74,10 +76,10 @@
             <!-- /.box-body -->
           </div>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-5">
       
-<div class="box box-danger">
-  <div class="box-header">
+<div class="box box-default">
+  <div class="box-header with-padding">
     Terjawab: <?php
     $terjwb = 0;
     for($o=1;$o<=10;$o++)

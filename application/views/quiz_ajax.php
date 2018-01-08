@@ -1,18 +1,18 @@
 
   <div class="row">
-    <div class="col-md-9">
-<div class="box box-warning">
+    <div class="col-md-7">
+<div class="box box-primary">
   <div id="oper" class="overlay">
     <i class="fa fa-spinner fa-spin"></i>
   </div>
   <div class="box-header">
     Quiz: <?=$id;?> / 10
   </div>
-            <div class="box-body">
+   <div class="box-body">
 				<div class="text-center"><?=$this->bbcode->bbcode_to_html($question);?></div>
 			  <div class="pull-right text-muted small">quiz by <?=$by;?></div>
 			</div>
-        <div class="box-footer">
+   <div class="box-footer">
                 <!-- radio -->
                 <div class="form-group">
                   <div class="radio">
@@ -54,12 +54,14 @@
           
 		</div>
             <!-- /.box-body -->
-          </div>
-    </div>
-    <div class="col-md-9">
+</div>
       
-<div class="box box-danger">
-  <div class="box-header">
+      
+    </div>
+    <div class="col-md-5">
+      
+<div class="box box-default">
+  <div class="box-header with-padding">
     Terjawab: <?php
     $terjwb = 0;
     for($o=1;$o<=10;$o++)

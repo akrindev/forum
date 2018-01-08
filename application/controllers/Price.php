@@ -61,7 +61,6 @@ function get_item_type($type)
 		$data = [
 			'name' => $this->input->post('name'),
 			'slug' => url_title($this->input->post('slug')),
-			'type' => $this->input->post('type'),
 			'price' => $this->input->post('price'),
 			'stk' => $this->input->post('stk'),
 			'npc' => $this->input->post('npc'),

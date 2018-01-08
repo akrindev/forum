@@ -22,8 +22,7 @@
                   <br><br>
        Quiz dipilih secara acak<br>
        Quiz berasal dari setiap user yang mensubmit quiz, kamu juga bisa membuat quiz <a href="/quiz/newQuiz">Disini</a><br><br>
-                  jika jawaban benar <span class="text-success">score +1</span><br/>
-                  jika jawaban salah <span class="text-danger">salah +1</span><br><br>
+                  <strong></strong><br><br>
                   <a href="/quiz/beginQuiz/1" class="btn btn-primary btn-block">Mulai</a></div>
 			</div>      
                 

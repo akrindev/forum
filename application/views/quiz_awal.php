@@ -7,42 +7,64 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-         Iruna Quiz
+         Iruna Online Quiz
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url();?>"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"><a href="/quiz">Iruna quiz</a></li>
+        <li class="active"><a href="/quiz">Quiz</a></li>
         
       </ol>
     </section>
 
 <section class="content">
   <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-5">
   <div class="box box-widget">
     <div class="box-header">
-      Top Scores
+     <i class="fa fa-trophy"></i> 10 Top Scores
     </div>
     <div class="box-body no-padding">
-      
-      <ul class="nav nav-stacked">
+    
+      <table class="table table-striped">
+        <thead>
+          <th>No</th>
+          <th>Username</th>
+          <th>Correct</th>
+          <th>Wrong</th>
+          <th>Point</th>
+        </thead>
+        
         <?php
         $ke = 1;
       foreach($tops as $top)
       {
         ?>
       
-        <li><a><?=$ke;?>. <?=$top->username;?> <span class="text-success">Correct: <?=$top->score;?></span> <span class="text-danger">Incorrect: <?=$top->salah;?></span>  <span class="text-warning">Point: <?=$top->point;?></span></a></li>
+        <tr>
+          <td><?=$ke;?></td> 
+          <td><?=$top->username;?></td>
+          <td><span class="text-success"><?=$top->score;?></span></td>
+          <td><span class="text-danger"><?=$top->salah;?></span></td>
+          <td><span class="text-warning"><?=$top->point;?></span></td>
+        </tr>
       <?php
         $ke++;
       } 
   
   ?>
-      </ul>
+      </table>
 	</div>     <!-- /.box-body -->
+    <div class="box-footer"><a href="/quiz/peringkat" class="btn btn-default">Lihat semua peringkat</a></div>
           </div>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-7">
+      <?php
+      if($this->session->user)
+      {
+        echo '
+      <a href="/quiz/quizUser" class="btn btn-primary">Lihat Quizku !</a> <br><div style="margin:20px"></div>';
+      }
+      ?>
   <div class="box box-widget">
     <div class="box-header">
        Sistem quiz
@@ -73,7 +95,32 @@ Data user yang tampil pada Top score berdasarkan banyaknya point yang di dapat
        <a onclick="mulaiMas()" class="btn btn-primary btn-block">Mulai quiz</a>
     </div>
       </div>
+    
+    
+      <div class="box box-widget">
+        <div class="box-header">Statistik Quiz</div>
+        <div class="box-body no-padding">
+          <table class="table table-striped">
+            <thead>
+              <th>Total Quiz</th>
+              <th>Diterima</th>
+              <th>Dalam moderasi</th>
+            </thead>
+            <tr>
+              
+              <td class="text-center"><?=$this->quiz_model->countQuiz();?></td>
+              <td class="text-center text-success"><?=$this->quiz_model->countQuizStatus(1);?></td>
+              <td class="text-center text-danger"><?=$this->quiz_model->countQuizStatus(0);?></td>
+            </tr>
+          </table>
+          
+          <div style="margin:10px">
+          <a href="/quiz/newQuiz" class="btn btn-success btn-block">Buat Quiz!</a>
+          </div>
+        </div>
+      </div>
     </div>
+    
   </div>
     </section>
     
@@ -108,10 +155,10 @@ if(!$this->session->userdata('user'))
   function mulaiMas()
   {
             swal({
-  title: "Mulai!",
-  text: "Memulai quiz!",
+  title: "Mulai?",
+  text: "Mulai quiz?",
   type: "success",
-  showCancelButton: false,
+  showCancelButton: true,
   closeOnConfirm: false,
   showLoaderOnConfirm: true
 }, function () {

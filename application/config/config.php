@@ -1,40 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/*
-|--------------------------------------------------------------------------
-| Base Site URL
-|--------------------------------------------------------------------------
-|
-| URL to your CodeIgniter root. Typically this will be your base URL,
-| WITH a trailing slash:
-|
-|	http://example.com/
-|
-| WARNING: You MUST set this value!
-|
-| If it is not set, then CodeIgniter will try guess the protocol and path
-| your installation, but due to security concerns the hostname will be set
-| to $_SERVER['SERVER_ADDR'] if available, or localhost otherwise.
-| The auto-detection mechanism exists only for convenience during
-| development and MUST NOT be used in production!
-|
-| If you need to allow multiple domains, remember that this file is still
-| a PHP script and you can easily do that on your own.
-|
-*/
 $config['base_url'] = 'https://rokoko-iruna.com/';
 
-/*
-|--------------------------------------------------------------------------
-| Index File
-|--------------------------------------------------------------------------
-|
-| Typically this will be your index.php file, unless you've renamed it to
-| something else. If you are using mod_rewrite to remove the page set this
-| variable so that it is blank.
-|
-*/
 $config['index_page'] = '';
 
 /*
@@ -158,7 +126,7 @@ $config['composer_autoload'] = FALSE;
 | DO NOT CHANGE THIS UNLESS YOU FULLY UNDERSTAND THE REPERCUSSIONS!!
 |
 */
-$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-\+\'\(\)&';
+$config['permitted_uri_chars'] = 'a-z 0-9~%.:_-';
 
 /*
 |--------------------------------------------------------------------------
@@ -378,12 +346,12 @@ $config['encryption_key'] = '1234220899rinkrinnyunchanlopeu';
 |
 */
 $config['sess_driver'] = 'files';
-$config['sess_cookie_name'] = 'ci_riinkrin';
+$config['sess_cookie_name'] = 'token_riinkrin';
 $config['sess_expiration'] = 7200;
 $config['sess_save_path'] = NULL;
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
-$config['sess_regenerate_destroy'] = FALSE;
+$config['sess_regenerate_destroy'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -449,11 +417,17 @@ $config['global_xss_filtering'] = FALSE;
 | 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
 */
 $config['csrf_protection'] = TRUE;
-$config['csrf_token_name'] = 'csrf_iruna_name';
-$config['csrf_cookie_name'] = 'csrf_iruna_name';
+$config['csrf_token_name'] = '_token';
+$config['csrf_cookie_name'] = '_token';
 $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = TRUE;
-$config['csrf_exclude_uris'] = array();
+$config['csrf_exclude_uris'] = array(
+		'quiz/beginQuiz/[0-9]+',
+  		'quiz/beginAjax',
+  		'quiz/submitAjax',
+  		'quiz/quizEdit/[0-9]+',
+  		'quiz/quizEditPost'
+	);
 
 /*
 |--------------------------------------------------------------------------

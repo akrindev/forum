@@ -14,32 +14,41 @@
 
 <section class="content">
   <div class="row">
-    <div class="col-md-9">
-<div class="box box-warning">
-            <div class="box-body no-padding">
+    <div class="col-md-6">
+      
+<div class="box box-widget">
+  <div class="box-header">Hasil Quiz</div>
+            <div class="box-body n">
               <div class="">
-                <div style="margin-left:10px"><h3>Result Iruna Quiz</h3></div>
-                <ul class="nav nav-stacked">
-                  <li><a>  <span class="text-success">Correct = <?=$score;?></span></a></li>
-                  <li><a> <span class="text-danger"> Incorrect = <?=$salah;?></span></a></li>
-                  <li><a><span class="text-warning"> Point = <?=$point;?></span></a></li>
-                </ul>
-                <div style="margin-left:10px"> <h3>Total score</h3> </div>
+                <div class="progress-group">
+                    <span class="progress-text">Correct</span>
+                    <span class="progress-number"><b><?=$score;?></b>/10</span>
+
+                    <div class="progress sm">
+                      <div class="progress-bar progress-bar-success" style="width: <?=$score;?>0%"></div>
+                    </div>
+                  </div>
                 
-                <?php
-                foreach($this->quiz_model->getUserScore($this->session->userdata('iduser'))->result() as $yes){
-                $skor = $yes->score;
-                $slah = $yes->salah;
-                $pnt = $yes->point;
-                }
                 
-                ?>
+                <div class="progress-group">
+                    <span class="progress-text">Wrong</span>
+                    <span class="progress-number"><b><?=$salah;?></b>/10</span>
+
+                    <div class="progress sm">
+                      <div class="progress-bar progress-bar-danger" style="width: <?=$salah;?>0%"></div>
+                    </div>
+                  </div>
                 
-                <ul class="nav nav-stacked">
-                  <li><a>  <span class="text-success">Correct = <?=$skor;?></span></a></li>
-                  <li><a> <span class="text-danger"> Incorrect = <?=$slah;?></span></a></li>
-                  <li><a><span class="text-warning"> Point = <?=$pnt;?></span></a></li>
-                </ul>
+                
+                
+                <div class="progress-group">
+                    <span class="progress-text">Point</span>
+                    <span class="progress-number"><b><?=$point;?></b>/20</span>
+
+                    <div class="progress sm">
+                      <div class="progress-bar progress-bar-info" style="width: <?=$point/20*100;?>%"></div>
+                    </div>
+                  </div>
                 
               <div style="margin:8px">  <a href="/quiz" class="btn btn-primary btn-block"> Mulai lagi?</a>
                   <a href="/quiz/newQuiz" class="btn btn-default btn-block"> Buat quiz!</a></div>
@@ -48,7 +57,41 @@
                 
             <!-- /.box-body -->
           </div>
+      
     </div>
+    
+      <div class="col-md-6">
+      <div class="box box-widget">
+        <div class="box-header">Total score</div>
+        <div class="box-body">
+        
+                <?php
+                foreach($this->quiz_model->getUserScore($this->session->userdata('iduser'))->result() as $yes){
+                $skor = $yes->score;
+                $slah = $yes->salah;
+                $pnt = $yes->point;
+                }
+                
+                ?>
+          
+          <table class="table table-striped table-bordered">
+          <thead>
+            <th class="text-success">Correct</th>
+            <th class="text-danger">Wrong</th>
+            <th class="text-info">Point</th>
+            </thead>
+            <tr>
+            <td><?=$skor;?></td>
+              <td><?=$slah;?></td>
+              <td><?=$pnt;?></td>
+            </tr>
+          
+          
+          </table>
+        
+        </div>
+        </div>
+      </div>
   </div>
 </section>
     

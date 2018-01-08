@@ -6,9 +6,9 @@
 	    function get_gambar($hh)
 	    {
 	 		
-					if(strpos($hh,'"img-fluid" src="'))
+					if(strpos($hh,'"img-responsive" src="'))
 					{
-							$awal = explode('"img-fluid" src="',$hh);
+							$awal = explode('"img-responsive" src="',$hh);
 							$akhir = explode('"',$awal[1]);
 		
 							echo $akhir[0];

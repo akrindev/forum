@@ -17,10 +17,11 @@ class Quiz extends CI_Controller {
 		$this->output->set_template('adminlte');
 		$this->load->js('https://code.jquery.com/jquery-3.2.1.min.js');
       
-      		
+      $og = '<img class="img-responsive" src="https://rokoko-iruna.com/a-iruna-quiz.png"/>';
+      
       $this->output->set_title("Iruna Online Quiz");
 	  $this->output->set_output_data('deskripsi','');
-      $this->output->set_output_data('og','none');
+      $this->output->set_output_data('og',$og);
 	}
   
   
@@ -54,8 +55,10 @@ class Quiz extends CI_Controller {
     }
   
   
-  	function beginQuiz($id)
+  	function beginQuiz()
     {
+      
+      $id = $this->uri->segment(3) ?? 1;
       
       $this->needLogin();
       
@@ -98,6 +101,7 @@ class Quiz extends CI_Controller {
     {
     	$this->output->unset_template();
     	$this->needLogin();
+      
       
     	if($id > 10)
         {
@@ -323,8 +327,174 @@ class Quiz extends CI_Controller {
       echo json_encode($data);
     }
   
+  	function quizAdmin()
+    {
+      if($this->session->userdata('level') == 'user' || !$this->session->userdata('user'))
+      {
+         redirect('forum');
+      }
+      
+      $y = $this->uri->segment(3) ?? 1;
+      
+      if($y > 1 || $y < 0)
+      {
+        $y = 1;
+      }
+      
+      $this->config->load('pagination',TRUE);
+ 	  $configg = $this->config->item('pagination');
+      $configg["base_url"] = base_url() . "quiz/quizAdmin/$y";
+      $total_row = $this->quiz_model->countQuizStatus($y);
+        
+      $configg["total_rows"] = $total_row;
+      
+      $this->pagination->initialize($configg);
+      
+      $page = $this->uri->segment(4) ?? 0;
+   
+      $data["page"] = $this->quiz_model->fetch_data($y,$configg["per_page"], $page);
+      $str_links = $this->pagination->create_links();
+      
+      $data["links"] = explode('&nbsp;',$str_links );
+      
+      $this->load->view('quiz_admin',$data);
+    }
+  
+  	function quizUser()
+    {
+      if(!$this->session->userdata('user'))
+      {
+         return redirect('/quiz');
+      }
+      
+      
+      $y = $this->uri->segment(3) ?? 1;
+      
+      if($y > 1 || $y < 0 || !$y)
+      {
+        $y = 1;
+      }
+      
+      $this->config->load('pagination',TRUE);
+ 	  $configg = $this->config->item('pagination');
+      $configg["base_url"] = base_url() . "quiz/quizUser/$y";
+      $total_row = $this->quiz_model->countQuizStatusByUser($y);
+        
+      $configg["total_rows"] = $total_row;
+      
+      $this->pagination->initialize($configg);
+      
+      $page = $this->uri->segment(4) ?? 0;
+   
+      $data["page"] = $this->quiz_model->fetch_data_by($y,$configg["per_page"], $page);
+      $str_links = $this->pagination->create_links();
+      
+      $data["links"] = explode('&nbsp;',$str_links );
+      
+      $this->load->view('quiz_user',$data);
+    }
+  
+  	function modQuiz($key,$id)
+    {
+      if($this->session->userdata('level') == 'user' || !$this->session->userdata('user'))
+      {
+        $data['status'] = false;
+      }
+      
+      $this->output->unset_template();
+      
+      $kunci = [
+      	'status' => $key
+      ];
+      
+      if($this->quiz_model->moderasiQuiz($id,$kunci))
+      {
+        $data['status'] = true;
+      }
+      
+      echo json_encode($data);
+      
+    }
+  
+  	function quizEdit($id)
+    {
+      
+      $this->output->unset_template();
+      
+      if(!$this->session->level == 'user' || !$this->session->user)
+      {
+        exit('Sorry!!');
+      }
+      
+      $q = $this->db->query("select * from quiz where quiz_id=$id");
+      
+      if(count($q) > 0)
+      {
+        foreach($q->result() as $k)
+        {
+          $data = $k;
+        }
+      }
+      
+      echo json_encode($data);
+    }
+  
+  	function quizEditPost()
+    {
+      if(!$this->input->is_ajax_request())
+      {
+        exit('no direct script allowed!');
+      }
+      
+      $id = $this->input->post('id');
+      
+      $data = [
+      	'question' => $this->input->post('question'),
+      	'answer_a' => $this->input->post('answer_a'),
+      	'answer_b' => $this->input->post('answer_b'),
+      	'answer_c' => $this->input->post('answer_c'),
+      	'answer_d' => $this->input->post('answer_d'),
+      	'correct' => $this->input->post('correct')
+      ];
+      
+      
+      $response['status'] = false;
+      
+      if($this->session->level == 'user' || !$this->session->user)
+      {
+      	$response['status'] = false;
+      }
+      
+      if($this->quiz_model->editQuiz($id,$data))
+      {
+        $response['status'] = true;
+      }
+      
+      echo json_encode($response);
+    }
   
   
+  	function peringkat()
+    {
+$this->config->load('pagination',TRUE);
+ 	  $configg = $this->config->item('pagination');
+      $configg["base_url"] = base_url() . "quiz/peringkat";
+      $total_row = $this->db->count_all('quiz_users');
+      
+      $configg["per_page"] = 50;
+      $configg["total_rows"] = $total_row;
+      
+      $this->pagination->initialize($configg);
+      
+      $page = $this->uri->segment(3) ?? 0;
+   
+      $data["tops"] = $this->quiz_model->getAllScore($configg["per_page"], $page);
+      $str_links = $this->pagination->create_links();
+      
+      $data["links"] = explode('&nbsp;',$str_links );
+      
+      $this->load->view('quiz_scores',$data);
+    }
   
   	function needLogin()
     {
