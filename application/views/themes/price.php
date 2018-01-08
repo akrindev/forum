@@ -201,7 +201,7 @@ foreach($this->user->tampiluser($this->session->userdata('user'))->result() as $
                 </button>
               </span>
         </div>
-      </form>
+      <?=form_close();?>
       <!-- /.search form -->
 
       <ul class="sidebar-menu">
@@ -248,7 +248,11 @@ foreach($this->user->tampiluser($this->session->userdata('user'))->result() as $
           </a>
           
         </li>
-       
+       <li itemprop='url'><a title="Quiz" href="/quiz">
+		<i class="fa fa-trophy"></i> 
+		<span itemprop='name'>Iruna Quiz</span></a>
+		  
+		</li>
         <li itemprop='url'><a title="home dokumentasi" href="/">
 		<i class="fa fa-book"></i> 
 		<span itemprop='name'>Documentation</span></a>
@@ -278,9 +282,8 @@ foreach($this->user->tampiluser($this->session->userdata('user'))->result() as $
 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Rokoko</b> Iruna
-    </div>
-    <strong>Copyright &copy; 2017 <a href="https://rokoko-iruna.com/">rokoko-iruna.com</a>.</strong> All rights
+      <strong>{&nbsp;}</strong> with <font color="red">&hearts;</font> in Pekalongan, Indonesia </div>
+    <strong>Copyright &copy; 2018 <a href="https://rokoko-iruna.com/">rokoko-iruna.com</a>.</strong> All rights
     reserved. <br/>
     
        <!-- Histats.com  (div with counter) -->
@@ -307,8 +310,6 @@ hs.src = ('//s10.histats.com/js15_as.js');
   
 <script src="/lte/plugins/jQuery/jquery.min.js"></script>
 <script src="/lte/bootstrap/js/bootstrap.min.js"></script>
-<script src="/lte/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-<script src="/lte/plugins/fastclick/fastclick.js"></script>
 <script src="/lte/dist/js/app.min.js"></script>
 
 
