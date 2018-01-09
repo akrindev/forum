@@ -88,10 +88,18 @@ class Quiz_model extends CI_Model
         			->order_by('score','DESC')
         			->limit($s,$l)
         			->get();
-      
+      $i = 1;
       foreach($tops->result() as $top)
       {
         $data[] = $top;
+//         $data = [
+//           	'ke' => $i,
+//         	'username' => $top->username,
+//           	'score'	 => $top->score,
+//           	'salah'	=> $top->salah,
+//           	'point' => $top->point
+//         ];
+//         $i++;
       }
       
       return $data;

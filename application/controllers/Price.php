@@ -2,12 +2,23 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Price extends CI_Controller {
+  
+  	public $_browser = '';
+  	public $_lang = 'indonesia';
 
 
 	function __construct()
 	{
 		parent::__construct();
-
+      
+      	$this->load->helper('language');
+      
+      	if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2) == 'id')
+        {
+		$this->lang->load('msg',$this->_lang);
+        }
+      
+      
 		$this->load->helper('url');
 		$this->load->model('price_model');
 		$this->_init();
