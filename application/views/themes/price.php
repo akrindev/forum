@@ -11,15 +11,14 @@
   <link rel="stylesheet" href="/lte/dist/css/AdminLTE.min.css">
 
   <link rel="stylesheet" href="/lte/dist/css/skins/skin-green.min.css">
- <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
-<link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
 
 <meta name="google-site-verification" content="Uszxxo6fNkYbiVyMjjN3Cgbd_dXG-hgf3Gz3uv3BMCI" />
 <meta name='language' content='id_id'/>
 <meta name='robots' content='all,index,follow'/>
 	<meta content='follow, all' name='alexabot'/>
 <meta content='-5;120' name='geo.position'/>
-<meta content='2017, Rokoko Iruna' name='copyright'/>
+
 <meta content='id' name='language'/>
 <meta content='Indonesia' name='geo.placename'/>
 <meta content='global' name='target'/>
@@ -206,9 +205,29 @@ foreach($this->user->tampiluser($this->session->userdata('user'))->result() as $
 
       <ul class="sidebar-menu">
         <li class="header">NAVIGATION</li>
+                <?php
+        if($this->session->user)
+        {
+        ?>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/dashboard"><i class="fa fa-circle-o"></i> Dashboard</a></li>
+            <li><a href="/quiz/quizUser"><i class="fa fa-circle-o"></i> Dashboard Quiz</a></li>
+          </ul>
+        </li>
+        
+        <?php
+        }
+          ?>
         <li class="treeview" itemprop='url'>
           <a title="forum" href="/forum">
-            <i class="fa fa-dashboard"></i> <span itemprop='name'>Forum</span>
+            <i class="fa fa-comments-o"></i> <span itemprop='name'>Forum</span>
           </a>
         </li>
         <li class="treeview" itemprop='url'>
@@ -285,21 +304,7 @@ foreach($this->user->tampiluser($this->session->userdata('user'))->result() as $
       <strong>{&nbsp;}</strong> with <font color="red">&hearts;</font> in Pekalongan, Indonesia </div>
     <strong>Copyright &copy; 2018 <a href="https://rokoko-iruna.com/">rokoko-iruna.com</a>.</strong> All rights
     reserved. <br/>
-    
-       <!-- Histats.com  (div with counter) -->
-<div id="histats_counter"></div>
-<!-- Histats.com  START  (aync)-->
-<script type="text/javascript">var _Hasync= _Hasync|| [];
-_Hasync.push(['Histats.start', '1,3962278,4,107,170,20,00010000']);
-_Hasync.push(['Histats.fasi', '1']);
-_Hasync.push(['Histats.track_hits', '']);
-(function() {
-var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
-hs.src = ('//s10.histats.com/js15_as.js');
-(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
-})();</script>
-<noscript><img  src="//sstatic1.histats.com/0.gif?3962278&101" alt="free geoip" border="0"></noscript>
-<!-- Histats.com  END  -->
+  
   </footer>
 
   
@@ -313,11 +318,39 @@ hs.src = ('//s10.histats.com/js15_as.js');
 <script src="/lte/dist/js/app.min.js"></script>
 
 
-  <!-- modal -->
+  	<script src="http://malsup.github.com/jquery.form.js"></script>
+  <script>
+  $(document).ready(function(){
+    
+  $('#saran').submit(function(e){
+  	e.preventDefault();
+  
+ 		$.ajax({
+ 	  url : "<?=base_url();?>price/saran",
+        type: "POST",
+        dataType: "JSON", 
+        data: $("#saran").serialize(),
+        beforeSend: function()
+        {
+			$('.anu').html('<i class="fa fa-spinner fa-spin"></i> Sending');
+          	$('.anu').addClass('disabled');
+        },
+        success: function(data)
+        {
+          $('.yametesenpai').slideUp();
+          
+        	if(data.status == true){
+				alert('Thank you!');
+        	}
+       }
+ 		});
+  	});
+  
+  })
+  </script>
   	<?php
   if($this->session->userdata('level') == 'admin')
   { ?>
-  	<script src="http://malsup.github.com/jquery.form.js"></script>
   <script type="text/javascript">
   
   function tambahkan()

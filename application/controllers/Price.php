@@ -15,7 +15,7 @@ class Price extends CI_Controller {
       
       	if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2) == 'id')
         {
-		$this->lang->load('msg',$this->_lang);
+			$this->lang->load('msg',$this->_lang);
         }
       
       
@@ -172,7 +172,10 @@ function cari()
 	function single($slug)
 	{
 			$ini = $this->price_model->single($slug);
-			
+			if(!$ini)
+            {
+              redirect('/notfound');
+            }
 			foreach($ini as $u)
 			{
 				$data =[
@@ -192,5 +195,96 @@ function cari()
         	$this->output->set_output_data('og','none');
 			$this->load->view('price_single',$data);
 	}
+  
+  	function saran()
+    {
+      if(!$this->input->is_ajax_request())
+      {
+        exit('no direct script allowed!');
+      }
+      
+      $this->output->unset_template();
+      
+      $data = [
+      	'parent_id'	=> $this->input->post('id'),
+        'price' => $this->input->post('price') ?? '-',
+        'stk' => $this->input->post('stk') ?? '-',
+        'username' => $this->session->user ?? 'guest',
+        'date' => date('Y-m-d')
+      ];
+      
+      $respon['status'] = true;
+      
+      if($this->price_model->saran($data))
+      {
+        $respon['status'] = true;
+      }
+      
+      echo json_encode($respon);
+    }
+  
+  	function kasus($id)
+    {
+      $this->output->unset_template();
+      if($this->session->user == 'user' || !$this->session->user)
+      {
+        redirect('price');
+      }
+      
+      $a = $this->price_model->getFilterSingle($id);
+      
+      if(!$a)
+      {
+        $respon['stats'] = false;
+      }
+      if($a->num_rows() > 0){
+          foreach($a->result() as $b)
+          {
+            $parent = $b->parent_id;
+            $harga = $b->price;
+            $stk = $b->stk;
+            $thl = $b->date;
+          }
+      }
+      
+      $data = [
+      	'price' => $harga,
+        'stk' => $stk,
+        'latest_updated' => $thl
+      ];
+      
+      $updet = $this->price_model->updatePrice($parent,$data);
+      $qq = [
+			'id_parent' => $parent,
+			'price' => $harga,
+			'stk' => $stk,
+			'date' => $thl
+			];
+			
+	  
+  
+        $this->price_model->insert_item('price_history',$qq);
+        $respon['stats'] = true;
+        $this->price_model->clear($id);
+        
+      redirect('price/admin');
+      
+    }
+  
+  	function admin()
+    {
+      if($this->session->user == 'user' || !$this->session->user)
+      {
+        redirect('price');
+      }
+      
+      $this->output->set_title('Admin harga');
+			$this->output->set_output_data('deskripsi', 'Admin [Price]');
+      $this->output->set_output_data('og','none');
+      
+      
+	  $this->load->view('price_admin');
+	
+    }
 	
 }

@@ -114,6 +114,47 @@ class Price_model extends CI_Model
  
  	function get_history($id)
  	{
- 		return $this->db->where('id_parent',$id)->get('price_history');
+ 		return $this->db
+          			->where('id_parent',$id)
+          			->order_by('date','DESC')
+          			->get('price_history');
  	}
+  
+  	function saran($data)
+    {
+      $this->db->insert('price_filter',$data);
+      
+      return true;
+    }
+  
+  	function getFilterHarga()
+    {
+      
+      
+      return $this->db
+        	->query("select price_filter.*,price.id,price.name from price_filter join price on price_filter.parent_id=price.id")->result();
+      
+    }
+  
+  	function getFilterSingle($id)
+    {
+      return $this->db->where('idn',$id)
+        				->get('price_filter');
+    }
+  
+  	function updatePrice($a,$b)
+    {
+      $this->db->where('id',$a)
+        		->update('price',$b);
+      
+      
+    }
+  
+  	function clear($id)
+    {
+      return $this->db->where('idn',$id)
+        				->delete('price_filter');
+    }
+  
+  
  }
