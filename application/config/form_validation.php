@@ -110,33 +110,39 @@ $config = [
   	'quiz' => [
       	[
           	'field' => 'pertanyaan',
-          	'label' => 'Pertanyaan',
-          	'rules' => 'required|min_length[5]'
+          	'label' => 'Question',
+          	'rules' => 'trim|required|min_length[5]'
         ],
       	[
           	'field' => 'ja',
-          	'label' => 'Jawaban A',
-          	'rules' => 'required'
+          	'label' => 'Answer A',
+          	'rules' => 'trim|required'
         ],
       	[
           	'field' => 'jb',
-          	'label' => 'Jawaban B',
-          	'rules' => 'required'
+          	'label' => 'Answer B',
+          	'rules' => 'trim|required'
         ],   
       	[
           	'field' => 'jc',
-          	'label' => 'Jawaban C',
-          	'rules' => 'required'
+          	'label' => 'Answer C',
+          	'rules' => 'trim|required'
         ],
       	[
           	'field' => 'jd',
-          	'label' => 'Jawaban D',
-          	'rules' => 'required'
+          	'label' => 'Answer D',
+          	'rules' => 'trim|required'
         ],
       
       	[
           	'field' => 'correct',
-          	'label' => 'Jawaban benar',
+          	'label' => 'Correct answer',
+          	'rules' => 'required'
+        ],
+      
+      	[
+          	'field' => 'lang',
+          	'label' => 'Language',
           	'rules' => 'required'
         ]
     
