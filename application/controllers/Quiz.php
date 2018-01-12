@@ -6,7 +6,16 @@ class Quiz extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-      	
+      
+      	$this->load->helper('language');
+      
+      	if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2) == 'id')
+        {
+			$this->lang->load('quiz','indonesia');
+        } else {
+          	$this->lang->load('quiz','english');
+        }
+      
       	$this->load->model('quiz_model');
 
 		$this->_init();
@@ -41,11 +50,29 @@ class Quiz extends CI_Controller {
   * generate soal dan menyimpan dalam session
   */
   
+  	function quizLang()
+    {
+      $this->needLogin();
+      
+      $this->load->view('quiz_lang');
+    }
+  
   	function begin()
     {
       $this->needLogin();
       
-      $quizs = $this->quiz_model->getRand();
+      $lang = $this->input->get('lang');
+      if(empty($lang))
+      {
+        redirect('quiz/quizLang');
+      }
+      
+      if(!$this->input->get())
+      {
+        redirect('quiz/quizLang');
+      }
+      
+      $quizs = $this->quiz_model->getRand($lang);
       
       $sessquiz = $this->session->set_userdata($quizs);
       $key = sha1(date('Y-m-d H:i:s'));
@@ -292,6 +319,11 @@ class Quiz extends CI_Controller {
         return "login bang!";
       }
       
+      if(!$this->input->is_ajax_request())
+      {
+        exit('No direct script allowed');
+      }
+      
       $data = [
         'success'  => false,
         'messages' => [],
@@ -299,9 +331,14 @@ class Quiz extends CI_Controller {
         'csrfHash' => $this->security->get_csrf_hash()
       ];
       
+      
       $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+      
       if($this->form_validation->run('quiz'))
       {
+
+        
+        
         $anunya = [
           	'user_id' => $this->session->userdata('iduser'),
         	'question' => $this->input->post('pertanyaan'),
@@ -309,7 +346,8 @@ class Quiz extends CI_Controller {
           	'answer_b' => $this->input->post('jb'),
           	'answer_c' => $this->input->post('jc'),
           	'answer_d' => $this->input->post('jd'),
-          	'correct'	=> $this->input->post('correct')
+          	'correct'	=> $this->input->post('correct'),
+          	'lang'	=> $this->input->post('lang')
         ];
         
         $this->quiz_model->insertQuiz($anunya);
@@ -322,6 +360,7 @@ class Quiz extends CI_Controller {
           $data['messages'][$key] = form_error($key);
         }
       }
+      
       $this->output->unset_template();
       
       echo json_encode($data);
@@ -353,6 +392,40 @@ class Quiz extends CI_Controller {
       $page = $this->uri->segment(4) ?? 0;
    
       $data["page"] = $this->quiz_model->fetch_data($y,$configg["per_page"], $page);
+      $str_links = $this->pagination->create_links();
+      
+      $data["links"] = explode('&nbsp;',$str_links );
+      
+      $this->load->view('quiz_admin',$data);
+    }
+  
+  function quizAdminLang()
+    {
+      if($this->session->userdata('level') == 'user' || !$this->session->userdata('user'))
+      {
+         redirect('forum');
+      }
+      
+      $lang = $this->uri->segment(3);
+      $y = $this->uri->segment(4) ?? 1;
+      
+      if($y > 1 || $y < 0)
+      {
+        $y = 1;
+      }
+      
+      $this->config->load('pagination',TRUE);
+ 	  $configg = $this->config->item('pagination');
+      $configg["base_url"] = base_url() . "quiz/quizAdminLang/$lang/$y";
+      $total_row = $this->quiz_model->countQuizStatus($y);
+        
+      $configg["total_rows"] = $total_row;
+      
+      $this->pagination->initialize($configg);
+      
+      $page = $this->uri->segment(5) ?? 0;
+   
+      $data["page"] = $this->quiz_model->fetch_data_lang($lang,$y,$configg["per_page"], $page);
       $str_links = $this->pagination->create_links();
       
       $data["links"] = explode('&nbsp;',$str_links );

@@ -18,7 +18,7 @@
 
 <section class="content">
   <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-7">
   <div class="box box-widget">
     <div class="box-header">
      <i class="fa fa-trophy"></i> 10 Top Scores
@@ -54,73 +54,60 @@
   ?>
       </table>
 	</div>     <!-- /.box-body -->
-    <div class="box-footer"><a href="/quiz/peringkat" class="btn btn-default">Lihat semua peringkat</a></div>
+    <div class="box-footer"><a href="/quiz/peringkat" class="btn btn-default"><?=
+       $this->lang->line('seerank');
+       ?></a></div>
           </div>
-    </div>
-    <div class="col-md-7">
-      <?php
+      
+        <?php
       if($this->session->user)
       {
         echo '
-      <a href="/quiz/quizUser" class="btn btn-primary">Lihat Quizku !</a> <br><div style="margin:20px"></div>';
+      <a href="/quiz/quizUser" class="btn btn-primary">My Quiz !</a> <br><div style="margin:20px"></div>';
       }
       ?>
   <div class="box box-widget">
     <div class="box-header">
-       Sistem quiz
+       The Quiz
     </div>
      <div class="box-body">
-       <strong> --- Quiz --- </strong><br>
-<p><br>
-Quiz berisi 10 pertanyaan.<br>
-tidak ada batasan waktu saat mengerjakan. Quiz berasal dari user yang telah mensubmit pertanyaan, kamu juga dapat mensubmit pertanyaan <a href="/quiz/newQuiz">disini!</a>
-<br>
-Quiz hanya untuk mengetes pengetahuanmu tentang iruna
-</p>
-
-<strong> --- Point yang di dapat --- </strong>
-<p><br>
-Point di dapat ketika kamu telah selesai mensubmit quiz dan otomatis di tambahkan ke total pointmu saat ini.<br><br>
-jika jawaban benar kurang dari 3 kamu medapat +2 point<br>
-jika jawaban benar 3-5 kamu mendapat +5 point<br>
-jika jawaban benar 6-7 kamu mendapat +12 point<br>
-jika jawaban benar lebih dari 8 kamu mendapat +20 point<br>
-</p>
-
-
-<strong> --- Top Score --- </strong>
-<p><br>
-Data user yang tampil pada Top score berdasarkan banyaknya point yang di dapat
-</p><br><br>
-       <a onclick="mulaiMas()" class="btn btn-primary btn-block">Mulai quiz</a>
+       <?=
+       lang('quiz');
+       ?>
+    <br><br>
+       <a onclick="mulaiMas()" class="btn btn-primary btn-block"><?=
+       lang('start_quiz');
+       ?></a>
     </div>
       </div>
     
-    
-      <div class="box box-widget">
-        <div class="box-header">Statistik Quiz</div>
-        <div class="box-body no-padding">
-          <table class="table table-striped">
-            <thead>
-              <th>Total Quiz</th>
-              <th>Diterima</th>
-              <th>Dalam moderasi</th>
-            </thead>
-            <tr>
-              
-              <td class="text-center"><?=$this->quiz_model->countQuiz();?></td>
-              <td class="text-center text-success"><?=$this->quiz_model->countQuizStatus(1);?></td>
-              <td class="text-center text-danger"><?=$this->quiz_model->countQuizStatus(0);?></td>
-            </tr>
-          </table>
-          
-          <div style="margin:10px">
-          <a href="/quiz/newQuiz" class="btn btn-success btn-block">Buat Quiz!</a>
+    </div>
+    <div class="col-md-5">
+      
+        <div class="box box-solid">
+          <div class="box-header">
+           <h4 class="box-title"><i class="fa fa-trophy"></i> <?=lang('statistic');?></h4>
+          </div>
+          <div class="box-body no-padding">
+            <ul class="nav nav-stacked nav-pills">
+            <li><a class=""><i class="fa fa-circle-o text-success"></i> Total correct answer <span class="label label-success pull-right"><?=$this->quiz_model->howManyTotal('score');?></span></a></li>
+              <li><a class="text-danger"><i class="fa fa-circle-o text-danger"></i> Total wrong answer <span class="label label-danger pull-right"><?=$this->quiz_model->howManyTotal('salah');?></span></a></li>
+              <li><a class="text-info"><i class="fa fa-circle-o text-info"></i> Total Points <span class="label label-info pull-right"><?=$this->quiz_model->howManyTotal('point');?></span></a></li>
+              <li><a class="text-info"><i class="fa fa-check text-success"></i> Total quiz accepted <span class="label label-success pull-right"><?=$this->quiz_model->countQuizStatus(1);?></span></a></li>
+              <li><a class="text-info"><i class="fa fa-filter text-danger"></i> Total quiz pending <span class="label label-danger pull-right"><?=$this->quiz_model->countQuizStatus(0);?></span></a></li>
+              <li><a class="text-info"><i class="fa fa-envelope-o text-info"></i> Total quiz submited <span class="label label-info pull-right"><?=$this->quiz_model->countQuiz();?></span></a></li>
+              <li><a class="text-info"><i class="fa fa-flag text-primary"></i> Indonesian quiz <span class="label label-primary pull-right"><?=$this->quiz_model->howManyLang('id');?></span></a></li>
+              <li><a class="text-info"><i class="fa fa-flag text-primary"></i> English quiz <span class="label label-primary pull-right"><?=$this->quiz_model->howManyLang('en');?></span></a></li>
+            </ul>
+          </div>
+          <div class="box-footer">
+            <a href="/quiz/newQuiz" class="btn btn-success btn-block"><?=
+       lang('newquiz');
+       ?></a>
           </div>
         </div>
-      </div>
     </div>
-    
+    <!-- end -->
   </div>
     </section>
     
@@ -133,15 +120,17 @@ if(!$this->session->userdata('user'))
   function mulaiMas()
   {
             swal({
-  title: "Mulai!",
-  text: "Mulai quiz?",
+  title: "Start!",
+  text: "Start quiz?",
   type: "info",
   showCancelButton: true,
   closeOnConfirm: false,
   showLoaderOnConfirm: true
 }, function () {
   setTimeout(function () {
-    swal("Kamu belum login");
+    swal("<?=
+       $this->lang->line('notlogin');
+       ?>");
   }, 1000);
 });
   }
@@ -155,15 +144,15 @@ if(!$this->session->userdata('user'))
   function mulaiMas()
   {
             swal({
-  title: "Mulai?",
-  text: "Mulai quiz?",
+  title: "Start!",
+  text: "Start quiz?",
   type: "success",
   showCancelButton: true,
   closeOnConfirm: false,
   showLoaderOnConfirm: true
 }, function () {
   setTimeout(function () {
-    window.location.href = '/quiz/begin';
+    window.location.href = '/quiz/quizLang';
   }, 2000);
 });
   }

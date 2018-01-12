@@ -17,8 +17,12 @@
     <div class="col-md-9">
 <div class="box">
             <div class="box-body">
-              <div class=""><strong class="text-center">Start Iruna online Quiz</strong><br/><br><?=$this->lang->line('start_q');?>
-                  <a href="/quiz/beginQuiz/1" class="btn btn-primary btn-block">Start the quiz!</a></div>
+              <div class=""><strong class="text-center"><?=$this->lang->line('select_lang');?></strong><br/>
+                <strong></strong><br><br>
+                <a href="/quiz/begin?lang=id" class="btn btn-default margin-bottom btn-block">Indonesia</a> 
+                <br>
+                <a href="/quiz/begin?lang=en" class="btn btn-default margin-bottom btn-block">English</a> 
+</div>
 			</div>      
                 
             <!-- /.box-body -->

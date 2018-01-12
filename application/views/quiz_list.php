@@ -6,18 +6,24 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-         Iruna Online Quiz
+         Iruna Online Quiz 
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url();?>"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"><a href="/quiz">Quiz</a></li>
-        
+        <li><a href="/quiz">Quiz</a></li>
+        <li class="active">Quiz started</li>
       </ol>
     </section>
 
 			  <?=form_open('quiz/submitAjax/',['id'=>'form-quiz']);?>
 <section class="content">
   <div class="row">
+    <div class="col-md-12">
+    
+              <div class="callout callout-info">
+                <p><?=lang('info_save');?></p>
+              </div>
+    </div>
     <div class="col-md-7">
       
       
@@ -66,11 +72,11 @@
           $back = $id-1;
           echo ($id != 1 ? '<a id="backq" qid="'.$back.'" class="btn btn-default pull-left" onClick="kembali()">Back</a>&nbsp;&nbsp;&nbsp;&nbsp;' : '');?> 
           
-          <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" id="submit" class="btn btn-primary"><?=lang('save_q');?></button>
           
           <?php
           $link = $id+1;
-          echo ($id != 10 ? '<a id="nextq" qid="'.$link.'" class="btn btn-default pull-right" onClick="lanjut()">Next</a>' : '<span onclick="ok()" class="btn btn-success pull-right">Selesai!</span>');?>
+          echo ($id != 10 ? '<a id="nextq" qid="'.$link.'" class="btn btn-default pull-right" onClick="lanjut()">Next</a>' : '<span onclick="ok()" class="btn btn-success pull-right">Submit!</span>');?>
           
 		</div>
             <!-- /.box-body -->
@@ -80,7 +86,7 @@
       
 <div class="box box-default">
   <div class="box-header with-padding">
-    Terjawab: <?php
+    <?=lang('answered');?>: <?php
     $terjwb = 0;
     for($o=1;$o<=10;$o++)
     {
@@ -135,7 +141,7 @@
 		e.preventDefault();
       
     	$("#submit").addClass('disabled')
-    				.html('<i class="fa fa-spinner fa-spin"></i> Submit');
+    				.html('<i class="fa fa-spinner fa-spin"></i> <?=lang('save_q');?>');
       
     	
 		$.ajax({
@@ -151,12 +157,12 @@
                     
                     $("#oper").hide();
                   
-                swal('sukses!','jawaban disimpan','success');
+                swal('success!','Answer saved!','success');
                 })
                 
               
     	$("#submit").removeClass('disabled')
-    			.text('Submit');
+    			.text('<?=lang('save_q');?>');
             }
         })
       return false;
@@ -194,16 +200,16 @@
   function ok()
   {
     swal({
-  title: "Yakin?",
-  text: "Kamu akan mensubmit quiz! \n Terjawab: "+dijawab+" / 10",
+  title: "<?=lang('u_sure');?>",
+  text: "<?=lang('u_will');?> \n <?=lang('answered');?>: "+dijawab+" / 10",
   type: "warning",
   showCancelButton: true,
   confirmButtonClass: "btn-success",
-  confirmButtonText: "Ya, selesai!",
+  confirmButtonText: "Yup!",
   closeOnConfirm: false
 },
 function(){
-  swal("Selesai!", "Quiz di submit", "success");
+  swal("Great!", "Quiz submited", "success");
       document.location.href = '/quiz/submitQuiz';
 });
   }

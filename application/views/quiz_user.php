@@ -34,8 +34,8 @@
     
       <div class="col-md-3">
                 
-        <a href="/quiz/quizUser/1" class="btn btn-success btn-block margin-bottom"><i class="fa fa-envelope-o"></i> Diterima</a>
-        <a href="/quiz/quizUser/0" class="btn btn-warning btn-block margin-bottom"><i class="fa fa-filter"> </i> Dalam moderasi</a>
+        <a href="/quiz/quizUser/1" class="btn btn-success btn-block margin-bottom"><i class="fa fa-envelope-o"></i> Accepted (<?=$this->quiz_model->howMany(1);?>)</a>
+        <a href="/quiz/quizUser/0" class="btn btn-warning btn-block margin-bottom"><i class="fa fa-filter"> </i> Pending (<?=$this->quiz_model->howMany(0);?>)</a>
         
         <?php
         if($this->session->level == 'admin'):
@@ -51,13 +51,17 @@
         
         <div class="box box-solid">
           <h4 class="box-header">
-           <i class="fa fa-trophy"></i> My score
+           <i class="fa fa-trophy"></i> My Quiz
           </h4>
           <div class="box-body no-padding">
             <ul class="nav nav-stacked nav-pills">
-            <li><a class=""><i class="fa fa-circle-o text-success"></i> Benar <span class="label label-success pull-right"><?=$skor;?></span></a></li>
-              <li><a class="text-danger"><i class="fa fa-circle-o text-danger"></i> Salah <span class="label label-danger pull-right"><?=$slah;?></span></a></li>
+            <li><a class=""><i class="fa fa-circle-o text-success"></i> Correct <span class="label label-success pull-right"><?=$skor;?></span></a></li>
+              <li><a class="text-danger"><i class="fa fa-circle-o text-danger"></i> Wrong <span class="label label-danger pull-right"><?=$slah;?></span></a></li>
               <li><a class="text-info"><i class="fa fa-circle-o text-info"></i> Point <span class="label label-info pull-right"><?=$pnt;?></span></a></li>
+              <li><a class="text-info"><i class="fa fa-check text-success"></i> Quiz accepted <span class="label label-success pull-right"><?=$this->quiz_model->howMany(1);?></span></a></li>
+              <li><a class="text-info"><i class="fa fa-filter text-danger"></i> Quiz pending <span class="label label-danger pull-right"><?=$this->quiz_model->howMany(0);?></span></a></li>
+              <li><a class="text-info"><i class="fa fa-envelope-o text-info"></i> Total quiz submited <span class="label label-info pull-right"><?=$this->quiz_model->howMany(0)+$this->quiz_model->howMany(1);?></span></a></li>
+              <li><a class="text-info"><i class="fa fa-comments text-primary"></i> Total users answered <span class="label label-primary pull-right"><?=$this->quiz_model->howMany(0)+$this->quiz_model->howManyAnswered();?></span></a></li>
             </ul>
           </div>
           
@@ -74,8 +78,8 @@ foreach($page as $p)
   <div>
     <div id="ngani<?=$p->quiz_id;?>" class="box box-solid">
       <div id="nganu<?=$p->quiz_id;?>" class="box-body">
-        <div class="<?= $p->status == 1 ? 'text-success' : 'text-danger';?>">
-        <?= $p->status == 1 ? 'Diterima!' : 'Moderasi';?>
+        <div class="<?= $p->status == 1 ? 'label label-success' : 'label label-danger';?>">
+        <?= $p->status == 1 ? 'Accepted!' : 'Pending';?>
         </div>
       <strong>Q:</strong>
         <?=$this->bbcode->bbcode_to_html($p->question);?> <br><br>
@@ -109,14 +113,14 @@ foreach($page as $p)
             break;
         }
   ?>
-       <br> <strong>Dijawab sebanyak:</strong> <?=$p->terjawab;?>x
+       <br> <strong>Users answered:</strong> <?=$p->terjawab;?>x
       </div>
     </div>
   </div>
 <?php
 }
 else:
-  echo "<div style='margin-left:20px;'>Tidak ada data! <a href='/quiz/newQuiz'>Buat quiz??</a></div>";
+  echo "<div style='margin-left:20px;'>No data found! <a href='/quiz/newQuiz'>Create quiz??</a></div>";
 endif;
 ?>
 

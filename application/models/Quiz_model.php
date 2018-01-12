@@ -9,12 +9,13 @@ class Quiz_model extends CI_Model
 		parent::__construct();
 	}
   
-  	function getRand()
+  	function getRand($lang)
     {
       $this->db->select('*');
       $this->db->from('quiz');
       $this->db->join('users','users.id = quiz.user_id');
       $this->db->where('status',1);
+      $this->db->where('lang',$lang);
       $this->db->order_by('id','RANDOM');
       $this->db->limit(10);
       $re = $this->db->get();
@@ -38,6 +39,78 @@ class Quiz_model extends CI_Model
         $i++;
       }
       return $data;
+    }
+  
+  	function howMany($i)
+    {
+      $id = $this->session->iduser;
+      $u = $this->db->query("select count(*) as c from quiz where user_id=$id and status=$i");
+      
+      if($u->num_rows() > 0):
+        foreach($u->result() as $c)
+        {
+          $co = $c->c;
+        }
+      	return $co;
+      endif;
+      return (int)0;
+    }
+  
+  	function howManyAnswered()
+    {
+      $id = $this->session->iduser;
+      $u = $this->db->query("select sum(terjawab) as c from quiz where user_id=$id");
+      
+      if($u->num_rows() > 0):
+        foreach($u->result() as $c)
+        {
+          $co = $c->c;
+        }
+      	return $co;
+      endif;
+      return (int)0;
+    }
+  
+  	function howManyTotalAnswered()
+    {
+      $u = $this->db->query("select sum(terjawab) as c from quiz");
+      
+      if($u->num_rows() > 0):
+        foreach($u->result() as $c)
+        {
+          $co = $c->c;
+        }
+      	return $co;
+      endif;
+      return (int)0;
+    }
+  
+  	function howManyLang($l)
+    {
+      $u = $this->db->query("select count(*) as c from quiz where lang='$l'");
+      
+      if($u->num_rows() > 0):
+        foreach($u->result() as $c)
+        {
+          $co = $c->c;
+        }
+      	return $co;
+      endif;
+      return (int)0;
+    }
+  
+  	function howManyTotal($t)
+    {
+      $u = $this->db->query("select sum($t) as c from quiz_users");
+      
+      if($u->num_rows() > 0):
+        foreach($u->result() as $c)
+        {
+          $co = $c->c;
+        }
+      	return $co;
+      endif;
+      return (int)0;
     }
   
   	function ambilTerjawab($qid)
@@ -190,6 +263,23 @@ class Quiz_model extends CI_Model
       return false;
     }
   
+  
+  	function fetch_data_lang($lang,$s,$p,$l)
+    {
+      $ada = $this->db->query("select quiz.*,users.id,users.username from quiz join users on users.id=quiz.user_id where status=$s and lang='$lang' order by quiz_id desc limit $l,$p");
+      
+      if($ada->num_rows() > 0)
+      {
+        foreach($ada->result() as $row)
+        {
+          $data[] = $row;
+        }
+        
+        return $data;
+      }
+      
+      return false;
+    }
   
   	function fetch_data_by($s,$p,$l)
     {

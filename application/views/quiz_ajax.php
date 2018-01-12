@@ -1,6 +1,13 @@
 
   <div class="row">
+    <div class="col-md-12">
+    
+              <div class="callout callout-info">
+                <p><?=lang('info_save');?></p>
+              </div>
+    </div>
     <div class="col-md-7">
+      
 <div class="box box-primary">
   <div id="oper" class="overlay">
     <i class="fa fa-spinner fa-spin"></i>
@@ -46,11 +53,11 @@
           $back = $id-1;
           echo ($id != 1 ? '<a id="backq" qid="'.$back.'" class="btn btn-default pull-left" onClick="kembali()">Back</a>&nbsp;&nbsp;&nbsp;&nbsp;' : '');?> 
           
-          <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" id="submit" class="btn btn-primary"><?=lang('save_q');?></button>
           
           <?php
           $link = $id+1;
-          echo ($id != 10 ? '<a id="nextq" qid="'.$link.'" class="btn btn-default pull-right" onClick="lanjut()">Next</a>' : '<span onclick="ok()" class="btn btn-success pull-right">Selesai!</span>');?>
+          echo ($id != 10 ? '<a id="nextq" qid="'.$link.'" class="btn btn-default pull-right" onClick="lanjut()">Next</a>' : '<span onclick="ok()" class="btn btn-success pull-right">Submit!</span>');?>
           
 		</div>
             <!-- /.box-body -->
@@ -62,7 +69,7 @@
       
 <div class="box box-default">
   <div class="box-header with-padding">
-    Terjawab: <?php
+    <?=lang('answered');?>: <?php
     $terjwb = 0;
     for($o=1;$o<=10;$o++)
     {

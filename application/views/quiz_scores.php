@@ -16,7 +16,7 @@
 <section class="content">
   <div class="box box-widget">
     <div class="box-header">
-     <i class="fa fa-trophy"></i> Seluruh peringkat
+     <i class="fa fa-trophy"></i> Ranking
     </div>
     <div class="box-body no-padding">
     

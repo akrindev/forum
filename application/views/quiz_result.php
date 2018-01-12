@@ -3,11 +3,11 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-         Iruna Quiz Result
+         Quiz Result
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url();?>"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"><a href="/quiz">Result quiz</a></li>
+        <li class="active"><a href="/quiz">Quiz Result</a></li>
         
       </ol>
     </section>
@@ -17,7 +17,7 @@
     <div class="col-md-6">
       
 <div class="box box-widget">
-  <div class="box-header">Hasil Quiz</div>
+  <div class="box-header">Result quiz</div>
             <div class="box-body n">
               <div class="">
                 <div class="progress-group">
@@ -50,8 +50,8 @@
                     </div>
                   </div>
                 
-              <div style="margin:8px">  <a href="/quiz" class="btn btn-primary btn-block"> Mulai lagi?</a>
-                  <a href="/quiz/newQuiz" class="btn btn-default btn-block"> Buat quiz!</a></div>
+              <div style="margin:8px">  <a href="/quiz" class="btn btn-primary btn-block"> Start over?</a>
+                  <a href="/quiz/newQuiz" class="btn btn-default btn-block"> Create quiz!</a></div>
               </div>
 			</div>      
                 

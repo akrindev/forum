@@ -3,15 +3,6 @@
 <script src="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.js"></script>
 <link rel="stylesheet" href="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.css">
 
-<?php
-                foreach($this->quiz_model->getUserScore($this->session->userdata('iduser'))->result() as $yes){
-                $skor = $yes->score;
-                $slah = $yes->salah;
-                $pnt = $yes->point;
-                }
-                
-                ?>
-
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -34,27 +25,52 @@
     
       <div class="col-md-3">
                 
-        <a href="/quiz/quizAdmin/1" class="btn btn-success btn-block margin-bottom"><i class="fa fa-envelope-o"></i> Diterima</a>
-        <a href="/quiz/quizAdmin/0" class="btn btn-warning btn-block margin-bottom"><i class="fa fa-filter"> </i> Dalam moderasi</a>
-        
+         <a href="/quiz/quizAdmin/1" class="btn btn-success btn-block margin-bottom"><i class="fa fa-envelope-o"></i> Total Accepted (<?=$this->quiz_model->countQuizStatus(1);?>)</a>
+        <a href="/quiz/quizAdmin/0" class="btn btn-warning btn-block margin-bottom"><i class="fa fa-filter"> </i> Total Pending (<?=$this->quiz_model->countQuizStatus(0);?>)</a>
         
         <div class="box box-solid">
           <h4 class="box-header">
-           <i class="fa fa-trophy"></i> My score
+           <i class="fa fa-trophy"></i> <?=lang('statistic');?>
           </h4>
           <div class="box-body no-padding">
             <ul class="nav nav-stacked nav-pills">
-            <li><a class=""><i class="fa fa-circle-o text-success"></i> Benar <span class="label label-success pull-right"><?=$skor;?></span></a></li>
-              <li><a class="text-danger"><i class="fa fa-circle-o text-danger"></i> Salah <span class="label label-danger pull-right"><?=$slah;?></span></a></li>
-              <li><a class="text-info"><i class="fa fa-circle-o text-info"></i> Point <span class="label label-info pull-right"><?=$pnt;?></span></a></li>
+            <li><a class=""><i class="fa fa-circle-o text-success"></i> Total correct answer <span class="label label-success pull-right"><?=$this->quiz_model->howManyTotal('score');?></span></a></li>
+              <li><a class="text-danger"><i class="fa fa-circle-o text-danger"></i> Total wrong answer <span class="label label-danger pull-right"><?=$this->quiz_model->howManyTotal('salah');?></span></a></li>
+              <li><a class="text-info"><i class="fa fa-circle-o text-info"></i> Total Points <span class="label label-info pull-right"><?=$this->quiz_model->howManyTotal('point');?></span></a></li>
+              <li><a class="text-info"><i class="fa fa-check text-success"></i> Total quiz accepted <span class="label label-success pull-right"><?=$this->quiz_model->countQuizStatus(1);?></span></a></li>
+              <li><a class="text-info"><i class="fa fa-filter text-danger"></i> Total quiz pending <span class="label label-danger pull-right"><?=$this->quiz_model->countQuizStatus(0);?></span></a></li>
+              <li><a class="text-info"><i class="fa fa-envelope-o text-info"></i> Total quiz submited <span class="label label-info pull-right"><?=$this->quiz_model->countQuiz();?></span></a></li>
+              <li><a class="text-info"><i class="fa fa-comments text-primary"></i> Total users answered <span class="label label-primary pull-right"><?=$this->quiz_model->howManyTotalAnswered();?></span></a></li>
+              <li><a class="text-info"><i class="fa fa-flag text-primary"></i> Indonesian quiz <span class="label label-primary pull-right"><?=$this->quiz_model->howManyLang('id');?></span></a></li>
+              <li><a class="text-info"><i class="fa fa-flag text-primary"></i> English quiz <span class="label label-primary pull-right"><?=$this->quiz_model->howManyLang('en');?></span></a></li>
             </ul>
           </div>
-          
+          <div class="box-footer">
+            <a href="/quiz/newQuiz" class="btn btn-success btn-block"><?=
+       $this->lang->line('newquiz');
+       ?></a>
+          </div>
         </div>
       </div>
 
       <div class="col-md-9">
-
+<div class="margin-bottom">
+        <div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Indonesian</button>
+  <ul class="dropdown-menu">
+    <li><a href="/quiz/quizAdminLang/id/1">Accepted</a></li>
+    <li><a href="/quiz/quizAdminLang/id/0">Pending</a></li>
+  </ul>
+</div>
+  
+    <div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">English</button>
+  <ul class="dropdown-menu">
+    <li><a href="/quiz/quizAdminLang/en/1">Accepted</a></li>
+    <li><a href="/quiz/quizAdminLang/en/0">Pending</a></li>
+  </ul>
+</div>
+        </div>
         
 <?php
   if($page):
@@ -63,9 +79,9 @@ foreach($page as $p)
   <div>
     <div id="ngani<?=$p->quiz_id;?>" class="box box-solid">
       <div id="nganu<?=$p->quiz_id;?>" class="box-body">
-        <div class="<?= $p->status == 1 ? 'text-success' : 'text-danger';?>">
-        <?= $p->status == 1 ? 'Diterima!' : 'Moderasi';?>
-        </div>
+        <div class="<?= $p->status == 1 ? 'label label-success' : 'label label-danger';?>">
+        <?= $p->status == 1 ? 'Accepted!' : 'Pending';?>
+        </div><br>
       <strong>Q:</strong>
         <?=$this->bbcode->bbcode_to_html($p->question);?> <br><br>
         <strong>A:</strong> <?=$this->bbcode->bbcode_to_html($p->answer_a);?> <br>
@@ -99,13 +115,14 @@ foreach($page as $p)
         }
   ?> <br>
         <strong>By:</strong> <?=$p->username;?>
-       <br> <strong>Dijawab sebanyak:</strong> <?=$p->terjawab;?>x
+       <br> <strong>Answered:</strong> <?=$p->terjawab;?>x <br>
+        <strong>Language:</strong> <?=$p->lang;?>
         <br><br>
         <?php 
  			if($p->status == 1){
-            	echo "<span class='btn btn-danger' onclick='decline($p->quiz_id)'>Buang ke moderasi?</span>";
+            	echo "<span class='btn btn-danger' onclick='decline($p->quiz_id)'>Trash?</span>";
             } else {
-                   	echo "<span class='btn btn-success' onclick='accept($p->quiz_id)'>Terima quiz ini?</span>";
+                   	echo "<span class='btn btn-success' onclick='accept($p->quiz_id)'>Accept this quiz?</span>";
             }
         ?>
         <span onClick="edit(<?=$p->quiz_id;?>)" class="btn btn-default">Edit</span>
@@ -115,7 +132,7 @@ foreach($page as $p)
 <?php
 }
 else:
-  echo "<div style='margin-left:20px;'>Tidak ada data! <a href='/quiz/newQuiz'>Buat quiz??</a></div>";
+  echo "<div style='margin-left:20px;'>No data found! <a href='/quiz/newQuiz'>Create quiz??</a></div>";
 endif;
 ?>
 
@@ -141,8 +158,8 @@ endif;
   function decline(a)
   {
             swal({
-  title: "Buang!",
-  text: "Jadikan moderasi?",
+  title: "Trash!",
+  text: "Make it trash?",
   type: "warning",
   showCancelButton: true,
   closeOnConfirm: false,
@@ -155,11 +172,11 @@ endif;
         success: function(data)
         {
           if(data.status == true){
-            swal('Ok!','Berhasil dipindahkan ke Moderasi!','success');
+            swal('Ok!','Success!','success');
             
             $("#nganu"+a).slideUp();
           } else {
-            swal('gagal');
+            swal('failed');
           }
         }
  })
@@ -169,8 +186,8 @@ endif;
   function accept(b)
   {
             swal({
-  title: "Terima!",
-  text: "Terima quiz ini?",
+  title: "Accept!",
+  text: "Accept this quiz?",
   type: "warning",
   showCancelButton: true,
   closeOnConfirm: false,
@@ -183,11 +200,11 @@ endif;
         success: function(data)
         {
           if(data.status == true){
-            swal('Ok!','Quiz di terima!!','success');
+            swal('Ok!','Quiz accepted!!','success');
             
             $("#ngani"+b).slideUp();
           } else {
-            swal('gagal');
+            swal('failed');
           }
         }
  })
@@ -204,7 +221,7 @@ endif;
         dataType: "JSON",
 			beforeSend: function()
 			{
-				swal('Mengambil data');
+				swal('Fetching data');
 			},
         success: function(data)
         {
@@ -234,7 +251,7 @@ endif;
     
         	$('.gg').text('Save Changes');
           	$('#modal_form').modal('hide'); 
-           	 swal('sukses, akan diperbarui ketika halaman di reload');
+           	 swal('success, please reload the page to see changes');
   }
 </script>
 
@@ -252,29 +269,29 @@ endif;
               <?=form_open('quiz/quizEditPost',['id' => 'gnt']);?>
               <div class="modal-body">
 <div class="form-group">
-              	<label>Pertanyaan</label>
+              	<label>Question</label>
   <textarea type="text" name="question" class="form-control"></textarea>
 </div>
 <div class="form-group">
-               	<label>Jawaban A</label>
+               	<label>Answer A</label>
                	<input type="text" class="form-control" name="answer_a">
 </div>
 <div class="form-group">
-               	<label>Jawaban B</label>
+               	<label>Answer B</label>
                	<input type="text" class="form-control" name="answer_b">
 </div>
 <div class="form-group">
-               	<label>Jawaban C</label>
+               	<label>Answer C</label>
                	<input type="text" class="form-control" name="answer_c">
 </div>
 
 <div class="form-group">
-               	<label>Jawaban D</label>
+               	<label>Answer D</label>
                	<input type="text" class="form-control" name="answer_d">
 </div>
                 
 <div class="form-group">
-               	<label>Jawaban benar</label>
+               	<label>Correct answer</label>
                	<input type="text" class="form-control" name="correct">
   <div class="text-danger">Note: 1 = a, 2 = b, 3 = c, 4 = d</div>
 </div>
@@ -306,7 +323,7 @@ $('#gnt').submit(function(e){
         data: nyong.serialize(),
         beforeSend: function()
         {
-			$('.gg').text('mengubah...');
+			$('.gg').text('processing...');
         },
         success: oke()
  		});

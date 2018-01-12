@@ -10,12 +10,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-         Iruna Quiz
+         Iruna Online Quiz <small>create your quiz</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url();?>"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active"><a href="/quiz">Submit quiz</a></li>
-        
+        <li><a href="/quiz">Quiz</a></li>
+        <li class="active">Create quiz</li>
       </ol>
     </section>
 
@@ -24,7 +24,7 @@
     <div class="col-md-10">
       <div class="box box-widget">
         <div class="box-header">
-          Submit quiz
+          Create quiz
         </div>
             <div class="box-body">
               <?php
@@ -39,7 +39,7 @@
                 <input id="csrfp" type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>">
                 
               <div class="form-group">
-                <label>Pertanyaan</label>
+                <label><?=$this->lang->line('question');?></label>
                 <div class="btn-group pull-right">
 			  <div id="b_btn" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-bold"></span></div>
 			  <div id="i_btn" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-italic"></span></div>
@@ -51,34 +51,34 @@
 		  
               </div>
               <div class="form-group">
-                <label>Jawaban a</label>
+                <label><?=$this->lang->line('answer_a');?></label>
                 <input type="text" class="form-control" name="ja" id="ja">
                 <?=form_error('ja','<div class="text-danger">','</div>');?>
 
               </div>
               
               <div class="form-group">
-                <label>Jawaban b</label>
+                <label><?=$this->lang->line('answer_b');?></label>
                 <input type="text" class="form-control" name="jb" id="jb">
                 <?=form_error('jb','<div class="text-danger">','</div>');?>
 
               </div>
               
               <div class="form-group">
-                <label>Jawaban c</label>
+                <label><?=$this->lang->line('answer_c');?></label>
                 <input type="text" class="form-control" name="jc" id="jc">
                 <?=form_error('jc','<div class="text-danger">','</div>');?>
 
               </div>
               
               <div class="form-group">
-                <label>Jawaban d</label>
+                <label><?=$this->lang->line('answer_d');?></label>
                 <input type="text" class="form-control" name="jd" id="jd">
                 <?=form_error('jd','<div class="text-danger">','</div>');?>
 
               </div>
               <div class="form-group">
-                <label>Jawaban benar</label>
+                <label><?=$this->lang->line('correct');?></label>
                 <input type="hidden" id="correct"><br>
                 <label class="radio-inline">
                   <input type="radio" name="correct" value="1" checked> a
@@ -95,7 +95,21 @@
                 
 <?=form_error('correct','<div class="text-danger">','</div>');?>
               </div>
-              <button class="btn btn-success btn-block" id="submitbtn" type="submit">Ajukan quiz</button>
+                <div class="form-group">
+                  <div id="lang"></div>
+                <label><?=$this->lang->line('language');?></label><br>
+                <div class="radio">
+                  <label>
+                  <input type="radio" name="lang" value="id"> Indonesia
+                 </label>
+                  </div>
+                 
+                  <div class="radio"><label>
+                  <input type="radio" name="lang" value="en" checked> English
+                 </label>
+                </div>
+                </div>
+              <button class="btn btn-success btn-block" id="submitbtn" type="submit">Send quiz</button>
               </form>
            <?php } ?>
 			</div>                
@@ -106,21 +120,11 @@
       
       <div class="box box-widget">
         <div class="box-header">
-          Peraturan membuat quiz
+          Rules for creating quiz
         </div>
             <div class="box-body">
            
-             <ol>
-               <li> Quiz bersangkutan dengan iruna </li>
-               <li> Quiz tidak merendahkan seseorang / organisasi </li>
-               <li> Berbahasa yang sopan </li>
-               <li> Jawaban a, b, c, d harus diisi / tidak boleh kosong</li>
-               <li> Koreksi terlebih dahulu sebelum mensubmit quiz</li>
-               <li> Quiz tidak bisa di edit atau di ubah, hubungi <a href="mailto:admin@rokoko-iruna.com">admin@rokoko-iruna.com</a>
-                 jika ingin melakukan tindakan tertentu </li>
-              </ol>
-              
-              <strong> Quiz yang di submit akan di moderasi</strong>
+             <?=$this->lang->line('rules_q');?>
               
 			</div>                
             <!-- /.box-body -->
@@ -141,7 +145,7 @@
 
 		var me = $(this);
       
-      	$("#submitbtn").html('Mengirim <i class="fa fa-spinner" aria-hidden="true"></i>');
+      	$("#submitbtn").html('Sending <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>');
         $("#submitbtn").addClass('disabled');
 
 		// perform ajax
@@ -157,15 +161,15 @@
 				if (response.success == true) {
 					// if success we would show message
            swal({
-  title: "Selesai!",
-  text: "Quiz telah di submit",
+  title: "Success!",
+  text: "Quiz submited",
   type: "success",
   showCancelButton: false,
   closeOnConfirm: false,
   showLoaderOnConfirm: true
 }, function () {
   setTimeout(function () {
-    swal("Submit lebih banyak quiz!",":)","success");
+    swal("Yay!","Lets create more quiz! :)","success");
   }, 1000);
 });
 					// and also remove the error class
@@ -181,7 +185,7 @@
 				}
 				else {
                   		$("#submitbtn").removeClass('disabled');
-                  $("#submitbtn").text('Ajukan quiz');
+                  $("#submitbtn").text('Send quiz');
 					$.each(response.messages, function(key, value) {
 						var element = $('#' + key);
 						
