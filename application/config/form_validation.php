@@ -146,6 +146,69 @@ $config = [
           	'rules' => 'required'
         ]
     
+    ],
+  
+  	'scam' => [
+    	
+      	[
+          	'field' => 'kasus',
+          	'label' => 'kasus',
+          	'rules' => 'trim|required'
+        ],
+      	[
+          	'field' => 'ign',
+          	'label' => 'Scammer ign',
+          	'rules' => 'trim'
+        ],
+      	[
+          	'field' => 'fb',
+          	'label' => 'Fb scammer',
+          	'rules' => 'trim'
+        ],
+      	[
+          	'field' => 'kronologi',
+          	'label' => 'Kronologi',
+          	'rules' => 'trim|min_length[5]|required'
+        ],
+      
+      	[
+          	'field' => 'file',
+          	'label' => 'gambar',
+          	'rules' => 'trim'
+        ]
+    
+    ],
+  
+  's_edit' => [
+    	
+      	[
+          	'field' => 'kasus',
+          	'label' => 'kasus',
+          	'rules' => 'trim|required'
+        ],
+      	[
+          	'field' => 'ign',
+          	'label' => 'Scammer ign',
+          	'rules' => 'trim'
+        ],
+      	[
+          	'field' => 'fb',
+          	'label' => 'Fb scammer',
+          	'rules' => 'trim'
+        ],
+      	[
+          	'field' => 'kronologi',
+          	'label' => 'Kronologi',
+          	'rules' => 'trim|min_length[5]|required'
+        ],
+      
+      	[
+          	'field' => 'file',
+          	'label' => 'gambar',
+          	'rules' => 'trim'
+        ]
+    
     ]
+
 
 ];
