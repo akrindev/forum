@@ -17,8 +17,12 @@ $route['pesan/x/(:any)'] = 'user/pesan_baca/$1';
 
 $route['ga-2017'] = 'reset/gasub';
 
+
 $route['sitemap\.xml'] = 'sitemap';
 $route['sitemap-price\.xml'] = 'sitemap/price';
+$route['sitemap-bgm\.xml'] = 'sitemap/bgm';
+
+
 $route['image'] = 'diskusi/image';
 
 $route['tutorial'] = 'diskusi/bbcode';
@@ -48,6 +52,19 @@ $route['harga/item/(:any)'] = 'price/single/$1';
 $route['harga/cari'] = 'price/cari';
 
 $route['i/price/(:any)/(:any)'] = 'price/get_item/$1/$2';
+
+
+
+// bgm
+
+$route['background_music'] = 'bgm/index';
+$route['background_music/episode'] = 'bgm/index';
+$route['background_music/episode/(:any)'] = 'bgm/episode/$1';
+$route['background_music/episode/(:any)/(:any)'] = 'bgm/single/$1/$2';
+$route['background_music/download/(:any)/quality/(:any)'] = 'bgm/unduh/$1/$2';
+// .. bgm
+
+
 
 
 
