@@ -3,7 +3,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-         Scamer <small>Watch out from scam</small>
+         Scammer <small>Watch out from scam</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?=base_url();?>"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -95,10 +95,11 @@
             <table class="table table-hovered table-bordered" id="scammer">
             <thead>
               <tr>
+					<th>-</th>
                 <th>IGN</th>
-                <th>Nama FB</th>
+                <th> FB Name</th>
                 <th>Other FB</th>
-                <th>Kasus</th>
+                <th>Kasus / Case</th>
                 <th>Date</th>
                 <th>Link fb</th>
               </tr>
@@ -106,6 +107,7 @@
             <tbody>
        <?php foreach($csv as $k): ;?>
               <tr>
+					<td><?=$k['ABJAD'];?></td>
                 <td><?=$k['IGN'];?></td>
               
                 <td><?=$k['FB NAME'];?></td>
@@ -135,8 +137,9 @@
       "paging": true,
       "lengthChange": false,
       "searching": true,
-      "ordering": true,
       "info": true,
-      "autoWidth": true
+      "autoWidth": true,
+      "pageLength": 20,
+		"ordering": false
     });
 </script>

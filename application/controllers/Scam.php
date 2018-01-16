@@ -12,7 +12,7 @@ require APPPATH.'third_party/cloudinary/Cloudinary.php';
     require APPPATH.'third_party/cloudinary/Api.php';
    
 \Cloudinary::config(array(
-    "cloud_name" => "-- cloud name--",
+    "cloud_name" => "-- cloud name --",
     "api_key" => "-- api key --",
     "api_secret" => "-- api secret --"
 ));
@@ -31,7 +31,7 @@ require APPPATH.'third_party/cloudinary/Cloudinary.php';
     $this->output->set_template('adminlte');
     $this->load->js('https://code.jquery.com/jquery-3.2.1.min.js');
 
-	 $this->output->set_title('Iruna online list of scammer');
+	 $this->output->set_title('Iruna online list of scammers');
     $this->output->set_output_data('deskripsi','List of Scammers Iruna Online');
     $this->output->set_output_data('og','og:=https://rokoko-iruna.com/a-iruna-scam.png=:og');
   }
@@ -276,6 +276,37 @@ require APPPATH.'third_party/cloudinary/Cloudinary.php';
       redirect('notfound');
     }
   }
+
+	 	function comment()
+    {
+      $slug = $this->uri->segment(3);
+      
+      if(!$slug)
+      {
+        exit('Something wrong');
+      }
+      
+      $this->form_validation->set_rules('isi','Comment','trim|required|min_length[5]');
+      if($this->form_validation->run() === FALSE)
+      {
+        $this->session->set_flashdata('info','<p class="text-danger">The comment must be at least 5 character</p>');
+      } else {
+        $data = [
+        	'parent_id' => $this->input->post('id'),
+          	 'user_id' => $this->session->iduser,
+          	'isi' => $this->input->post('isi'),
+          	'created_at' => date('Y-m-d H:i:s')
+        ];
+        
+        if($this->scammer_model->insert('scammers_comments',$data))
+        {
+          
+        $this->session->set_flashdata('info','<p class="text-success">Success!!</p>');
+        }
+      }
+        redirect('/scam/read/'.$slug);
+    }
+  
   
   	private function doo()
     {

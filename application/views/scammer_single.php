@@ -18,7 +18,7 @@
         
       </ol>
     </section>
-
+<div class="margin-bottom"></div>
 <section class="content">
   <div class="row">
     
@@ -26,7 +26,10 @@
     <div class="col-md-12">
       
       <?php if($scam): ?>
-      <?php foreach($scam as $s): ?>
+      <?php foreach($scam as $s):
+      $sll = $s->slug;
+      $idn = $s->ids;
+      ?>
       
       <div class="box box-solid">
 		<div class="box-header with-border">
@@ -134,9 +137,66 @@ if( $this->session->level == 'admin' ): ?>
     </div>
     
     
+    <?php
+    $sign = $this->db->select('*')->from('scammers_comments')->join('users','scammers_comments.user_id=users.id')->where('parent_id',$idn)->get();
+    
+    if($sign->num_rows() > 0): ?>
+    <h3 class="text-muted text-center">Comments</h3>
+    <div class="margin-bottom"></div>
+    <?php
+    	foreach($sign->result() as $x):
+    ?>
+    
+    <div class="col-md-12">
+    
+    <div class="box box-solid">
+      <div class="box-header with-border">
+        <div class="user-block">
+          <img src="<?=$this->gravatar->get($x->email);?>" alt="user image">
+          <span class="username"><?=$x->username;?></span>
+          <span class="description"><?=pisah_waktu($x->created_at);?></span>
+        </div>
+      </div>
+      <div class="box-body">
+        <p><?=$this->bbcode->bbcode_to_html($x->isi);?></p>
+      </div>
+    </div></div>
+    
+    <?php
+    	endforeach;
+    endif;
+    ?>
+   
+    <?php
+    if($this->session->user):
+    ?>
+    <div class="col-md-12">
+      <div class="box box-solid">
+        <div class="box-header">
+          <h3 class="box-title">Comment</h3>
+        </div>
+        <div class="box-body">
+          <?= $this->session->flashdata('info') ?? ''; ?>
+          
+         <?=form_open('scam/comment/'.$sll);?>
+          <input type="hidden" name="id" value="<?=$idn;?>">
+          <div class="form-group"><textarea name="isi" id="subject_textarea" rows="6" class="form-control"></textarea></div>
+          <button type="submit" class="btn btn-primary">Send</button>
+          <?=form_close();?>
+        </div>
+      </div>
+    </div>
+    <?php else: ?>
+    <div class="col-md-12">
+    <a href="/login" class="btn bg-maroon btn-block">Login to comment</a>
+      <div class="margin-bottom"></div>
+     </div>
+    <?php
+    endif;
+    ?>
    </div>
   
-  <a href="/scammers" class="btn bg-navy btn-block">go back</a>
+  <a href="/scam" class="btn bg-navy btn-block">go back</a>
 </section>
     
 </div>
