@@ -12,8 +12,10 @@ class Price extends CI_Controller {
 		parent::__construct();
       
       	$this->load->helper('language');
+
+       $lang = isset( $_SERVER['HTTP_ACCEPT_LANGUAGE']) ?? 'en';
       
-      	if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2) == 'id')
+      	if(substr($lang,0,2) == 'id')
         {
 			$this->lang->load('msg',$this->_lang);
         }

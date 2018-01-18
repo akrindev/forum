@@ -8,8 +8,10 @@ class Quiz extends CI_Controller {
 		parent::__construct();
       
       	$this->load->helper('language');
+
+		$lang = isset( $_SERVER['HTTP_ACCEPT_LANGUAGE']) ?? 'en';
       
-      	if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2) == 'id')
+      	if(substr($lang,0,2) == 'id')
         {
 			$this->lang->load('quiz','indonesia');
         } else {
@@ -26,7 +28,7 @@ class Quiz extends CI_Controller {
 		$this->output->set_template('adminlte');
 		$this->load->js('https://code.jquery.com/jquery-3.2.1.min.js');
       
-      $og = '<img class="img-responsive" src="https://rokoko-iruna.com/a-iruna-quiz.png"/>';
+      $og = '<img class="img-responsive" src="https://rokoko-iruna.com/logo.jpg"/>';
       
       $this->output->set_title("Iruna Online Quiz");
 	  $this->output->set_output_data('deskripsi','');
