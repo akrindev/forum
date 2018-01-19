@@ -96,7 +96,7 @@
 	
 	<div class="box">
             <div class="box-header">
-              <h3 class="box-title"><?=$user['username'];?>'s Thread</h3>
+              <h3 class="box-title"><?=$user['username'];?>'s Threads</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body no-padding">
@@ -121,14 +121,15 @@
                 </tr>
               <?php 
 					} 
-       		       	echo "</table>";
+       		 ?></table><?php
 					} else {
 						  echo "belum ada post";
 					}
 			?>
             </div>
+          
             <!-- /.box-body -->
-            <ul class="pagination">
+<ul class="pagination">
 	<?php
 	foreach($links as $link)
 	{ 
@@ -138,6 +139,35 @@
 </ul>
           </div>
 	
+<?php
+   $idku = $this->session->iduser;
+   $gg = $this->db->where('user_id',$idku)->where('status',1)->get('scammers');
+      
+   if($gg->num_rows() > 0):
+ ?>
+      <div class="panel box box-danger">
+        <div class="box-header">Posted on scammer</div>
+        <div class="box-body">
+          
+          <?php
+      foreach($gg->result() as $j):
+?>
+        <ul class="nav nav-stacked">
+          <li><a href="/scammers/read/<?=$j->slug;?>" class="text-primary">
+          <?=$j->kasus;?><br>
+      <span class="text-muted"> <?=pisah_waktu($j->date);?>
+</span>          </a></li>
+      
+      </ul>
+<?php
+      endforeach; ?>
+         </div>
+    </div>
+        
+ <?php
+   endif;
+  ?>
+      
 	</section>
     <!-- /.content -->
     </div> 

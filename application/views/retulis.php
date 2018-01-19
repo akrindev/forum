@@ -59,6 +59,44 @@
 	</div>
 		</div>
 		<!-- ending -->
+    
+<div class="box box-widget">
+<div class="box-body">
+  <h3> Baca sebelum menulis</h3>
+<a href="/rules">Baca peraturan / rules </a>
+<br>
+
+<h3> Format penulisan </h3>
+Beberapa tombol yang berada di atas area menulis<br>
+input:
+<div class="well">
+this must be [b]Bold[/b]<br>
+im [i]italic[/i]<br><br>
+
+gambar <br>[img]<font color="red">https://rokoko-iruna.com/assets/img/iruna-indonesia-logo.png</font>[/img] <br><br>
+<div class="text-muted">Url / link gambar lengkap dengan http dengan akhiran .jpg / .png / .jpeg / .gif </div><br><br>
+
+membuat link ke [url]https://google.com[/url]
+<br><br>
+
+Embed video dari youtube https://youtu.be/<font color="red">EMRrsiVW9ao</font> <br>
+  [youtube] <font color="red">EMRrsiVW9ao</font>[/youtube]
+
+</div>
+hasil:
+
+<div class="well">
+this must be <b>Bold</b><br>
+im <i>italic</i><br><br>
+
+gambar <img class="img-responsive pad" src="https://rokoko-iruna.com/assets/img/iruna-indonesia-logo.png" alt="logo"/><br>
+membuat link ke <a href="https://google.com">https://google.com</a>
+
+<br><br>
+video akan di tampilkan dalam mode embed
+</div>
+</div>
+</div>
 	</section>
     <!-- /.content -->
     </div> 

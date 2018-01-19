@@ -12,7 +12,7 @@
 		  </ol>
 		</section>
 <div class="row">
-				<div class="col-md-8">
+	<div class="col-md-8">
 		<!-- Main content -->
 		<section class="content">
 			
@@ -73,28 +73,30 @@
 			
 			
 		  </div>
+            </div>
 	</section>
 </div> <!--col-->
 	<div class="col-md-4">
 		<section class="content">
-			<h4 style="display:block;"> Terakhir dikomentari </h3>
+			<h4 style="display:block;"> Terakhir dikomentari </h4>
 			<div class="box no-padding">
 				  <div class="box-body no-padding">
 						<ul class="nav nav-pills nav-stacked">
 	<?php
                 foreach($this->forum->get_recent_post_comment()->result() as $ost)
                 { ?>
-                	<li><a href="/forum/tl/<?=$ost->slug;?>" ><?=$ost->judul;?><br/><span class="text-muted small"><?=time_ago($ost->date);?> . dibaca: <?=$ost->dilihat;?></span></a> </li>
+                	<li><a href="/forum/thread/<?=$ost->slug;?>" ><?=$ost->judul;?><br/><span class="text-muted small"><?=time_ago($ost->date);?> . dibaca: <?=$ost->dilihat;?></span></a> </li>
                 
              <?php } ?>
 						</ul>
 				</div>
 			  <!-- /.box-body -->
 			</div>
+          
+          </section>
 			
 	</div>
 		  <!-- ending -->
-		</div>
-	</div> <!--row-->
-		<!-- /.content -->
-	  </div>
+	</div>
+</div>
+	

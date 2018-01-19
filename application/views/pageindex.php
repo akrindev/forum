@@ -23,7 +23,7 @@
      	
        <?php    $coco = $this->forum->get_comment_count($post->tlid)->result();
 ?>
-	<a class="hover" title="<?=$post->judul?>" href="<?php echo base_url()?>forum/tl/<?=$post->slug?>">
+	<a class="hover" title="<?=$post->judul?>" href="<?php echo base_url()?>forum/thread/<?=$post->slug?>">
 	<div class="box box-widget">
 			  <div class="box-header with-border">
 				<div class="section-header">
@@ -49,7 +49,7 @@ foreach($coco as $coc)
 <?php } ?>
 	
 	  </div>
-		 <div style="display:block;" class="pagination">
+		 <div style="display:block;" class="pagin">
 <ul class="pagination">
 	<?php
 	foreach($links as $link)
@@ -72,7 +72,7 @@ foreach($coco as $coc)
 	<?php
                 foreach($this->forum->get_recent_post_comment()->result() as $ost)
                 { ?>
-                	<li><a href="/forum/tl/<?=$ost->slug;?>" ><?=$ost->judul;?><br/><span class="text-muted small"><?=time_ago($ost->date);?> . dibaca: <?=$ost->dilihat;?></span></a> </li>
+                	<li><a href="/forum/thread/<?=$ost->slug;?>" ><?=$ost->judul;?><br/><span class="text-muted small"><?=time_ago($ost->date);?> . dibaca: <?=$ost->dilihat;?></span></a> </li>
                 
              <?php } ?>
 						</ul>

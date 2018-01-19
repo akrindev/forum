@@ -25,11 +25,11 @@
       <h3 class="box-title"><?=$o->title;?></h3>
     </div>
     <div class="box-body">
-    <span class="text-muted"><?=pisah_waktu($o->publishedAt);?></span><br>
+    <span class="text-muted"><?=pisah_waktu($o->publishedAt);?></span><br><br>
       <p class="text-center">
-          <img src="http://ytimg.googleusercontent.com/vi/<?=$o->videoId;?>/mqdefault.jpg" alt="Iruna Online Background Music" class="img-responsive">
+          <img src="http://ytimg.googleusercontent.com/vi/<?=$o->videoId;?>/sddefault.jpg" alt="Iruna Online Background Music" class="img-responsive">
       </p>
-      Uploaded by: <a href="https://youtube.com/channel/<?=$o->channelID;?>"><i class="fa fa-youtube text-danger"></i> <?=$o->channelTitle;?></a>
+      <p> <?=$o->title;?> </p>
       <br><br>
       <p><?php
    	$u=1;
@@ -52,7 +52,7 @@
      
     for($i=1;$i < $u;$i++)
     {
-      echo "<a href='/background_music/download/$o->videoId/quality/$i' class='btn btn-link'>";
+      echo "<a rel='nofollow' href='/background_music/download/$o->videoId/quality/$i' class='btn btn-link'>";
       echo str_replace('s','s ',$dt[$i]);
       echo "</a>";
     }

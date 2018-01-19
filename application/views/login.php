@@ -51,7 +51,7 @@
         </div>
         <!-- /.col -->
         <div class="col-xs-6">
-          <button type="submit" class="btn btn-primary btn-block">Masuk</button>
+          <button type="submit" class="btn btn-primary btn-block">Login</button>
         </div>
         <!-- /.col -->
       </div>
@@ -59,13 +59,13 @@
 
 
 
-    <a href="/reset">Lupa kata sandi?</a><br>
+    <a href="/reset">Forgot your password?</a><br>
     <a href="/register" class="text-center">Register</a>
 
   </div>
   <!-- /.login-box-body -->
 </div>
-	
+	<section class="content"></section>
 	
     <!-- /.content -->
     </div> 

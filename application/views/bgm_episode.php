@@ -19,26 +19,26 @@
       <h3 class="box-title">Iruna Online BGM: Episode <?=$ep == 1 ? '1-2' : $ep;?></h3>
       </div>
     <div class="box-body">
- 
+ <div class="row">
       <?php
       if($episode):
         foreach($episode->result() as $p):
         ?>
-        <div class="row">
-          <div style="padding-left:8px" class="col-xs-4">
-          <img src="http://ytimg.googleusercontent.com/vi/<?=$p->videoId;?>/mqdefault.jpg" alt="" class="img-responsive">
-          </div>
+       
           
-          <div class="col-xs-8">
-          <a href="/background_music/episode/<?=$p->episode;?>/<?=$p->slug;?>"><?=htmlentities($p->title,ENT_QUOTES,'UTF-8');?></a>
+          <div class="col-xs-12">
+          <i class="fa fa-headphones"></i> <a href="/background_music/episode/<?=$p->episode;?>/<?=$p->slug;?>"><?=htmlentities($p->title,ENT_QUOTES,'UTF-8');?></a>
+            <br><br>
           </div>
-        </div>
-        <div class="margin-bottom"></div>
       
       <?php 
       
-      endforeach; 
+      endforeach;
+   ?>
+   
+      </div>
       
+      <?php
       else:
       
       ?>

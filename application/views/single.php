@@ -14,7 +14,7 @@
 	
     <!-- Main content -->
     <section class="content">
-	  <article itemscope='itemscope' itemtype='http://schema.org/BlogPosting'>
+	  <article itemscope='itemscope' itemtype='http://schema.org/Article'>
 	<link href='<?=current_url();?>' itemprop='mainEntityOfPage'/>
 	  <div id="single-post">
 		<h1 class='post-title entry-title' itemprop='headline'>
