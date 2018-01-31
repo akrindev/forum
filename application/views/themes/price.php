@@ -80,6 +80,16 @@
 
   ?>
 
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-109854426-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -240,6 +250,36 @@ foreach($this->user->tampiluser($this->session->userdata('user'))->result() as $
         		<i class="fa fa-bar-chart"></i> <span itemprop='name'>Items price</span></a>
         	
         </li>
+        
+        
+          <li class="treeview">
+          <a href="#">
+            <i class="fa fa-headphones"></i> <span>Background Music</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/background_music"><i class="fa fa-circle-o"></i> Background music</a></li>
+            <li><a href="/background_music/episode/1"><i class="fa fa-circle-o"></i> Episode 1-2</a></li>
+            <li><a href="/background_music/episode/3"><i class="fa fa-circle-o"></i> Episode 3</a></li>
+            <li><a href="/background_music/episode/4"><i class="fa fa-circle-o"></i> Episode 4</a></li>
+            <li><a href="/background_music/episode/5"><i class="fa fa-circle-o"></i> Episode 5</a></li>
+            <li><a href="/background_music/episode/6"><i class="fa fa-circle-o"></i> Episose 6</a></li>
+          </ul>
+        </li>
+        
+       <li itemprop='url'><a title="Quiz" href="/quiz">
+		<i class="fa fa-trophy"></i> 
+		<span itemprop='name'>Iruna Quiz</span></a>
+		  
+		</li>
+
+<li itemprop='url'><a href="/scam">
+		<i class="fa fa-user-times"></i> 
+		<span itemprop='name'>Scammers list</span></a>
+		  
+		</li>
         <li class="treeview" itemprop='url'>
           <a title="rules" href="/rules">
             <i class="fa fa-user-md"></i>
@@ -267,11 +307,8 @@ foreach($this->user->tampiluser($this->session->userdata('user'))->result() as $
           </a>
           
         </li>
-       <li itemprop='url'><a title="Quiz" href="/quiz">
-		<i class="fa fa-trophy"></i> 
-		<span itemprop='name'>Iruna Quiz</span></a>
-		  
-		</li>
+      
+        
         <li itemprop='url'><a title="home dokumentasi" href="/">
 		<i class="fa fa-book"></i> 
 		<span itemprop='name'>Documentation</span></a>
@@ -310,7 +347,18 @@ foreach($this->user->tampiluser($this->session->userdata('user'))->result() as $
   
 </div>
 <!-- ./wrapper -->
+<!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,3962278,4,0,0,0,00010000']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
 
+<!-- Histats.com  END  -->
 
   
 <script src="/lte/plugins/jQuery/jquery.min.js"></script>

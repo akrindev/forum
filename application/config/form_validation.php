@@ -208,7 +208,42 @@ $config = [
           	'rules' => 'trim'
         ]
     
-    ]
+    ],
+  
+  'guild' => [
+    
+  		[
+          	'field' => 'name',
+          	'label' => 'Name',
+          	'rules' => 'required|max_length[20]|trim'
+        ],	
+  		[
+          	'field' => 'level',
+          	'label' => 'level',
+          	'rules' => 'required'
+        ],	
+  		[
+          	'field' => 'members',
+          	'label' => 'Members',
+          	'rules' => 'required'
+        ],	
+  		[
+          	'field' => 'slogan',
+          	'label' => 'Slogan',
+          	'rules' => 'required|max_length[200]|trim'
+        ],	
+  		[
+          	'field' => 'rulez',
+          	'label' => 'Rules',
+          	'rules' => 'required|trim'
+        ],	
+    
+  
+  
+  
+  
+  
+  ]
 
 
 ];

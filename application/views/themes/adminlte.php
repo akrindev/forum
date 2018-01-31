@@ -11,8 +11,7 @@
   <link rel="stylesheet" href="/lte/dist/css/AdminLTE.min.css">
 
   <link rel="stylesheet" href="/lte/dist/css/skins/skin-blue.min.css">
- <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
-<link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
+ <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
 
 <meta name="google-site-verification" content="Uszxxo6fNkYbiVyMjjN3Cgbd_dXG-hgf3Gz3uv3BMCI" />
 <meta name='language' content='id_id'/>
@@ -79,6 +78,15 @@
 	} echo "\n\t";
 
   ?>
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-109854426-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
 
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -207,9 +215,29 @@ foreach($this->user->tampiluser($this->session->userdata('user'))->result() as $
 
       <ul class="sidebar-menu">
         <li class="header">NAVIGATION</li>
+        <?php
+        if($this->session->user)
+        {
+        ?>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/dashboard"><i class="fa fa-circle-o"></i> Dashboard</a></li>
+            <li><a href="/quiz/quizUser"><i class="fa fa-circle-o"></i> Dashboard Quiz</a></li>
+          </ul>
+        </li>
+        
+        <?php
+        }
+          ?>
         <li class="treeview" itemprop='url'>
           <a title="forum" href="/forum">
-            <i class="fa fa-dashboard"></i> <span itemprop='name'>Forum</span>
+            <i class="fa fa-comments-o"></i> <span itemprop='name'>Forum</span>
           </a>
         </li>
         <li class="treeview" itemprop='url'>
@@ -222,6 +250,36 @@ foreach($this->user->tampiluser($this->session->userdata('user'))->result() as $
         		<i class="fa fa-bar-chart"></i> <span itemprop='name'>Items price</span></a>
         	
         </li>
+        
+          <li class="treeview">
+          <a href="#">
+            <i class="fa fa-headphones"></i> <span>Background Music</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/background_music"><i class="fa fa-circle-o"></i> Background music</a></li>
+            <li><a href="/background_music/episode/1"><i class="fa fa-circle-o"></i> Episode 1-2</a></li>
+            <li><a href="/background_music/episode/3"><i class="fa fa-circle-o"></i> Episode 3</a></li>
+            <li><a href="/background_music/episode/4"><i class="fa fa-circle-o"></i> Episode 4</a></li>
+            <li><a href="/background_music/episode/5"><i class="fa fa-circle-o"></i> Episode 5</a></li>
+            <li><a href="/background_music/episode/6"><i class="fa fa-circle-o"></i> Episose 6</a></li>
+          </ul>
+        </li>
+        
+       <li itemprop='url'><a title="Quiz" href="/quiz">
+		<i class="fa fa-trophy"></i> 
+		<span itemprop='name'>Iruna Quiz</span></a>
+		  
+		</li>
+<li itemprop='url'><a href="/scam">
+		<i class="fa fa-user-times"></i> 
+		<span itemprop='name'>Scammers list</span></a>
+		  
+		</li>
+
+
         <li class="treeview" itemprop='url'>
           <a title="rules" href="/rules">
             <i class="fa fa-user-md"></i>
@@ -250,11 +308,6 @@ foreach($this->user->tampiluser($this->session->userdata('user'))->result() as $
           
         </li>
        
-       <li itemprop='url'><a title="Quiz" href="/quiz">
-		<i class="fa fa-trophy"></i> 
-		<span itemprop='name'>Iruna Quiz</span></a>
-		  
-		</li>
         <li itemprop='url'><a title="home dokumentasi" href="/">
 		<i class="fa fa-book"></i> 
 		<span itemprop='name'>Documentation</span></a>
@@ -288,12 +341,12 @@ foreach($this->user->tampiluser($this->session->userdata('user'))->result() as $
     </div>
     <strong>Copyright &copy; 2018 <a href="https://rokoko-iruna.com/">rokoko-iruna.com</a>.</strong> All rights
     reserved. <br/>
-    
-       <!-- Histats.com  (div with counter) -->
-<div id="histats_counter"></div>
+  </footer>
+
+</div>
 <!-- Histats.com  START  (aync)-->
 <script type="text/javascript">var _Hasync= _Hasync|| [];
-_Hasync.push(['Histats.start', '1,3962278,4,107,170,20,00010000']);
+_Hasync.push(['Histats.start', '1,3962278,4,0,0,0,00010000']);
 _Hasync.push(['Histats.fasi', '1']);
 _Hasync.push(['Histats.track_hits', '']);
 (function() {
@@ -301,15 +354,8 @@ var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async
 hs.src = ('//s10.histats.com/js15_as.js');
 (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
 })();</script>
-<noscript><img  src="//sstatic1.histats.com/0.gif?3962278&101" alt="free geoip" border="0"></noscript>
+
 <!-- Histats.com  END  -->
-  </footer>
-
-  
-</div>
-<!-- ./wrapper -->
-
-
   
 <script src="/lte/plugins/jQuery/jquery.min.js"></script>
 <script src="/lte/bootstrap/js/bootstrap.min.js"></script>

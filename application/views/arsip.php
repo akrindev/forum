@@ -18,13 +18,13 @@
     <section class="content">
 	  
 	  <div id="single-post">
-		<h4> Arsip: <?=$nmarsip;?> </h3>
+		<h4> Arsip: <?=$nmarsip;?> </h4>
 	     <?php if($arsip){
 		foreach($arsip as $post){?>
 			
        <?php    $coco = $this->forum->get_comment_count($post->iid)->result();
 ?>
-	<a class="hover" title="<?=$post->judul?>" href="<?php echo base_url()?>home/timeline/<?=$post->slug?>">
+	<a class="hover" title="<?=$post->judul?>" href="<?php echo base_url()?>forum/thread/<?=$post->slug?>">
 	<div class="box box-widget">
 			  <div class="box-header with-border">
 				<div class="section-header">
@@ -52,7 +52,8 @@ foreach($coco as $coc)
   	echo "Belum ada data dalam arsip ini";
   }
 ?>
-	<div style="margin:5px 2px;display:block;" class="pull-right">
+        </div>
+	 <div style="display:block;" class="pagin">
 <ul class="pagination">
 	<?php
 	foreach($links as $link)
@@ -62,21 +63,21 @@ foreach($coco as $coc)
 	?>
 </ul>
 </div>
-	  </div>
 		
 		<!-- ending -->
 	</section>
 	</div>
 	<div class="col-md-4">
 		<section class="content">
-			<h4 style="display:block;"> Terakhir dikomentari </h3>
 			<div class="box box-warning">
+              <div class="box-header">Terakhir dikomentari
+                </div>
 				  <div class="box-body no-padding">
 						<ul class="nav nav-pills nav-stacked">
 	<?php
                 foreach($this->forum->get_recent_post_comment()->result() as $ost)
                 { ?>
-                	<li><a href="/forum/tl/<?=$ost->slug;?>" ><?=$ost->judul;?><br/><span class="text-muted small"><?=time_ago($ost->date);?> . dibaca: <?=$ost->dilihat;?></span></a> </li>
+                	<li><a href="/forum/thread/<?=$ost->slug;?>" ><?=$ost->judul;?><br/><span class="text-muted small"><?=time_ago($ost->date);?> . dibaca: <?=$ost->dilihat;?></span></a> </li>
                 
              <?php } ?>
 						</ul>
