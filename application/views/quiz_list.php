@@ -1,6 +1,8 @@
   <!-- Content Wrapper. Contains page content -->
-<script src="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.js"></script>
-<link rel="stylesheet" href="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.css">
+
+<script src="/assets/js/sweetalert.min.js"></script>
+<link rel="stylesheet" href="/assets/css/sweetalert.css">
+
 
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->

@@ -2,8 +2,10 @@
 <?php
               if($this->session->userdata('user'))
               { ?>
-<script src="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.js"></script>
-<link rel="stylesheet" href="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.css">
+
+<script src="/assets/js/sweetalert.min.js"></script>
+<link rel="stylesheet" href="/assets/css/sweetalert.css">
+
 <?php } ?>
 
   <div class="content-wrapper">

@@ -1,7 +1,7 @@
 
+<script src="/assets/js/sweetalert.min.js"></script>
+<link rel="stylesheet" href="/assets/css/sweetalert.css">
 
-<script src="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.js"></script>
-<link rel="stylesheet" href="https://lipis.github.io/bootstrap-sweetalert/dist/sweetalert.css">
 
 <?php
                 foreach($this->quiz_model->getUserScore($this->session->userdata('iduser'))->result() as $yes){
